@@ -14,7 +14,6 @@ import {
 
 // --- Mock Data ---
 
-previewjs.start 
 const DEPARTMENTS = ["BACK OFFICE", "SALES", "COLLECTIONS", "STRATEGY", "CARE", "CONTROL TOWER"];
 
 const SALES_DATA = {
