@@ -9,7 +9,8 @@ import {
   Code,
   Database,
   Mail,
-  Table
+  Table,
+  AlertTriangle
 } from 'lucide-react';
 
 // --- Mock Data ---
@@ -130,7 +131,7 @@ const SUB_AGENTS = [
 
 const CUSTOMER_STATUS = [
   { id: "12ABC5", time: "10 MINS", status: "COMPLETE" },
-  { id: "56GTR2", time: "8 MINS", status: "COMPLETE" },
+  { id: "56GTR2", time: "8 MINS", status: "BLOCKED" },
   { id: "CF345T", time: "", status: "IN PROGRESS" },
   { id: "3F6HT2", time: "", status: "PENDING" },
   { id: "G4RT52", time: "", status: "PENDING" },
@@ -264,6 +265,7 @@ export default function App() {
   const [agentLevel, setAgentLevel] = useState(0);
   const [activeSubAgent, setActiveSubAgent] = useState(0);
   const [backOfficeOpen, setBackOfficeOpen] = useState(false);
+  const [salesOpen, setSalesOpen] = useState(false);
 
   // Connection Path Points
   const [points, setPoints] = useState([]);
@@ -398,8 +400,14 @@ export default function App() {
               <button
                 onClick={() => {
                   if (d === "BACK OFFICE") {
+                    setSalesOpen(false);
                     setBackOfficeOpen(prev => !prev);
+                  } else if (d === "SALES") {
+                    setBackOfficeOpen(false);
+                    setSalesOpen(prev => !prev);
                   } else {
+                    setBackOfficeOpen(false);
+                    setSalesOpen(false);
                     handleNavClick(d);
                   }
                 }}
@@ -408,13 +416,21 @@ export default function App() {
                 }`}
               >
                 {d}
-                {d === "BACK OFFICE" && <ChevronDown size={18} className={`transition-transform duration-200 ${backOfficeOpen ? 'rotate-180' : ''}`} />}
+                {(d === "BACK OFFICE" || d === "SALES") && <ChevronDown size={18} className={`transition-transform duration-200 ${(d === "BACK OFFICE" && backOfficeOpen) || (d === "SALES" && salesOpen) ? 'rotate-180' : ''}`} />}
               </button>
               {d === "BACK OFFICE" && backOfficeOpen && (
                 <div className="absolute top-full left-0 pt-2 z-50">
                   <div className="bg-white border border-gray-200 rounded-lg shadow-lg min-w-[160px]">
                     <button onClick={() => setBackOfficeOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-t-lg">SMB</button>
                     <button onClick={() => setBackOfficeOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-b-lg">Enterprise</button>
+                  </div>
+                </div>
+              )}
+              {d === "SALES" && salesOpen && (
+                <div className="absolute top-full left-0 pt-2 z-50">
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-lg min-w-[160px]">
+                    <button onClick={() => setSalesOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-t-lg">SMB</button>
+                    <button onClick={() => setSalesOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-b-lg">Enterprise</button>
                   </div>
                 </div>
               )}
@@ -793,9 +809,13 @@ export default function App() {
                             <td className="px-6 py-6 text-sm text-gray-500 uppercase uppercase uppercase">{idx+1}</td>
                             <td className="px-6 py-6 text-sm font-mono font-bold tracking-tight uppercase uppercase uppercase uppercase uppercase">{item.id}</td>
                             <td className="px-6 py-6 text-sm uppercase uppercase uppercase uppercase uppercase uppercase">{item.time || "--"}</td>
-                            <td className={`px-6 py-6 text-sm font-bold uppercase uppercase uppercase uppercase ${item.status === 'COMPLETE' ? 'text-green-600' : item.status === 'IN PROGRESS' ? 'text-gray-700' : 'text-red-500'}`}>
+                            <td className={`px-6 py-6 text-sm font-bold uppercase ${item.status === 'COMPLETE' ? 'text-green-600' : item.status === 'IN PROGRESS' ? 'text-gray-700' : item.status === 'BLOCKED' ? 'text-amber-600' : 'text-red-500'}`}>
                               <div className="flex items-center gap-3">
-                                <div className={`w-2 h-2 rounded-full ${item.status === 'COMPLETE' ? 'bg-green-600' : item.status === 'IN PROGRESS' ? 'bg-gray-400 animate-pulse' : 'bg-red-500'}`} />
+                                {item.status === 'BLOCKED' ? (
+                                  <AlertTriangle size={16} className="text-amber-600" />
+                                ) : (
+                                  <div className={`w-2 h-2 rounded-full ${item.status === 'COMPLETE' ? 'bg-green-600' : item.status === 'IN PROGRESS' ? 'bg-gray-400 animate-pulse' : 'bg-red-500'}`} />
+                                )}
                                 {item.status}
                               </div>
                             </td>
