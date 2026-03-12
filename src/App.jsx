@@ -262,12 +262,18 @@ export default function App() {
   const [view, setView] = useState("DASHBOARD");
   const [subView, setSubView] = useState(null);
   const [agentLevel, setAgentLevel] = useState(0);
+  const [activeSubAgent, setActiveSubAgent] = useState(0);
+  const [backOfficeOpen, setBackOfficeOpen] = useState(false);
 
   // Connection Path Points
   const [points, setPoints] = useState([]);
+  const [subPoints, setSubPoints] = useState([]);
   const parentRef = useRef(null);
   const childRefs = useRef([]);
   const svgRef = useRef(null);
+  const subParentRef = useRef(null);
+  const subChildRefs = useRef([]);
+  const subSvgRef = useRef(null);
 
   const reset = () => {
     setView("DASHBOARD");
@@ -309,15 +315,55 @@ export default function App() {
     }
   }, [view, agentLevel, subView, dept]);
 
+  // Calculate sub-agent connector points
+  const calcSubPoints = () => {
+    if (subParentRef.current && subSvgRef.current) {
+      const svgRect = subSvgRef.current.getBoundingClientRect();
+      const parentRect = subParentRef.current.getBoundingClientRect();
+
+      const startX = (parentRect.left + parentRect.width / 2) - svgRect.left;
+      const startY = (parentRect.bottom) - svgRect.top;
+
+      const newPoints = subChildRefs.current.map((child) => {
+        if (!child) return null;
+        const childRect = child.getBoundingClientRect();
+        const endX = (childRect.left + childRect.width / 2) - svgRect.left;
+        const endY = (childRect.top) - svgRect.top;
+        return { startX, startY, endX, endY };
+      }).filter(p => p !== null);
+
+      setSubPoints(newPoints);
+    }
+  };
+
+  useLayoutEffect(() => {
+    if (view === "HIERARCHY" && agentLevel === 1) {
+      calcSubPoints();
+      // Recalculate after a frame to ensure layout is settled
+      const raf = requestAnimationFrame(calcSubPoints);
+      return () => cancelAnimationFrame(raf);
+    }
+  }, [view, agentLevel, subView, dept]);
+
   // Recalculate on window resize
   useEffect(() => {
     const handleResize = () => {
-      // Triggering layout effect
       setPoints([...points]);
+      setSubPoints([...subPoints]);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [points]);
+  }, [points, subPoints]);
+
+  // Rotate active sub-agent highlight
+  useEffect(() => {
+    if (view === "HIERARCHY" && agentLevel === 1) {
+      const interval = setInterval(() => {
+        setActiveSubAgent(prev => (prev + 1) % SUB_AGENTS.length);
+      }, 2000);
+      return () => clearInterval(interval);
+    }
+  }, [view, agentLevel]);
 
   return (
     <div className="min-h-screen bg-[#f2ece4] text-[#1a1a1a] font-sans overflow-x-hidden flex flex-col">
@@ -346,18 +392,33 @@ export default function App() {
             </svg>
           </div>
         </div>
-        <nav className="flex items-center gap-12">
+        <nav className="flex items-center gap-12 overflow-visible">
           {DEPARTMENTS.map(d => (
-            <button 
-              key={d} 
-              onClick={() => handleNavClick(d)}
-              className={`text-base font-medium flex items-center gap-2 transition-colors ${
-                dept === d ? 'text-black font-bold' : 'text-gray-400'
-              } ${d === "COLLECTIONS" ? 'hover:text-black' : 'cursor-default'}`}
-            >
-              {d}
-              {["BACK OFFICE", "SALES", "COLLECTIONS"].includes(d) && <ChevronDown size={18} className={d !== "COLLECTIONS" ? "opacity-30" : ""} />}
-            </button>
+            <div key={d} className="relative shrink-0">
+              <button
+                onClick={() => {
+                  if (d === "BACK OFFICE") {
+                    setBackOfficeOpen(prev => !prev);
+                  } else {
+                    handleNavClick(d);
+                  }
+                }}
+                className={`text-base font-medium flex items-center gap-2 transition-colors hover:text-black cursor-pointer ${
+                  dept === d ? 'text-black font-bold' : 'text-gray-600'
+                }`}
+              >
+                {d}
+                {d === "BACK OFFICE" && <ChevronDown size={18} className={`transition-transform duration-200 ${backOfficeOpen ? 'rotate-180' : ''}`} />}
+              </button>
+              {d === "BACK OFFICE" && backOfficeOpen && (
+                <div className="absolute top-full left-0 pt-2 z-50">
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-lg min-w-[160px]">
+                    <button onClick={() => setBackOfficeOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-t-lg">SMB</button>
+                    <button onClick={() => setBackOfficeOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-b-lg">Enterprise</button>
+                  </div>
+                </div>
+              )}
+            </div>
           ))}
         </nav>
       </header>
@@ -367,10 +428,10 @@ export default function App() {
         {/* Page Header */}
         <div className="mb-12 flex items-center justify-between">
           <h1 className="text-4xl font-light tracking-tight">
-            {view === "DASHBOARD" ? "CREDIT & COLLECTION" : (
-              dept === "COLLECTIONS" 
-                ? `CREDIT & COLLECTIONS - ${currentData[subView]?.title}`
-                : "CREDIT & COLLECTION"
+            {view === "DASHBOARD" ? "COLLECTIONS" : (
+              dept === "COLLECTIONS"
+                ? `COLLECTIONS - ${currentData[subView]?.title}`
+                : "COLLECTIONS"
             )}
             {agentLevel > 0 && subView === 'costSavings' && ` - FOLLOW-UP`}
           </h1>
@@ -654,31 +715,69 @@ export default function App() {
             ) : (
               /* Sub-agent Drill-down View */
               <div className="flex flex-col gap-12 py-8">
-                <div className="flex flex-row gap-12 items-start justify-center">
-                  <div className="flex-grow flex flex-col gap-16 items-center animate-in zoom-in-95 duration-500">
-                    {/* Header Node centralized to sub-agent cards */}
-                    <div className="bg-[#ebe4d8] border border-gray-200 rounded-2xl p-8 w-80 h-32 flex items-center justify-center shadow-lg text-center">
-                      <h4 className="font-bold text-xl uppercase tracking-tight uppercase uppercase uppercase">FOLLOW-UP SUPER AGENT</h4>
+                <div className="flex flex-col gap-12 items-center">
+                  <div className="w-full flex flex-col items-center animate-in zoom-in-95 duration-500 relative min-h-[450px]">
+                    {/* SVG Connectors */}
+                    <svg
+                      className="absolute inset-0 w-full h-full pointer-events-none"
+                      ref={subSvgRef}
+                      style={{ zIndex: 0 }}
+                    >
+                      <defs>
+                        <marker id="subArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+                          <path d="M0,0 L10,5 L0,10" fill="none" stroke="#ccc" strokeWidth="1.5" />
+                        </marker>
+                      </defs>
+                      {subPoints.map((p, i) => (
+                        <path
+                          key={i}
+                          d={`M ${p.startX} ${p.startY} C ${p.startX} ${p.startY + 60}, ${p.endX} ${p.endY - 60}, ${p.endX} ${p.endY}`}
+                          stroke="#ccc"
+                          strokeWidth="2.5"
+                          fill="none"
+                          markerEnd="url(#subArrow)"
+                        />
+                      ))}
+                    </svg>
+
+                    {/* Header Node */}
+                    <div
+                      ref={subParentRef}
+                      className="bg-[#ebe4d8] border border-gray-200 rounded-2xl p-8 w-80 h-32 flex items-center justify-center shadow-lg text-center relative z-10 mb-24"
+                    >
+                      <h4 className="font-bold text-xl uppercase tracking-tight">FOLLOW-UP SUPER AGENT</h4>
                     </div>
-                    {/* Grid of Sub Agents */}
-                    <div className="grid grid-cols-3 gap-6 w-full">
+                    {/* Row of Sub Agents */}
+                    <div className="flex flex-row gap-5 w-full relative z-10">
                       {SUB_AGENTS.map((sub, i) => (
-                        <div key={i} className="bg-[#ebe4d8] rounded-3xl p-8 flex flex-col items-center text-center gap-6 h-[240px] justify-center transition-transform hover:scale-[1.05] shadow-sm uppercase uppercase uppercase">
+                        <div
+                          key={i}
+                          ref={el => subChildRefs.current[i] = el}
+                          className={`flex-1 rounded-3xl p-6 flex flex-col items-center text-center gap-4 min-h-[200px] justify-center hover:scale-[1.03] shadow-sm transition-all duration-700 ease-in-out ${
+                            activeSubAgent === i ? 'bg-green-500/40 shadow-md scale-[1.02]' : 'bg-[#ebe4d8]'
+                          }`}
+                        >
                           <div className="flex gap-3">
                             {sub.icons.map((icon, j) => (
-                              <div key={j} className="w-12 h-12 rounded-full bg-white border border-gray-200 flex flex-col items-center justify-center text-[9px] uppercase font-bold text-gray-400 shadow-sm uppercase uppercase uppercase uppercase">
+                              <div key={j} className="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
                                 {icon}
-                                {j === 0 ? "CODE" : j === 1 ? "AR LEDGER" : "DB"}
                               </div>
                             ))}
                           </div>
-                          <span className="text-sm font-bold uppercase tracking-widest leading-tight max-w-[180px] uppercase uppercase uppercase">{sub.name}</span>
+                          <div className="flex gap-3">
+                            {sub.icons.map((_, j) => (
+                              <span key={j} className="text-[9px] uppercase font-bold text-gray-400 w-12 text-center">
+                                {j === 0 ? "CODE" : j === 1 ? "AR LEDGER" : "DB"}
+                              </span>
+                            ))}
+                          </div>
+                          <span className="text-xs font-bold uppercase tracking-widest leading-tight max-w-[160px]">{sub.name}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                  {/* Status Table positioned on the right */}
-                  <div className="lg:w-[550px] bg-[#ebe4d8] rounded-3xl overflow-hidden shadow-lg h-min animate-in slide-in-from-right duration-500">
+                  {/* Status Table below diagram */}
+                  <div className="w-full bg-[#ebe4d8] rounded-3xl overflow-hidden shadow-lg animate-in fade-in duration-500">
                      <table className="w-full text-left">
                       <thead className="border-b border-black">
                         <tr>
