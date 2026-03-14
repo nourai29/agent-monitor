@@ -32,8 +32,8 @@ const SALES_DATA = {
     varianceDir: "down",
     chartData: [4.8, 3.2, 4.1, 2.5, 1.8, 5.2, 5.0, 4.9, 5.1, 3.8, 2.6, 4.5],
     kpis: [
-      { name: "SALES PERSONNEL", unit: "#", actual: "320", target: "288", variance: "32", varianceDir: "down", sparkline: [5, 6, 4, 7, 5, 6, 8] },
-      { name: "COMMISSION COST AS A % OF REVENUE", unit: "%", actual: "17%", target: "15%", variance: "2%", varianceDir: "down", sparkline: [4, 5, 5, 6, 4, 5, 6] }
+      { name: "SALES PERSONNEL", unit: "#", actual: "320", target: "288", variance: "32", varianceDir: "down", sparkline: [5, 6, 4, 7, 5, 6, 8], baseline: "320" },
+      { name: "COMMISSION COST AS A % OF REVENUE", unit: "%", actual: "17%", target: "15%", variance: "2%", varianceDir: "down", sparkline: [4, 5, 5, 6, 4, 5, 6], baseline: "17%" }
     ]
   },
   incrementalRevenue: {
@@ -45,11 +45,11 @@ const SALES_DATA = {
     varianceDir: "up",
     chartData: [3.5, 3.8, 4.5, 1.0, 1.5, 4.2, 3.4, 1.2, 0.8, 4.8, 4.9, 5.0],
     kpis: [
-      { name: "% SALES LIMITED DUE TO CREDIT WORTHINESS CHECKS", unit: "%", actual: "10%", target: "5%", variance: "5%", varianceDir: "down", sparkline: [4, 5, 4, 6, 5, 4, 3] },
-      { name: "LEAD TO WIN CONVERSION RATE", unit: "%", actual: "9%", target: "14%", variance: "5%", varianceDir: "down", sparkline: [7, 6, 5, 6, 7, 6, 5] },
-      { name: "ORDER FALLOUT RATE", unit: "%", actual: "21%", target: "19%", variance: "2%", varianceDir: "down", sparkline: [4, 5, 4, 5, 6, 5, 6] },
-      { name: "UPSELL RATE", unit: "%", actual: "20%", target: "15%", variance: "5%", varianceDir: "up", sparkline: [3, 4, 5, 6, 5, 7, 8] },
-      { name: "CHURN RATE", unit: "%", actual: "7%", target: "2%", variance: "5%", varianceDir: "down", sparkline: [8, 7, 6, 7, 8, 7, 6] }
+      { name: "% SALES LIMITED DUE TO CREDIT WORTHINESS CHECKS", unit: "%", actual: "10%", target: "5%", variance: "5%", varianceDir: "down", sparkline: [4, 5, 4, 6, 5, 4, 3], baseline: "10%" },
+      { name: "LEAD TO WIN CONVERSION RATE", unit: "%", actual: "9%", target: "14%", variance: "5%", varianceDir: "down", sparkline: [7, 6, 5, 6, 7, 6, 5], baseline: "9%" },
+      { name: "ORDER FALLOUT RATE", unit: "%", actual: "21%", target: "19%", variance: "2%", varianceDir: "down", sparkline: [4, 5, 4, 5, 6, 5, 6], baseline: "21%" },
+      { name: "UPSELL RATE", unit: "%", actual: "20%", target: "15%", variance: "5%", varianceDir: "up", sparkline: [3, 4, 5, 6, 5, 7, 8], baseline: "20%" },
+      { name: "CHURN RATE", unit: "%", actual: "7%", target: "2%", variance: "5%", varianceDir: "down", sparkline: [8, 7, 6, 7, 8, 7, 6], baseline: "7%" }
     ]
   },
   nonFinancial: {
@@ -60,12 +60,12 @@ const SALES_DATA = {
     lagging: 3,
     chartData: [[1, 1, 1], [1, 2, 1], [2, 1, 2], [1, 1, 1], [1, 1, 3], [1, 2, 0], [1, 1, 1], [1, 1, 1], [1, 1, 3], [1, 1, 3], [1, 1, 1], [1, 1, 0]],
     kpis: [
-      { name: "DIGITAL LEAD SHARE", unit: "%", actual: "48%", target: "58%", variance: "10%", varianceDir: "down", sparkline: [4, 5, 4, 6, 5, 6, 7] },
-      { name: "AUTOMATED KYC APPROVALS RATE", unit: "%", actual: "85%", target: "70%", variance: "15%", varianceDir: "up", sparkline: [6, 5, 7, 6, 8, 7, 9] },
-      { name: "ATL ADOPTION RATE", unit: "%", actual: "32%", target: "45%", variance: "13%", varianceDir: "down", sparkline: [4, 3, 4, 5, 4, 3, 2] },
-      { name: "BESPOKE TURNAROUND TIME", unit: "DAY", actual: "1", target: "2", variance: "1", varianceDir: "up", sparkline: [5, 6, 5, 7, 6, 8, 7] },
-      { name: "ORDER PROCESSING TIME", unit: "DAY", actual: "27", target: "21", variance: "6", varianceDir: "down", sparkline: [7, 8, 9, 8, 7, 6, 7] },
-      { name: "ACTIVATION SUCCESS RATE", unit: "%", actual: "26%", target: "39%", variance: "13%", varianceDir: "down", sparkline: [5, 4, 3, 4, 5, 4, 3] }
+      { name: "DIGITAL LEAD SHARE", unit: "%", actual: "48%", target: "58%", variance: "10%", varianceDir: "down", sparkline: [4, 5, 4, 6, 5, 6, 7], baseline: "48%" },
+      { name: "AUTOMATED KYC APPROVALS RATE", unit: "%", actual: "85%", target: "70%", variance: "15%", varianceDir: "up", sparkline: [6, 5, 7, 6, 8, 7, 9], baseline: "85%" },
+      { name: "ATL ADOPTION RATE", unit: "%", actual: "32%", target: "45%", variance: "13%", varianceDir: "down", sparkline: [4, 3, 4, 5, 4, 3, 2], baseline: "32%" },
+      { name: "BESPOKE TURNAROUND TIME", unit: "DAY", actual: "1", target: "2", variance: "1", varianceDir: "up", sparkline: [5, 6, 5, 7, 6, 8, 7], baseline: "1" },
+      { name: "ORDER PROCESSING TIME", unit: "DAY", actual: "27", target: "21", variance: "6", varianceDir: "down", sparkline: [7, 8, 9, 8, 7, 6, 7], baseline: "27" },
+      { name: "ACTIVATION SUCCESS RATE", unit: "%", actual: "26%", target: "39%", variance: "13%", varianceDir: "down", sparkline: [5, 4, 3, 4, 5, 4, 3], baseline: "26%" }
     ]
   }
 };
@@ -80,9 +80,9 @@ const COLLECTIONS_DATA = {
     varianceDir: "down",
     chartData: [4.8, 3.2, 4.1, 2.5, 1.8, 5.2, 5.0, 4.9, 5.1, 3.8, 2.6, 4.5],
     kpis: [
-      { name: "CORE COLLECTION OPS HEAD COUNT", unit: "#", actual: "43", target: "15", variance: "28", varianceDir: "down", sparkline: [8, 9, 8, 9, 8, 9, 8, 9, 8, 7, 6, 5] },
-      { name: "BILLING MANAGER HEAD COUNT", unit: "#", actual: "5", target: "5", variance: "0", varianceDir: "neutral", sparkline: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9] },
-      { name: "BAD DEBT %", unit: "%", actual: "1.4%", target: "0.7%", variance: "0.7%", varianceDir: "down", sparkline: [8, 9, 8, 9, 8, 9, 8, 9, 8, 7, 6, 5] }
+      { name: "CORE COLLECTION OPS HEAD COUNT", unit: "#", actual: "43", target: "15", variance: "28", varianceDir: "down", sparkline: [8, 9, 8, 9, 8, 9, 8, 9, 8, 7, 6, 5], baseline: "43" },
+      { name: "BILLING MANAGER HEAD COUNT", unit: "#", actual: "5", target: "5", variance: "0", varianceDir: "neutral", sparkline: [9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9], baseline: "2" },
+      { name: "BAD DEBT %", unit: "%", actual: "1.4%", target: "0.7%", variance: "0.7%", varianceDir: "down", sparkline: [8, 9, 8, 9, 8, 9, 8, 9, 8, 7, 6, 5], baseline: "1.4%" }
     ]
   },
   incrementalRevenue: {
@@ -94,9 +94,9 @@ const COLLECTIONS_DATA = {
     varianceDir: "up",
     chartData: [3.5, 3.8, 4.5, 1.0, 1.5, 4.2, 3.4, 1.2, 0.8, 4.8, 4.9, 5.0],
     kpis: [
-      { name: "% SALES LIMITED DUE TO CREDIT WORTHINESS CHECKS", unit: "%", actual: "10%", target: "5%", variance: "5%", varianceDir: "down", sparkline: [4, 5, 4, 6, 5, 4, 3] }
+      { name: "% SALES LIMITED DUE TO CREDIT WORTHINESS CHECKS", unit: "%", actual: "10%", target: "5%", variance: "5%", varianceDir: "down", sparkline: [4, 5, 4, 6, 5, 4, 3], baseline: "10%" }
     ]
-  }, 
+  },
   nonFinancial: {
     title: "NON- FINANCIAL BENEFITS",
     description: "TRACKS ADOPTION, QUALITY, AND SERVICE PERFORMANCE OUTCOMES.",
@@ -105,10 +105,10 @@ const COLLECTIONS_DATA = {
     lagging: 3,
     chartData: [[1, 2, 2], [2, 2, 1], [1, 1, 1], [2, 2, 2], [1, 2, 1], [1, 1, 1], [1, 2, 1], [1, 2, 2], [1, 1, 2], [2, 2, 1], [2, 2, 1], [1, 1, 1]],
     kpis: [
-      { name: "OUTBOUND CASES", unit: "#", actual: "52K", target: "33K", variance: "19K", varianceDir: "down", sparkline: [8, 7, 9, 8, 9, 8, 7] },
-      { name: "DUNNING CYCLE ADHERENCE", unit: "%", actual: "35%", target: "95%", variance: "60%", varianceDir: "down", sparkline: [9, 8, 9, 8, 9, 8, 9] },
-      { name: "DUNNING NOTIFICATION & COMPLIANCE", unit: "%", actual: "95%", target: "99%", variance: "4%", varianceDir: "down", sparkline: [9, 8, 9, 8, 9, 8, 9] },
-      { name: "TDRA COMPLIANCE", unit: "%", actual: "99.1%", target: "99%", variance: "0.1%", varianceDir: "up", sparkline: [8, 9, 8, 9, 8, 9, 8] }
+      { name: "OUTBOUND CASES", unit: "#", actual: "52K", target: "33K", variance: "19K", varianceDir: "down", sparkline: [8, 7, 9, 8, 9, 8, 7], baseline: "52K" },
+      { name: "DUNNING CYCLE ADHERENCE", unit: "%", actual: "35%", target: "95%", variance: "60%", varianceDir: "down", sparkline: [9, 8, 9, 8, 9, 8, 9], baseline: "35%" },
+      { name: "DUNNING NOTIFICATION & COMPLIANCE", unit: "%", actual: "95%", target: "99%", variance: "4%", varianceDir: "down", sparkline: [9, 8, 9, 8, 9, 8, 9], baseline: "95%" },
+      { name: "TDRA COMPLIANCE", unit: "%", actual: "99.1%", target: "99%", variance: "0.1%", varianceDir: "up", sparkline: [8, 9, 8, 9, 8, 9, 8], baseline: "95%" }
     ]
   }
 };
@@ -583,51 +583,51 @@ const DEPARTMENTS_OVERVIEW = [
 const AgentCard = ({ agent, index }) => {
   return (
     <div
-      className="bg-[#ede4d8] border border-gray-300 rounded p-2 mb-2 shadow-sm text-[10px] cursor-pointer
+      className="bg-[#1a1a1a] border border-[#767679]/30 rounded p-2 shadow-sm text-[10px] cursor-pointer
         transition-all duration-300 ease-out
-        hover:shadow-lg hover:-translate-y-1 hover:border-gray-400 hover:bg-[#e8ddd0]
+        hover:shadow-lg hover:shadow-[#C00000]/10 hover:-translate-y-1 hover:border-[#C00000]/50 hover:bg-[#222222]
         group/card"
       style={{ animationDelay: `${index * 60}ms` }}
     >
       <div className="flex justify-between items-start mb-1">
-        <h4 className="font-bold text-gray-800 leading-tight pr-4 group-hover/card:text-black transition-colors duration-200">{agent.name}</h4>
-        <Info size={12} className="text-gray-400 flex-shrink-0 group-hover/card:text-gray-600 transition-colors duration-200" />
+        <h4 className="font-bold text-white leading-tight pr-4 group-hover/card:text-[#C00000] transition-colors duration-200">{agent.name}</h4>
+        <Info size={12} className="text-[#767679] flex-shrink-0 group-hover/card:text-[#C00000] transition-colors duration-200" />
       </div>
 
-      <div className="grid grid-cols-3 gap-1 mb-2 text-gray-500 uppercase font-semibold text-[8px]">
-        <div className="group-hover/card:bg-white/40 rounded px-1 py-0.5 transition-colors duration-200">
+      <div className="grid grid-cols-3 gap-1 mb-2 text-[#767679] uppercase font-semibold text-[8px]">
+        <div className="group-hover/card:bg-white/5 rounded px-1 py-0.5 transition-colors duration-200 min-h-[28px]">
           <div className="text-[7px]">RUNS</div>
-          <div className="text-gray-800 text-[10px] font-bold">{agent.runs}</div>
+          <div className="text-white text-[10px] font-bold">{agent.runs}</div>
         </div>
-        <div className="group-hover/card:bg-white/40 rounded px-1 py-0.5 transition-colors duration-200">
+        <div className="group-hover/card:bg-white/5 rounded px-1 py-0.5 transition-colors duration-200 min-h-[28px]">
           <div className="text-[7px]">QUEUE</div>
-          <div className="text-gray-800 text-[10px] font-bold">{agent.queue}</div>
+          <div className="text-white text-[10px] font-bold">{agent.queue}</div>
         </div>
-        <div className="group-hover/card:bg-white/40 rounded px-1 py-0.5 transition-colors duration-200">
-          <div className="text-[7px]">EXCEPTION COUNT</div>
-          <div className="text-gray-800 text-[10px] font-bold">{agent.exceptions}</div>
+        <div className="group-hover/card:bg-white/5 rounded px-1 py-0.5 transition-colors duration-200 min-h-[28px]">
+          <div className="text-[7px] whitespace-nowrap">EXCEPTIONS</div>
+          <div className="text-white text-[10px] font-bold">{agent.exceptions}</div>
         </div>
       </div>
 
       <div className="space-y-1 mb-2">
         {agent.metrics.map((m, i) => (
-          <div key={i} className="flex justify-between items-center hover:bg-white/30 rounded px-1 py-0.5 transition-all duration-200">
-            <span className="text-gray-600 truncate mr-2">{m.label}</span>
-            <div className="flex items-center">
-              <span className="font-bold text-gray-800">{m.value}</span>
-              {m.trend === 'up' && <ChevronUp size={10} className="text-green-600 ml-0.5 group-hover/card:animate-bounce" />}
-              {m.trend === 'down' && <ChevronDown size={10} className="text-red-500 ml-0.5 group-hover/card:animate-bounce" />}
+          <div key={i} className="flex justify-between items-start hover:bg-white/5 rounded px-1 py-0.5 transition-all duration-200 gap-1">
+            <span className="text-[#767679] leading-tight break-words min-w-0">{m.label}</span>
+            <div className="flex items-center shrink-0">
+              <span className="font-bold text-white whitespace-nowrap">{m.value}</span>
+              {m.trend === 'up' && <ChevronUp size={10} className="text-green-500 ml-0.5 group-hover/card:animate-bounce" />}
+              {m.trend === 'down' && <ChevronDown size={10} className="text-[#C00000] ml-0.5 group-hover/card:animate-bounce" />}
             </div>
           </div>
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-1 mt-1 pt-1 border-t border-gray-200 group-hover/card:border-gray-300 transition-colors duration-200">
+      <div className="flex flex-wrap gap-1 mt-1 pt-1 border-t border-[#767679]/20 group-hover/card:border-[#767679]/40 transition-colors duration-200">
         {agent.models.map((model, i) => (
           <span key={i} className={`px-1.5 py-0.5 rounded text-[7px] font-bold transition-all duration-200 ${
-            model.includes('Gemini') ? 'text-pink-600 group-hover/card:bg-pink-50' :
-            model.includes('Claude') ? 'text-red-600 group-hover/card:bg-red-50' :
-            'text-blue-600 group-hover/card:bg-blue-50'
+            model.includes('Gemini') ? 'text-[#C00000] group-hover/card:bg-[#C00000]/10' :
+            model.includes('Claude') ? 'text-white group-hover/card:bg-white/10' :
+            'text-[#767679] group-hover/card:bg-white/10'
           }`}>
             {model}
           </span>
@@ -641,26 +641,26 @@ const DepartmentColumn = ({ dept, index, onNavigate }) => {
   const isClickable = dept.title === "CREDIT & COLLECTIONS";
   return (
     <div
-      className="flex-1 min-w-[180px] px-1 opacity-0 animate-[fadeSlideUp_0.5s_ease-out_forwards]"
+      className="w-full opacity-0 animate-[fadeSlideUp_0.5s_ease-out_forwards]"
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <div className="flex gap-1 mb-3">
-        <div className="flex-1 bg-[#dcd0bf] border border-gray-300 rounded p-2 shadow-sm
-          transition-all duration-300 hover:shadow-md hover:bg-[#d4c8b5] hover:border-gray-400 cursor-pointer group/dept">
-          <h3 className="text-center font-black text-gray-800 text-[11px] mb-1 group-hover/dept:text-black transition-colors duration-200">{dept.title}</h3>
+      <div className="flex gap-1 mb-3 h-[68px] min-w-0">
+        <div className="flex-1 min-w-0 bg-[#C00000] border border-[#C00000] rounded p-2 shadow-sm
+          transition-all duration-300 hover:shadow-md hover:shadow-[#C00000]/30 hover:bg-[#a00000] cursor-pointer group/dept flex flex-col justify-center">
+          <h3 className="text-center font-black text-white text-[9px] mb-1 leading-tight px-1">{dept.title}</h3>
           <div className="flex justify-center gap-4">
             <div className="flex items-center gap-1 group-hover/dept:scale-105 transition-transform duration-200">
-              <Bot size={14} className="text-gray-700 group-hover/dept:text-black transition-colors duration-200" />
+              <Bot size={14} className="text-white/70 group-hover/dept:text-white transition-colors duration-200" />
               <div className="flex flex-col leading-none">
-                <span className="text-[14px] font-black">{dept.aiCount}</span>
-                <span className="text-[7px] text-gray-500 uppercase font-bold">AI Agents</span>
+                <span className="text-[14px] font-black text-white">{dept.aiCount}</span>
+                <span className="text-[7px] text-white/70 uppercase font-bold">AI Agents</span>
               </div>
             </div>
             <div className="flex items-center gap-1 group-hover/dept:scale-105 transition-transform duration-200">
-              <User size={14} className="text-gray-700 group-hover/dept:text-black transition-colors duration-200" />
+              <User size={14} className="text-white/70 group-hover/dept:text-white transition-colors duration-200" />
               <div className="flex flex-col leading-none">
-                <span className="text-[14px] font-black">{dept.humanCount}</span>
-                <span className="text-[7px] text-gray-500 uppercase font-bold">Humans</span>
+                <span className="text-[14px] font-black text-white">{dept.humanCount}</span>
+                <span className="text-[7px] text-white/70 uppercase font-bold">Humans</span>
               </div>
             </div>
           </div>
@@ -668,22 +668,22 @@ const DepartmentColumn = ({ dept, index, onNavigate }) => {
         <div className="relative group/icon">
           <div
             onClick={isClickable ? onNavigate : undefined}
-            className={`w-10 h-full bg-[#dcd0bf] border border-gray-300 rounded shadow-sm flex items-center justify-center
-              transition-all duration-300 hover:shadow-md hover:border-gray-400
-              ${isClickable ? 'cursor-pointer hover:bg-[#c4b8a5]' : 'cursor-default hover:bg-[#d4c8b5]'}`}
+            className={`w-8 shrink-0 h-full bg-[#1a1a1a] border border-[#767679]/30 rounded shadow-sm flex items-center justify-center
+              transition-all duration-300 hover:shadow-md
+              ${isClickable ? 'cursor-pointer hover:bg-[#C00000] hover:border-[#C00000]' : 'cursor-default hover:bg-[#2a2a2a]'}`}
           >
-            <LayoutGrid size={14} className="text-gray-600 group-hover/icon:text-black transition-colors duration-200" />
+            <LayoutGrid size={14} className="text-[#767679] group-hover/icon:text-white transition-colors duration-200" />
           </div>
           {isClickable && (
-            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-[8px] font-bold rounded whitespace-nowrap
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-[#C00000] text-white text-[8px] font-bold rounded whitespace-nowrap
               opacity-0 group-hover/icon:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
               Click here to see impact
-              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black" />
+              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-[#C00000]" />
             </div>
           )}
         </div>
       </div>
-      <div className="space-y-1">
+      <div className="space-y-2">
         {dept.agents.map((agent, i) => (
           <AgentCard key={i} agent={agent} index={i} />
         ))}
@@ -699,9 +699,9 @@ const Sparkline = ({ data }) => {
   return (
     <div className="flex items-end gap-[2px] h-8">
       {data.map((v, i) => (
-        <div 
-          key={i} 
-          className="w-[3px] bg-black" 
+        <div
+          key={i}
+          className="w-[3px] bg-white"
           style={{ height: `${(v / max) * 100}%` }}
         />
       ))}
@@ -716,17 +716,17 @@ const BarChart = ({ data, height = "h-16" }) => {
         if (Array.isArray(v)) {
           return (
             <div key={i} className="flex-1 flex flex-col-reverse h-full">
-              <div className="bg-gray-400 w-full" style={{ height: `${(v[2] / 6) * 100}%` }} />
-              <div className="bg-gray-600 w-full" style={{ height: `${(v[1] / 6) * 100}%` }} />
-              <div className="bg-black w-full" style={{ height: `${(v[0] / 6) * 100}%` }} />
-              <span className="text-[8px] text-center mt-1 uppercase font-bold">M{i+1}</span>
+              <div className="bg-[#767679] w-full" style={{ height: `${(v[2] / 6) * 100}%` }} />
+              <div className="bg-[#C00000] w-full" style={{ height: `${(v[1] / 6) * 100}%` }} />
+              <div className="bg-white w-full" style={{ height: `${(v[0] / 6) * 100}%` }} />
+              <span className="text-[8px] text-center mt-1 uppercase font-bold text-[#767679]">M{i+1}</span>
             </div>
           );
         }
         return (
           <div key={i} className="flex-1 flex flex-col justify-end h-full">
-            <div className="bg-black w-full" style={{ height: `${(v / 6) * 100}%` }} />
-            <span className="text-[8px] text-center mt-1 uppercase font-bold">M{i+1}</span>
+            <div className="bg-[#C00000] w-full" style={{ height: `${(v / 6) * 100}%` }} />
+            <span className="text-[8px] text-center mt-1 uppercase font-bold text-[#767679]">M{i+1}</span>
           </div>
         );
       })}
@@ -736,8 +736,8 @@ const BarChart = ({ data, height = "h-16" }) => {
 
 const CardHeader = ({ title, description }) => (
   <div className="mb-4">
-    <h3 className="text-xl font-bold tracking-tight uppercase">{title}</h3>
-    <p className="text-sm text-gray-600 leading-tight mt-1 uppercase">{description}</p>
+    <h3 className="text-xl font-bold tracking-tight uppercase text-white">{title}</h3>
+    <p className="text-sm text-[#767679] leading-tight mt-1 uppercase">{description}</p>
   </div>
 );
 
@@ -745,9 +745,9 @@ const SummaryCard = ({ data, onClick, type }) => {
   const isBenefit = type === 'nonFinancial';
   
   return (
-    <div className="bg-[#ebe4d8] rounded-2xl p-6 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-[#1a1a1a] border border-[#767679]/20 rounded-2xl p-6 flex flex-col h-full shadow-sm hover:shadow-lg hover:border-[#C00000]/30 transition-all">
       <CardHeader title={data.title} description={data.description} />
-      
+
       <div className="mt-4 mb-8">
         <BarChart data={data.chartData} />
       </div>
@@ -755,54 +755,54 @@ const SummaryCard = ({ data, onClick, type }) => {
       <div className="flex-grow space-y-4">
         {!isBenefit ? (
           <>
-            <div className="flex justify-between items-center border-b border-gray-300 pb-2">
-              <span className="text-sm uppercase tracking-wider text-gray-700 font-bold">ACTUAL VALUE</span>
-              <span className="font-medium uppercase">{data.actual}</span>
+            <div className="flex justify-between items-center border-b border-[#767679]/30 pb-2">
+              <span className="text-sm uppercase tracking-wider text-[#767679] font-bold">ACTUAL VALUE</span>
+              <span className="font-medium uppercase text-white">{data.actual}</span>
             </div>
-            <div className="flex justify-between items-center border-b border-gray-300 pb-2">
-              <span className="text-sm uppercase tracking-wider text-gray-700 font-bold">TARGET VALUE</span>
-              <span className="font-medium uppercase">{data.target}</span>
+            <div className="flex justify-between items-center border-b border-[#767679]/30 pb-2">
+              <span className="text-sm uppercase tracking-wider text-[#767679] font-bold">TARGET VALUE</span>
+              <span className="font-medium uppercase text-white">{data.target}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm uppercase tracking-wider text-gray-700 font-bold">VARIANCE</span>
+              <span className="text-sm uppercase tracking-wider text-[#767679] font-bold">VARIANCE</span>
               <div className="flex items-center gap-2">
-                {data.varianceDir === 'down' ? 
-                  <TrendingDown className="text-red-300 fill-red-300" size={20} /> : 
+                {data.varianceDir === 'down' ?
+                  <TrendingDown className="text-[#C00000]" size={20} /> :
                   data.varianceDir === 'up' ?
-                  <TrendingUp className="text-green-300 fill-green-300" size={20} /> :
+                  <TrendingUp className="text-green-500" size={20} /> :
                   <div className="w-5" />
                 }
-                <span className="font-medium uppercase">{data.variance}</span>
+                <span className="font-medium uppercase text-white">{data.variance}</span>
               </div>
             </div>
           </>
         ) : (
           <>
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-gray-700 flex items-center gap-2">
-                KPIS ON TRACK <div className="w-4 h-4 bg-black" />
+              <span className="text-xs font-bold uppercase tracking-wider text-[#767679] flex items-center gap-2">
+                KPIS ON TRACK <div className="w-4 h-4 bg-white" />
               </span>
-              <span className="font-medium uppercase">{data.onTrack}</span>
+              <span className="font-medium uppercase text-white">{data.onTrack}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-gray-700 flex items-center gap-2">
-                KPIS AT RISK <div className="w-4 h-4 bg-gray-500" />
+              <span className="text-xs font-bold uppercase tracking-wider text-[#767679] flex items-center gap-2">
+                KPIS AT RISK <div className="w-4 h-4 bg-[#767679]" />
               </span>
-              <span className="font-medium uppercase">{data.atRisk}</span>
+              <span className="font-medium uppercase text-white">{data.atRisk}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-gray-700 flex items-center gap-2">
-                KPIS LAGGING <div className="w-4 h-4 bg-black/20" />
+              <span className="text-xs font-bold uppercase tracking-wider text-[#767679] flex items-center gap-2">
+                KPIS LAGGING <div className="w-4 h-4 bg-[#767679]/30" />
               </span>
-              <span className="font-medium uppercase">{data.lagging}</span>
+              <span className="font-medium uppercase text-white">{data.lagging}</span>
             </div>
           </>
         )}
       </div>
 
-      <button 
+      <button
         onClick={onClick}
-        className="mt-8 bg-black text-white rounded-lg py-2 px-4 flex items-center justify-between group hover:bg-gray-800 transition-colors self-start min-w-[140px]"
+        className="mt-8 bg-[#C00000] text-white rounded-lg py-2 px-4 flex items-center justify-between group hover:bg-[#a00000] transition-colors self-start min-w-[140px]"
       >
         <span className="text-sm uppercase font-bold tracking-tight">CLICK FOR DETAILS</span>
         <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
@@ -924,7 +924,7 @@ export default function App() {
 
   if (screen === "OVERVIEW") {
     return (
-      <div className="min-h-screen bg-[#f3efe8] p-4 font-sans text-gray-800 overflow-x-auto">
+      <div className="min-h-screen bg-black p-4 font-sans text-white overflow-x-auto">
         <style>{`
           @keyframes fadeSlideUp {
             from { opacity: 0; transform: translateY(20px); }
@@ -946,7 +946,7 @@ export default function App() {
                   style={{
                     stroke: 'none',
                     fillRule: 'nonzero',
-                    fill: 'rgb(94.901961%, 1.960784%, 9.803922%)',
+                    fill: '#FFFFFF',
                     fillOpacity: 1
                   }}
                   d="M 191.621094 441.765625 C 229.566406 441.765625 258.28125 428.007812 278.144531 408.582031 C 298.394531 429.167969 328.757812 441.824219 365.914062 441.824219 C 411.730469 441.824219 448.933594 423.683594 477.554688 395.535156 L 514.296875 435.601562 L 591.980469 435.601562 L 512.3125 349.40625 C 530.53125 317.082031 541.90625 281.359375 545.726562 244.449219 L 488.476562 244.449219 C 487.21875 266.453125 482.714844 288.148438 475.117188 308.832031 C 468.355469 327.605469 458.34375 345.046875 445.542969 360.355469 C 426.941406 381.816406 403.105469 395.65625 375.890625 395.65625 C 343.773438 395.65625 321.730469 381.898438 313.363281 358.886719 L 252.152344 358.886719 C 242.136719 382.746094 218.773438 394.675781 189.199219 394.675781 C 156.742188 394.675781 123.339844 371.300781 119.546875 323.585938 L 311.011719 323.585938 C 315.90625 300.113281 334.484375 282.503906 364.507812 271.144531 C 364.507812 271.144531 392.277344 260.898438 419.855469 249.113281 C 458.019531 231.480469 486.636719 199.992188 486.636719 159.890625 C 486.636719 103.125 437.984375 83.589844 394.09375 83.589844 C 338.746094 83.589844 297.777344 112.683594 297.777344 158.96875 C 297.777344 186.148438 312.585938 211.90625 334.519531 237.667969 C 322.964844 241.738281 311.890625 247.0625 301.492188 253.546875 C 283.824219 204.8125 243.15625 173.226562 187.832031 173.226562 C 114.824219 173.226562 61.875 228.089844 61.875 305.308594 C 61.875 382.53125 109.109375 441.753906 191.632812 441.753906 L 191.621094 441.753906 Z M 394.496094 126.695312 L 394.496094 126.5 C 415.472656 126.5 432.644531 138.417969 432.644531 161.804688 C 432.644531 183.265625 419.769531 204.265625 390.667969 217.152344 L 390.207031 216.65625 C 373.011719 198.511719 356.792969 177.550781 356.792969 157.515625 C 356.792969 137.484375 374.4375 126.695312 394.496094 126.695312 Z M 187.757812 217.671875 L 187.757812 217.5625 C 221.148438 217.5625 251.707031 241.917969 253.132812 281.996094 L 119.535156 281.996094 C 124.296875 233.441406 161.042969 217.671875 187.757812 217.671875 Z M 89.222656 518.671875 C 73.394531 518.671875 61.910156 530.492188 61.910156 547.421875 C 61.910156 563.398438 72.242188 577.082031 90.132812 577.082031 C 101.703125 577.589844 112.128906 570.128906 115.382812 559.011719 L 103.285156 559.011719 C 101.105469 564.207031 96.027344 566.8125 89.621094 566.8125 C 82.597656 566.8125 75.34375 561.726562 74.507812 551.335938 L 115.925781 551.335938 C 116.96875 532.574219 106.164062 518.660156 89.234375 518.660156 Z M 74.554688 542.324219 C 74.785156 534.351562 81.394531 528.058594 89.367188 528.214844 C 97.15625 528.214844 103.476562 534.523438 103.476562 542.324219 Z M 137.617188 505.179688 L 125.289062 505.179688 L 125.289062 519.90625 L 117.015625 519.90625 L 117.015625 528.855469 L 125.289062 528.855469 L 125.289062 561.109375 C 125.289062 572.503906 127.6875 575.726562 139.59375 575.726562 L 148.710938 575.726562 L 148.710938 566.304688 L 144.253906 566.304688 C 138.976562 566.304688 137.617188 564.886719 137.617188 559.242188 L 137.617188 528.84375 L 148.90625 528.84375 L 148.90625 519.90625 L 137.617188 519.90625 Z M 168.5 519.90625 L 156.160156 519.90625 L 156.160156 575.738281 L 168.5 575.738281 Z M 168.5 500.527344 L 156.160156 500.527344 L 156.160156 512.964844 L 168.5 512.964844 Z M 204.507812 542.433594 L 196.636719 540.871094 C 192.007812 539.878906 189.175781 538 189.175781 534.246094 C 189.175781 530.492188 194.140625 528.117188 199.542969 528.117188 C 205.742188 528.117188 210.394531 530.089844 211.75 535.179688 L 223.015625 535.179688 C 220.726562 523.976562 210.792969 518.671875 199.929688 518.671875 C 187.941406 518.671875 177.355469 524.714844 177.355469 534.863281 C 177.355469 545.035156 184.863281 549.289062 194.285156 551.152344 L 202.765625 552.8125 C 208.238281 553.828125 212.378906 556.058594 212.378906 560.488281 C 212.378906 564.921875 207.5 567.746094 201.09375 567.746094 C 193.839844 567.746094 189.695312 564.355469 188.570312 558.710938 L 176.542969 558.710938 C 177.898438 569.292969 187.007812 577.082031 200.667969 577.082031 C 213.3125 577.082031 224.261719 559.023438 224.261719 559.023438 C 224.261719 548.078125 215.796875 544.613281 204.519531 542.433594 Z M 279.089844 542.226562 C 279.402344 524.398438 269.074219 518.269531 255.605469 518.269531 C 242.148438 518.269531 232.714844 526.035156 231.902344 537.46875 L 244.015625 537.46875 C 244.4375 530.722656 249.210938 527.390625 255.300781 527.390625 C 261.394531 527.390625 266.890625 530.296875 266.890625 539.828125 L 266.890625 540.871094 C 246.496094 542.964844 229.421875 546.464844 229.3125 560.367188 C 229.3125 570.542969 237.789062 577.082031 249.902344 577.082031 C 258.101562 577.082031 264.699219 574.175781 268.226562 568.167969 C 268.359375 570.710938 268.710938 573.230469 269.265625 575.726562 L 280.554688 575.726562 C 279.375 569.4375 278.820312 563.046875 278.894531 556.652344 C 278.894531 551.5625 279.089844 545.046875 279.089844 542.238281 Z M 267.207031 553.746094 C 267.207031 563.167969 261.816406 567.855469 252.699219 567.855469 C 246.507812 567.855469 242.476562 564.960938 242.464844 560.101562 C 242.464844 553.625 249.609375 551.140625 267.207031 549.480469 Z M 302.050781 500.527344 L 289.613281 500.527344 L 289.613281 575.738281 L 302.0625 575.738281 L 302.0625 500.527344 Z M 359.601562 542.226562 C 359.917969 524.398438 349.585938 518.269531 336.121094 518.269531 C 322.664062 518.269531 313.230469 526.035156 312.417969 537.46875 L 324.53125 537.46875 C 324.941406 530.722656 329.710938 527.390625 335.804688 527.390625 C 341.898438 527.390625 347.40625 530.296875 347.40625 539.828125 L 347.40625 540.871094 C 327 542.964844 309.933594 546.464844 309.933594 560.34375 C 309.933594 570.507812 318.425781 577.058594 330.523438 577.058594 C 338.746094 577.058594 345.347656 574.222656 348.738281 568.167969 C 348.886719 570.710938 349.222656 573.230469 349.78125 575.726562 L 361.070312 575.726562 C 359.886719 569.4375 359.328125 563.046875 359.398438 556.652344 C 359.398438 551.5625 359.589844 545.046875 359.589844 542.238281 Z M 347.722656 553.746094 C 347.722656 563.167969 342.332031 567.855469 333.214844 567.855469 C 327.023438 567.855469 322.992188 564.960938 322.96875 560.101562 C 322.992188 553.625 330.136719 551.140625 347.722656 549.480469 Z M 383.898438 505.179688 L 371.785156 505.179688 L 371.785156 519.90625 L 363.503906 519.90625 L 363.503906 528.855469 L 371.800781 528.855469 L 371.800781 561.109375 C 371.800781 572.503906 374.160156 575.726562 386.078125 575.726562 L 395.1875 575.726562 L 395.1875 566.304688 L 390.535156 566.304688 C 385.253906 566.304688 383.898438 564.886719 383.898438 559.242188 L 383.898438 528.84375 L 395.1875 528.84375 L 395.1875 519.90625 L 383.898438 519.90625 Z M 472.902344 542.226562 C 473.21875 524.398438 462.824219 518.269531 449.40625 518.269531 C 435.964844 518.269531 426.542969 526.035156 425.695312 537.46875 L 437.828125 537.46875 C 438.253906 530.722656 443.023438 527.390625 449.117188 527.390625 C 455.207031 527.390625 460.707031 530.296875 460.707031 539.828125 L 460.707031 540.871094 C 440.335938 542.964844 423.234375 546.464844 423.089844 560.367188 C 423.089844 570.542969 431.589844 577.082031 443.691406 577.082031 C 451.851562 577.082031 458.476562 574.175781 462.003906 568.167969 C 462.136719 570.710938 462.488281 573.230469 463.054688 575.726562 L 474.34375 575.726562 C 473.191406 569.433594 472.640625 563.046875 472.707031 556.652344 C 472.707031 551.5625 472.902344 545.046875 472.902344 542.238281 Z M 461.023438 553.746094 C 461.023438 563.167969 455.632812 567.855469 446.511719 567.855469 C 440.324219 567.855469 436.289062 564.960938 436.265625 560.101562 C 436.289062 553.625 443.4375 551.140625 461.023438 549.480469 Z M 512.664062 518.671875 C 505.796875 518.242188 499.28125 521.738281 495.839844 527.691406 L 495.839844 519.90625 L 483.535156 519.90625 L 483.535156 575.738281 L 495.839844 575.738281 L 495.839844 546.066406 C 495.839844 535.988281 499.367188 528.746094 508.800781 528.746094 C 518.222656 528.746094 519.359375 536.109375 519.359375 543.667969 L 519.359375 575.726562 L 531.59375 575.726562 L 531.59375 540.675781 C 531.59375 527.390625 526.132812 518.671875 512.664062 518.671875 Z M 579.832031 527.390625 C 576.300781 521.691406 569.960938 518.351562 563.261719 518.671875 C 550.109375 518.671875 539.054688 529.847656 539.054688 547.820312 C 539.054688 565.792969 550.109375 577.082031 563.277344 577.082031 C 569.96875 577.398438 576.304688 574.058594 579.832031 568.363281 L 579.832031 575.738281 L 592.136719 575.738281 L 592.136719 500.527344 L 579.832031 500.527344 Z M 565.976562 567.007812 C 557.753906 567.007812 551.855469 559.640625 551.855469 547.820312 C 551.855469 535.988281 557.910156 528.746094 565.976562 528.746094 C 574.042969 528.746094 580.363281 534.949219 580.363281 547.820312 C 580.363281 560.683594 574.1875 567.007812 565.976562 567.007812 Z M 565.976562 567.007812 "
@@ -959,8 +959,8 @@ export default function App() {
               <button
                 key={v}
                 onClick={() => setOverviewTimeframe(v)}
-                className={`text-[11px] font-bold tracking-widest transition-all duration-200 hover:text-gray-700 ${
-                  overviewTimeframe === v ? 'text-gray-900 border-b-2 border-gray-900' : 'text-gray-400'
+                className={`text-[11px] font-bold tracking-widest transition-all duration-200 hover:text-[#C00000] ${
+                  overviewTimeframe === v ? 'text-white border-b-2 border-[#C00000]' : 'text-[#767679]'
                 }`}
               >
                 {v}
@@ -970,7 +970,7 @@ export default function App() {
         </div>
 
         {/* Main Grid */}
-        <div className="flex gap-2 min-w-[1500px]">
+        <div className="grid grid-cols-8 gap-3 min-w-[1500px]">
           {DEPARTMENTS_OVERVIEW.map((dept, i) => (
             <DepartmentColumn key={i} dept={dept} index={i} onNavigate={() => {
               setDept("COLLECTIONS");
@@ -986,103 +986,65 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f2ece4] text-[#1a1a1a] font-sans overflow-x-hidden flex flex-col">
-      {/* Navigation */}
-      <header className="px-12 py-6 flex items-center justify-between border-b border-gray-200 bg-[#f2ece4]/80 backdrop-blur sticky top-0 z-50">
-        <div className="flex items-center gap-4">
-          <div className="flex items-center">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="220px" 
-              height="60px" 
-              viewBox="0 0 654 654" 
-              className="h-14 w-auto"
-            >
-              <g id="surface1">
-                <path 
-                  style={{ 
-                    stroke: 'none', 
-                    fillRule: 'nonzero', 
-                    fill: 'rgb(94.901961%, 1.960784%, 9.803922%)', 
-                    fillOpacity: 1 
-                  }} 
-                  d="M 191.621094 441.765625 C 229.566406 441.765625 258.28125 428.007812 278.144531 408.582031 C 298.394531 429.167969 328.757812 441.824219 365.914062 441.824219 C 411.730469 441.824219 448.933594 423.683594 477.554688 395.535156 L 514.296875 435.601562 L 591.980469 435.601562 L 512.3125 349.40625 C 530.53125 317.082031 541.90625 281.359375 545.726562 244.449219 L 488.476562 244.449219 C 487.21875 266.453125 482.714844 288.148438 475.117188 308.832031 C 468.355469 327.605469 458.34375 345.046875 445.542969 360.355469 C 426.941406 381.816406 403.105469 395.65625 375.890625 395.65625 C 343.773438 395.65625 321.730469 381.898438 313.363281 358.886719 L 252.152344 358.886719 C 242.136719 382.746094 218.773438 394.675781 189.199219 394.675781 C 156.742188 394.675781 123.339844 371.300781 119.546875 323.585938 L 311.011719 323.585938 C 315.90625 300.113281 334.484375 282.503906 364.507812 271.144531 C 364.507812 271.144531 392.277344 260.898438 419.855469 249.113281 C 458.019531 231.480469 486.636719 199.992188 486.636719 159.890625 C 486.636719 103.125 437.984375 83.589844 394.09375 83.589844 C 338.746094 83.589844 297.777344 112.683594 297.777344 158.96875 C 297.777344 186.148438 312.585938 211.90625 334.519531 237.667969 C 322.964844 241.738281 311.890625 247.0625 301.492188 253.546875 C 283.824219 204.8125 243.15625 173.226562 187.832031 173.226562 C 114.824219 173.226562 61.875 228.089844 61.875 305.308594 C 61.875 382.53125 109.109375 441.753906 191.632812 441.753906 L 191.621094 441.753906 Z M 394.496094 126.695312 L 394.496094 126.5 C 415.472656 126.5 432.644531 138.417969 432.644531 161.804688 C 432.644531 183.265625 419.769531 204.265625 390.667969 217.152344 L 390.207031 216.65625 C 373.011719 198.511719 356.792969 177.550781 356.792969 157.515625 C 356.792969 137.484375 374.4375 126.695312 394.496094 126.695312 Z M 187.757812 217.671875 L 187.757812 217.5625 C 221.148438 217.5625 251.707031 241.917969 253.132812 281.996094 L 119.535156 281.996094 C 124.296875 233.441406 161.042969 217.671875 187.757812 217.671875 Z M 89.222656 518.671875 C 73.394531 518.671875 61.910156 530.492188 61.910156 547.421875 C 61.910156 563.398438 72.242188 577.082031 90.132812 577.082031 C 101.703125 577.589844 112.128906 570.128906 115.382812 559.011719 L 103.285156 559.011719 C 101.105469 564.207031 96.027344 566.8125 89.621094 566.8125 C 82.597656 566.8125 75.34375 561.726562 74.507812 551.335938 L 115.925781 551.335938 C 116.96875 532.574219 106.164062 518.660156 89.234375 518.660156 Z M 74.554688 542.324219 C 74.785156 534.351562 81.394531 528.058594 89.367188 528.214844 C 97.15625 528.214844 103.476562 534.523438 103.476562 542.324219 Z M 137.617188 505.179688 L 125.289062 505.179688 L 125.289062 519.90625 L 117.015625 519.90625 L 117.015625 528.855469 L 125.289062 528.855469 L 125.289062 561.109375 C 125.289062 572.503906 127.6875 575.726562 139.59375 575.726562 L 148.710938 575.726562 L 148.710938 566.304688 L 144.253906 566.304688 C 138.976562 566.304688 137.617188 564.886719 137.617188 559.242188 L 137.617188 528.84375 L 148.90625 528.84375 L 148.90625 519.90625 L 137.617188 519.90625 Z M 168.5 519.90625 L 156.160156 519.90625 L 156.160156 575.738281 L 168.5 575.738281 Z M 168.5 500.527344 L 156.160156 500.527344 L 156.160156 512.964844 L 168.5 512.964844 Z M 204.507812 542.433594 L 196.636719 540.871094 C 192.007812 539.878906 189.175781 538 189.175781 534.246094 C 189.175781 530.492188 194.140625 528.117188 199.542969 528.117188 C 205.742188 528.117188 210.394531 530.089844 211.75 535.179688 L 223.015625 535.179688 C 220.726562 523.976562 210.792969 518.671875 199.929688 518.671875 C 187.941406 518.671875 177.355469 524.714844 177.355469 534.863281 C 177.355469 545.035156 184.863281 549.289062 194.285156 551.152344 L 202.765625 552.8125 C 208.238281 553.828125 212.378906 556.058594 212.378906 560.488281 C 212.378906 564.921875 207.5 567.746094 201.09375 567.746094 C 193.839844 567.746094 189.695312 564.355469 188.570312 558.710938 L 176.542969 558.710938 C 177.898438 569.292969 187.007812 577.082031 200.667969 577.082031 C 213.3125 577.082031 224.261719 559.023438 224.261719 559.023438 C 224.261719 548.078125 215.796875 544.613281 204.519531 542.433594 Z M 279.089844 542.226562 C 279.402344 524.398438 269.074219 518.269531 255.605469 518.269531 C 242.148438 518.269531 232.714844 526.035156 231.902344 537.46875 L 244.015625 537.46875 C 244.4375 530.722656 249.210938 527.390625 255.300781 527.390625 C 261.394531 527.390625 266.890625 530.296875 266.890625 539.828125 L 266.890625 540.871094 C 246.496094 542.964844 229.421875 546.464844 229.3125 560.367188 C 229.3125 570.542969 237.789062 577.082031 249.902344 577.082031 C 258.101562 577.082031 264.699219 574.175781 268.226562 568.167969 C 268.359375 570.710938 268.710938 573.230469 269.265625 575.726562 L 280.554688 575.726562 C 279.375 569.4375 278.820312 563.046875 278.894531 556.652344 C 278.894531 551.5625 279.089844 545.046875 279.089844 542.238281 Z M 267.207031 553.746094 C 267.207031 563.167969 261.816406 567.855469 252.699219 567.855469 C 246.507812 567.855469 242.476562 564.960938 242.464844 560.101562 C 242.464844 553.625 249.609375 551.140625 267.207031 549.480469 Z M 302.050781 500.527344 L 289.613281 500.527344 L 289.613281 575.738281 L 302.0625 575.738281 L 302.0625 500.527344 Z M 359.601562 542.226562 C 359.917969 524.398438 349.585938 518.269531 336.121094 518.269531 C 322.664062 518.269531 313.230469 526.035156 312.417969 537.46875 L 324.53125 537.46875 C 324.941406 530.722656 329.710938 527.390625 335.804688 527.390625 C 341.898438 527.390625 347.40625 530.296875 347.40625 539.828125 L 347.40625 540.871094 C 327 542.964844 309.933594 546.464844 309.933594 560.34375 C 309.933594 570.507812 318.425781 577.058594 330.523438 577.058594 C 338.746094 577.058594 345.347656 574.222656 348.738281 568.167969 C 348.886719 570.710938 349.222656 573.230469 349.78125 575.726562 L 361.070312 575.726562 C 359.886719 569.4375 359.328125 563.046875 359.398438 556.652344 C 359.398438 551.5625 359.589844 545.046875 359.589844 542.238281 Z M 347.722656 553.746094 C 347.722656 563.167969 342.332031 567.855469 333.214844 567.855469 C 327.023438 567.855469 322.992188 564.960938 322.96875 560.101562 C 322.992188 553.625 330.136719 551.140625 347.722656 549.480469 Z M 383.898438 505.179688 L 371.785156 505.179688 L 371.785156 519.90625 L 363.503906 519.90625 L 363.503906 528.855469 L 371.800781 528.855469 L 371.800781 561.109375 C 371.800781 572.503906 374.160156 575.726562 386.078125 575.726562 L 395.1875 575.726562 L 395.1875 566.304688 L 390.535156 566.304688 C 385.253906 566.304688 383.898438 564.886719 383.898438 559.242188 L 383.898438 528.84375 L 395.1875 528.84375 L 395.1875 519.90625 L 383.898438 519.90625 Z M 472.902344 542.226562 C 473.21875 524.398438 462.824219 518.269531 449.40625 518.269531 C 435.964844 518.269531 426.542969 526.035156 425.695312 537.46875 L 437.828125 537.46875 C 438.253906 530.722656 443.023438 527.390625 449.117188 527.390625 C 455.207031 527.390625 460.707031 530.296875 460.707031 539.828125 L 460.707031 540.871094 C 440.335938 542.964844 423.234375 546.464844 423.089844 560.367188 C 423.089844 570.542969 431.589844 577.082031 443.691406 577.082031 C 451.851562 577.082031 458.476562 574.175781 462.003906 568.167969 C 462.136719 570.710938 462.488281 573.230469 463.054688 575.726562 L 474.34375 575.726562 C 473.191406 569.433594 472.640625 563.046875 472.707031 556.652344 C 472.707031 551.5625 472.902344 545.046875 472.902344 542.238281 Z M 461.023438 553.746094 C 461.023438 563.167969 455.632812 567.855469 446.511719 567.855469 C 440.324219 567.855469 436.289062 564.960938 436.265625 560.101562 C 436.289062 553.625 443.4375 551.140625 461.023438 549.480469 Z M 512.664062 518.671875 C 505.796875 518.242188 499.28125 521.738281 495.839844 527.691406 L 495.839844 519.90625 L 483.535156 519.90625 L 483.535156 575.738281 L 495.839844 575.738281 L 495.839844 546.066406 C 495.839844 535.988281 499.367188 528.746094 508.800781 528.746094 C 518.222656 528.746094 519.359375 536.109375 519.359375 543.667969 L 519.359375 575.726562 L 531.59375 575.726562 L 531.59375 540.675781 C 531.59375 527.390625 526.132812 518.671875 512.664062 518.671875 Z M 579.832031 527.390625 C 576.300781 521.691406 569.960938 518.351562 563.261719 518.671875 C 550.109375 518.671875 539.054688 529.847656 539.054688 547.820312 C 539.054688 565.792969 550.109375 577.082031 563.277344 577.082031 C 569.96875 577.398438 576.304688 574.058594 579.832031 568.363281 L 579.832031 575.738281 L 592.136719 575.738281 L 592.136719 500.527344 L 579.832031 500.527344 Z M 565.976562 567.007812 C 557.753906 567.007812 551.855469 559.640625 551.855469 547.820312 C 551.855469 535.988281 557.910156 528.746094 565.976562 528.746094 C 574.042969 528.746094 580.363281 534.949219 580.363281 547.820312 C 580.363281 560.683594 574.1875 567.007812 565.976562 567.007812 Z M 565.976562 567.007812 " 
-                />
-              </g>
-            </svg>
-          </div>
-        </div>
-        <nav className="flex items-center gap-12 overflow-visible">
-          {DEPARTMENTS.map(d => (
-            <div key={d} className="relative shrink-0">
-              <button
-                onClick={() => {
-                  if (d === "BACK OFFICE") {
-                    setSalesOpen(false);
-                    setBackOfficeOpen(prev => !prev);
-                  } else if (d === "SALES") {
-                    setBackOfficeOpen(false);
-                    setSalesOpen(prev => !prev);
-                  } else {
-                    setBackOfficeOpen(false);
-                    setSalesOpen(false);
-                    handleNavClick(d);
-                  }
-                }}
-                className={`text-base font-medium flex items-center gap-2 transition-colors hover:text-black cursor-pointer ${
-                  dept === d ? 'text-black font-bold' : 'text-gray-600'
-                }`}
-              >
-                {d}
-                {(d === "BACK OFFICE" || d === "SALES") && <ChevronDown size={18} className={`transition-transform duration-200 ${(d === "BACK OFFICE" && backOfficeOpen) || (d === "SALES" && salesOpen) ? 'rotate-180' : ''}`} />}
-              </button>
-              {d === "BACK OFFICE" && backOfficeOpen && (
-                <div className="absolute top-full left-0 pt-2 z-50">
-                  <div className="bg-white border border-gray-200 rounded-lg shadow-lg min-w-[160px]">
-                    <button onClick={() => setBackOfficeOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-t-lg">SMB</button>
-                    <button onClick={() => setBackOfficeOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-b-lg">Enterprise</button>
-                  </div>
-                </div>
-              )}
-              {d === "SALES" && salesOpen && (
-                <div className="absolute top-full left-0 pt-2 z-50">
-                  <div className="bg-white border border-gray-200 rounded-lg shadow-lg min-w-[160px]">
-                    <button onClick={() => setSalesOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-t-lg">SMB</button>
-                    <button onClick={() => setSalesOpen(false)} className="block w-full text-left px-5 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-black transition-colors rounded-b-lg">Enterprise</button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
-      </header>
-
-      {/* Main Content optimized for 1920x1080 scaling */}
+    <div className="min-h-screen bg-black text-white font-sans overflow-x-hidden flex flex-col">
+      {/* Main Content */}
       <main className="flex-grow p-12 max-w-[1920px] mx-auto w-full">
+        {/* Logo */}
+        <div className="mb-8">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="220px"
+            height="60px"
+            viewBox="0 0 654 654"
+            className="h-10 w-auto"
+          >
+            <g id="surface1">
+              <path
+                style={{
+                  stroke: 'none',
+                  fillRule: 'nonzero',
+                  fill: '#FFFFFF',
+                  fillOpacity: 1
+                }}
+                d="M 191.621094 441.765625 C 229.566406 441.765625 258.28125 428.007812 278.144531 408.582031 C 298.394531 429.167969 328.757812 441.824219 365.914062 441.824219 C 411.730469 441.824219 448.933594 423.683594 477.554688 395.535156 L 514.296875 435.601562 L 591.980469 435.601562 L 512.3125 349.40625 C 530.53125 317.082031 541.90625 281.359375 545.726562 244.449219 L 488.476562 244.449219 C 487.21875 266.453125 482.714844 288.148438 475.117188 308.832031 C 468.355469 327.605469 458.34375 345.046875 445.542969 360.355469 C 426.941406 381.816406 403.105469 395.65625 375.890625 395.65625 C 343.773438 395.65625 321.730469 381.898438 313.363281 358.886719 L 252.152344 358.886719 C 242.136719 382.746094 218.773438 394.675781 189.199219 394.675781 C 156.742188 394.675781 123.339844 371.300781 119.546875 323.585938 L 311.011719 323.585938 C 315.90625 300.113281 334.484375 282.503906 364.507812 271.144531 C 364.507812 271.144531 392.277344 260.898438 419.855469 249.113281 C 458.019531 231.480469 486.636719 199.992188 486.636719 159.890625 C 486.636719 103.125 437.984375 83.589844 394.09375 83.589844 C 338.746094 83.589844 297.777344 112.683594 297.777344 158.96875 C 297.777344 186.148438 312.585938 211.90625 334.519531 237.667969 C 322.964844 241.738281 311.890625 247.0625 301.492188 253.546875 C 283.824219 204.8125 243.15625 173.226562 187.832031 173.226562 C 114.824219 173.226562 61.875 228.089844 61.875 305.308594 C 61.875 382.53125 109.109375 441.753906 191.632812 441.753906 L 191.621094 441.753906 Z M 394.496094 126.695312 L 394.496094 126.5 C 415.472656 126.5 432.644531 138.417969 432.644531 161.804688 C 432.644531 183.265625 419.769531 204.265625 390.667969 217.152344 L 390.207031 216.65625 C 373.011719 198.511719 356.792969 177.550781 356.792969 157.515625 C 356.792969 137.484375 374.4375 126.695312 394.496094 126.695312 Z M 187.757812 217.671875 L 187.757812 217.5625 C 221.148438 217.5625 251.707031 241.917969 253.132812 281.996094 L 119.535156 281.996094 C 124.296875 233.441406 161.042969 217.671875 187.757812 217.671875 Z M 89.222656 518.671875 C 73.394531 518.671875 61.910156 530.492188 61.910156 547.421875 C 61.910156 563.398438 72.242188 577.082031 90.132812 577.082031 C 101.703125 577.589844 112.128906 570.128906 115.382812 559.011719 L 103.285156 559.011719 C 101.105469 564.207031 96.027344 566.8125 89.621094 566.8125 C 82.597656 566.8125 75.34375 561.726562 74.507812 551.335938 L 115.925781 551.335938 C 116.96875 532.574219 106.164062 518.660156 89.234375 518.660156 Z M 74.554688 542.324219 C 74.785156 534.351562 81.394531 528.058594 89.367188 528.214844 C 97.15625 528.214844 103.476562 534.523438 103.476562 542.324219 Z M 137.617188 505.179688 L 125.289062 505.179688 L 125.289062 519.90625 L 117.015625 519.90625 L 117.015625 528.855469 L 125.289062 528.855469 L 125.289062 561.109375 C 125.289062 572.503906 127.6875 575.726562 139.59375 575.726562 L 148.710938 575.726562 L 148.710938 566.304688 L 144.253906 566.304688 C 138.976562 566.304688 137.617188 564.886719 137.617188 559.242188 L 137.617188 528.84375 L 148.90625 528.84375 L 148.90625 519.90625 L 137.617188 519.90625 Z M 168.5 519.90625 L 156.160156 519.90625 L 156.160156 575.738281 L 168.5 575.738281 Z M 168.5 500.527344 L 156.160156 500.527344 L 156.160156 512.964844 L 168.5 512.964844 Z M 204.507812 542.433594 L 196.636719 540.871094 C 192.007812 539.878906 189.175781 538 189.175781 534.246094 C 189.175781 530.492188 194.140625 528.117188 199.542969 528.117188 C 205.742188 528.117188 210.394531 530.089844 211.75 535.179688 L 223.015625 535.179688 C 220.726562 523.976562 210.792969 518.671875 199.929688 518.671875 C 187.941406 518.671875 177.355469 524.714844 177.355469 534.863281 C 177.355469 545.035156 184.863281 549.289062 194.285156 551.152344 L 202.765625 552.8125 C 208.238281 553.828125 212.378906 556.058594 212.378906 560.488281 C 212.378906 564.921875 207.5 567.746094 201.09375 567.746094 C 193.839844 567.746094 189.695312 564.355469 188.570312 558.710938 L 176.542969 558.710938 C 177.898438 569.292969 187.007812 577.082031 200.667969 577.082031 C 213.3125 577.082031 224.261719 559.023438 224.261719 559.023438 C 224.261719 548.078125 215.796875 544.613281 204.519531 542.433594 Z M 279.089844 542.226562 C 279.402344 524.398438 269.074219 518.269531 255.605469 518.269531 C 242.148438 518.269531 232.714844 526.035156 231.902344 537.46875 L 244.015625 537.46875 C 244.4375 530.722656 249.210938 527.390625 255.300781 527.390625 C 261.394531 527.390625 266.890625 530.296875 266.890625 539.828125 L 266.890625 540.871094 C 246.496094 542.964844 229.421875 546.464844 229.3125 560.367188 C 229.3125 570.542969 237.789062 577.082031 249.902344 577.082031 C 258.101562 577.082031 264.699219 574.175781 268.226562 568.167969 C 268.359375 570.710938 268.710938 573.230469 269.265625 575.726562 L 280.554688 575.726562 C 279.375 569.4375 278.820312 563.046875 278.894531 556.652344 C 278.894531 551.5625 279.089844 545.046875 279.089844 542.238281 Z M 267.207031 553.746094 C 267.207031 563.167969 261.816406 567.855469 252.699219 567.855469 C 246.507812 567.855469 242.476562 564.960938 242.464844 560.101562 C 242.464844 553.625 249.609375 551.140625 267.207031 549.480469 Z M 302.050781 500.527344 L 289.613281 500.527344 L 289.613281 575.738281 L 302.0625 575.738281 L 302.0625 500.527344 Z M 359.601562 542.226562 C 359.917969 524.398438 349.585938 518.269531 336.121094 518.269531 C 322.664062 518.269531 313.230469 526.035156 312.417969 537.46875 L 324.53125 537.46875 C 324.941406 530.722656 329.710938 527.390625 335.804688 527.390625 C 341.898438 527.390625 347.40625 530.296875 347.40625 539.828125 L 347.40625 540.871094 C 327 542.964844 309.933594 546.464844 309.933594 560.34375 C 309.933594 570.507812 318.425781 577.058594 330.523438 577.058594 C 338.746094 577.058594 345.347656 574.222656 348.738281 568.167969 C 348.886719 570.710938 349.222656 573.230469 349.78125 575.726562 L 361.070312 575.726562 C 359.886719 569.4375 359.328125 563.046875 359.398438 556.652344 C 359.398438 551.5625 359.589844 545.046875 359.589844 542.238281 Z M 347.722656 553.746094 C 347.722656 563.167969 342.332031 567.855469 333.214844 567.855469 C 327.023438 567.855469 322.992188 564.960938 322.96875 560.101562 C 322.992188 553.625 330.136719 551.140625 347.722656 549.480469 Z M 383.898438 505.179688 L 371.785156 505.179688 L 371.785156 519.90625 L 363.503906 519.90625 L 363.503906 528.855469 L 371.800781 528.855469 L 371.800781 561.109375 C 371.800781 572.503906 374.160156 575.726562 386.078125 575.726562 L 395.1875 575.726562 L 395.1875 566.304688 L 390.535156 566.304688 C 385.253906 566.304688 383.898438 564.886719 383.898438 559.242188 L 383.898438 528.84375 L 395.1875 528.84375 L 395.1875 519.90625 L 383.898438 519.90625 Z M 472.902344 542.226562 C 473.21875 524.398438 462.824219 518.269531 449.40625 518.269531 C 435.964844 518.269531 426.542969 526.035156 425.695312 537.46875 L 437.828125 537.46875 C 438.253906 530.722656 443.023438 527.390625 449.117188 527.390625 C 455.207031 527.390625 460.707031 530.296875 460.707031 539.828125 L 460.707031 540.871094 C 440.335938 542.964844 423.234375 546.464844 423.089844 560.367188 C 423.089844 570.542969 431.589844 577.082031 443.691406 577.082031 C 451.851562 577.082031 458.476562 574.175781 462.003906 568.167969 C 462.136719 570.710938 462.488281 573.230469 463.054688 575.726562 L 474.34375 575.726562 C 473.191406 569.433594 472.640625 563.046875 472.707031 556.652344 C 472.707031 551.5625 472.902344 545.046875 472.902344 542.238281 Z M 461.023438 553.746094 C 461.023438 563.167969 455.632812 567.855469 446.511719 567.855469 C 440.324219 567.855469 436.289062 564.960938 436.265625 560.101562 C 436.289062 553.625 443.4375 551.140625 461.023438 549.480469 Z M 512.664062 518.671875 C 505.796875 518.242188 499.28125 521.738281 495.839844 527.691406 L 495.839844 519.90625 L 483.535156 519.90625 L 483.535156 575.738281 L 495.839844 575.738281 L 495.839844 546.066406 C 495.839844 535.988281 499.367188 528.746094 508.800781 528.746094 C 518.222656 528.746094 519.359375 536.109375 519.359375 543.667969 L 519.359375 575.726562 L 531.59375 575.726562 L 531.59375 540.675781 C 531.59375 527.390625 526.132812 518.671875 512.664062 518.671875 Z M 579.832031 527.390625 C 576.300781 521.691406 569.960938 518.351562 563.261719 518.671875 C 550.109375 518.671875 539.054688 529.847656 539.054688 547.820312 C 539.054688 565.792969 550.109375 577.082031 563.277344 577.082031 C 569.96875 577.398438 576.304688 574.058594 579.832031 568.363281 L 579.832031 575.738281 L 592.136719 575.738281 L 592.136719 500.527344 L 579.832031 500.527344 Z M 565.976562 567.007812 C 557.753906 567.007812 551.855469 559.640625 551.855469 547.820312 C 551.855469 535.988281 557.910156 528.746094 565.976562 528.746094 C 574.042969 528.746094 580.363281 534.949219 580.363281 547.820312 C 580.363281 560.683594 574.1875 567.007812 565.976562 567.007812 Z M 565.976562 567.007812 "
+              />
+            </g>
+          </svg>
+        </div>
         {/* Page Header */}
         <div className="mb-12 flex items-center justify-between">
-          <h1 className="text-4xl font-light tracking-tight">
-            {view === "DASHBOARD" ? "COLLECTIONS" : (
+          <h1 className="text-4xl font-light tracking-tight text-white">
+            {view === "DASHBOARD" ? "CREDIT & COLLECTIONS" : (
               dept === "COLLECTIONS"
-                ? `COLLECTIONS - ${currentData[subView]?.title}`
-                : "COLLECTIONS"
+                ? `CREDIT & COLLECTIONS - ${currentData[subView]?.title}`
+                : "CREDIT & COLLECTIONS"
             )}
             {agentLevel > 0 && subView === 'costSavings' && ` - FOLLOW-UP`}
           </h1>
-          {view !== "DASHBOARD" && (
-            <div className="flex gap-4">
-              <button 
+          <div className="flex gap-4">
+            {view !== "DASHBOARD" && (
+              <button
                 onClick={() => {
                   if (agentLevel > 0) setAgentLevel(agentLevel - 1);
                   else reset();
                 }}
-                className="bg-black text-white rounded-lg py-3 px-6 flex items-center gap-3 hover:bg-gray-800 transition-colors shadow-lg"
+                className="bg-[#1a1a1a] border border-[#767679]/30 text-white rounded-lg py-3 px-6 flex items-center gap-3 hover:bg-[#C00000] hover:border-[#C00000] transition-colors shadow-lg"
               >
                 <ArrowLeft size={20} />
-                <span className="text-base font-medium uppercase">CLICK TO GO BACK</span>
+                <span className="text-base font-medium uppercase">BACK</span>
               </button>
-            </div>
-          )}
+            )}
+            <button
+              onClick={() => {
+                setScreen("OVERVIEW");
+                reset();
+              }}
+              className="bg-[#C00000] text-white rounded-lg py-3 px-6 flex items-center gap-3 hover:bg-[#a00000] transition-colors shadow-lg"
+            >
+              <ArrowLeft size={20} />
+              <span className="text-base font-medium uppercase">CONTROL TOWER</span>
+            </button>
+          </div>
         </div>
 
         {/* Dashboard View */}
@@ -1112,10 +1074,10 @@ export default function App() {
           <div className="flex flex-col lg:flex-row gap-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Sidebar Overview */}
             <div className="lg:w-[450px]">
-              <div className="bg-[#ebe4d8] rounded-2xl p-8 shadow-sm">
-                <CardHeader 
-                  title={currentData[subView].title} 
-                  description={currentData[subView].description} 
+              <div className="bg-[#1a1a1a] rounded-2xl p-8 shadow-sm border border-[#767679]/20">
+                <CardHeader
+                  title={currentData[subView].title}
+                  description={currentData[subView].description}
                 />
                 <div className="mt-6 mb-10">
                   <BarChart data={currentData[subView].chartData} height="h-24" />
@@ -1123,46 +1085,46 @@ export default function App() {
                 <div className="space-y-6">
                   {subView !== 'nonFinancial' ? (
                     <>
-                      <div className="flex justify-between items-center border-b border-gray-300 pb-3">
-                        <span className="text-sm uppercase tracking-widest text-gray-700 font-bold uppercase uppercase">ACTUAL VALUE</span>
-                        <span className="font-bold text-lg uppercase uppercase uppercase">{currentData[subView].actual}</span>
+                      <div className="flex justify-between items-center border-b border-[#767679]/30 pb-3">
+                        <span className="text-sm uppercase tracking-widest text-[#767679] font-bold">ACTUAL VALUE</span>
+                        <span className="font-bold text-lg text-white">{currentData[subView].actual}</span>
                       </div>
-                      <div className="flex justify-between items-center border-b border-gray-300 pb-3">
-                        <span className="text-sm uppercase tracking-widest text-gray-700 font-semibold uppercase uppercase">TARGET VALUE</span>
-                        <span className="font-bold text-lg uppercase uppercase uppercase">{currentData[subView].target}</span>
+                      <div className="flex justify-between items-center border-b border-[#767679]/30 pb-3">
+                        <span className="text-sm uppercase tracking-widest text-[#767679] font-semibold">TARGET VALUE</span>
+                        <span className="font-bold text-lg text-white">{currentData[subView].target}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-sm uppercase tracking-widest text-gray-700 font-semibold uppercase uppercase">VARIANCE</span>
+                        <span className="text-sm uppercase tracking-widest text-[#767679] font-semibold">VARIANCE</span>
                         <div className="flex items-center gap-3">
-                          {currentData[subView].varianceDir === 'down' ? 
-                            <TrendingDown className="text-red-300 fill-red-300" size={24} /> : 
+                          {currentData[subView].varianceDir === 'down' ?
+                            <TrendingDown className="text-[#C00000] fill-[#C00000]" size={24} /> :
                             currentData[subView].varianceDir === 'up' ?
-                            <TrendingUp className="text-green-300 fill-green-300" size={24} /> :
+                            <TrendingUp className="text-green-400 fill-green-400" size={24} /> :
                             null
                           }
-                          <span className="font-bold text-lg uppercase uppercase uppercase">{currentData[subView].variance}</span>
+                          <span className="font-bold text-lg text-white">{currentData[subView].variance}</span>
                         </div>
                       </div>
                     </>
                   ) : (
                     <>
                       <div className="flex justify-between items-center">
-                        <span className="text-xs font-bold uppercase tracking-wider text-gray-700 flex items-center gap-2 uppercase uppercase">
-                          KPIs ON TRACK <div className="w-5 h-5 bg-black" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#767679] flex items-center gap-2">
+                          KPIs ON TRACK <div className="w-5 h-5 bg-[#C00000]" />
                         </span>
-                        <span className="font-bold text-lg uppercase uppercase uppercase">{currentData[subView].onTrack}</span>
+                        <span className="font-bold text-lg text-white">{currentData[subView].onTrack}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-xs font-bold uppercase tracking-wider text-gray-700 flex items-center gap-2 uppercase uppercase">
-                          KPIs AT RISK <div className="w-4 h-4 bg-gray-500" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#767679] flex items-center gap-2">
+                          KPIs AT RISK <div className="w-4 h-4 bg-[#767679]" />
                         </span>
-                        <span className="font-bold text-lg uppercase uppercase uppercase">{currentData[subView].atRisk}</span>
+                        <span className="font-bold text-lg text-white">{currentData[subView].atRisk}</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-xs font-bold uppercase tracking-wider text-gray-700 flex items-center gap-2 uppercase uppercase">
-                          KPIS LAGGING <div className="w-5 h-5 bg-black/20" />
+                        <span className="text-xs font-bold uppercase tracking-wider text-[#767679] flex items-center gap-2">
+                          KPIS LAGGING <div className="w-5 h-5 bg-white/20" />
                         </span>
-                        <span className="font-bold text-lg uppercase uppercase uppercase">{currentData[subView].lagging}</span>
+                        <span className="font-bold text-lg text-white">{currentData[subView].lagging}</span>
                       </div>
                     </>
                   )}
@@ -1171,46 +1133,48 @@ export default function App() {
             </div>
 
             {/* Main Table */}
-            <div className="flex-grow bg-[#ebe4d8] rounded-2xl overflow-hidden shadow-sm">
-              <table className="w-full text-left">
-                <thead className="border-b border-black">
+            <div className="flex-grow bg-[#1a1a1a] rounded-2xl shadow-sm border border-[#767679]/20 overflow-x-auto">
+              <table className="w-full text-left min-w-[900px]">
+                <thead className="border-b border-[#767679]/30">
                   <tr className="bg-transparent">
-                    <th className="px-8 py-5 font-normal text-gray-600 w-16 uppercase font-bold uppercase">#</th>
-                    <th className="px-8 py-5 font-normal text-gray-600 text-lg uppercase tracking-tight font-bold uppercase">KPI</th>
-                    <th className="px-8 py-5 font-normal text-gray-600 text-lg uppercase tracking-tight font-bold uppercase">UNIT</th>
-                    <th className="px-8 py-5 font-normal text-gray-600 text-lg uppercase tracking-tight font-bold uppercase">ACTUAL VALUE</th>
-                    <th className="px-8 py-5 font-normal text-gray-600 text-lg uppercase tracking-tight font-bold uppercase">TARGET VALUE</th>
-                    <th className="px-8 py-5 font-normal text-gray-600 text-lg uppercase tracking-tight font-bold uppercase">VARIANCE</th>
-                    <th className="px-8 py-5 font-normal text-gray-600 text-lg uppercase tracking-tight font-bold uppercase">MTD</th>
-                    <th className="px-8 py-5"></th>
+                    <th className="px-4 py-4 text-[#767679] w-12 uppercase font-bold text-sm">#</th>
+                    <th className="px-4 py-4 text-[#767679] text-sm uppercase tracking-tight font-bold">KPI</th>
+                    <th className="px-4 py-4 text-[#767679] text-sm uppercase tracking-tight font-bold">UNIT</th>
+                    <th className="px-4 py-4 text-[#767679] text-sm uppercase tracking-tight font-bold whitespace-nowrap">ACTUAL VALUE</th>
+                    <th className="px-4 py-4 text-[#767679] text-sm uppercase tracking-tight font-bold whitespace-nowrap">TARGET VALUE</th>
+                    <th className="px-4 py-4 text-[#767679] text-sm uppercase tracking-tight font-bold">BASELINE</th>
+                    <th className="px-4 py-4 text-[#767679] text-sm uppercase tracking-tight font-bold">VARIANCE</th>
+                    <th className="px-4 py-4 text-[#767679] text-sm uppercase tracking-tight font-bold">MTD</th>
+                    <th className="px-4 py-4"></th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-300">
+                <tbody className="divide-y divide-[#767679]/20">
                   {currentData[subView].kpis.map((kpi, idx) => (
-                    <tr key={idx} className="hover:bg-black/5 transition-colors">
-                      <td className="px-8 py-8 text-base text-gray-500 uppercase">{idx + 1}</td>
-                      <td className="px-8 py-8 text-base font-medium uppercase uppercase uppercase">{kpi.name}</td>
-                      <td className="px-8 py-8 text-base text-gray-600 uppercase uppercase uppercase">{kpi.unit}</td>
-                      <td className="px-8 py-8 text-lg font-bold uppercase uppercase uppercase">{kpi.actual}</td>
-                      <td className="px-8 py-8 text-lg font-bold uppercase uppercase uppercase">{kpi.target}</td>
-                      <td className="px-8 py-8 text-lg uppercase uppercase uppercase">
+                    <tr key={idx} className="hover:bg-white/5 transition-colors">
+                      <td className="px-4 py-5 text-sm text-[#767679] uppercase">{idx + 1}</td>
+                      <td className="px-4 py-5 text-sm font-medium text-white uppercase">{kpi.name}</td>
+                      <td className="px-4 py-5 text-sm text-[#767679] uppercase">{kpi.unit}</td>
+                      <td className="px-4 py-5 text-base font-bold text-white uppercase">{kpi.actual}</td>
+                      <td className="px-4 py-5 text-base font-bold text-white uppercase">{kpi.target}</td>
+                      <td className="px-4 py-5 text-base font-bold text-white uppercase">{kpi.baseline || "—"}</td>
+                      <td className="px-4 py-5 text-base text-white uppercase">
                         <div className="flex items-center gap-2">
                           {kpi.variance}
-                          {kpi.varianceDir === 'down' ? 
-                            <TrendingDown className="text-red-300 fill-red-300" size={20} /> : 
+                          {kpi.varianceDir === 'down' ?
+                            <TrendingDown className="text-[#C00000] fill-[#C00000]" size={18} /> :
                             kpi.varianceDir === 'up' ?
-                            <TrendingUp className="text-green-300 fill-green-300" size={20} /> :
+                            <TrendingUp className="text-green-400 fill-green-400" size={18} /> :
                             null
                           }
                         </div>
                       </td>
-                      <td className="px-8 py-8">
-                        {kpi.sparkline ? <Sparkline data={kpi.sparkline} /> : <div className="h-8 w-12 bg-gray-200/30 rounded" />}
+                      <td className="px-4 py-5">
+                        {kpi.sparkline ? <Sparkline data={kpi.sparkline} /> : <div className="h-8 w-12 bg-[#767679]/20 rounded" />}
                       </td>
-                      <td className="px-8 py-8">
-                        <ExternalLink 
-                          size={20} 
-                          className="text-gray-400 cursor-pointer hover:text-black transition-colors" 
+                      <td className="px-4 py-5">
+                        <ExternalLink
+                          size={18}
+                          className="text-[#767679] cursor-pointer hover:text-white transition-colors"
                           onClick={() => {
                             if (dept === "COLLECTIONS" && subView === "costSavings" && kpi.name === "BAD DEBT %") {
                               setView("HIERARCHY");
@@ -1223,7 +1187,7 @@ export default function App() {
                   {/* Fill empty space */}
                   {[...Array(Math.max(0, 5 - currentData[subView].kpis.length))].map((_, i) => (
                     <tr key={`empty-${i}`} className="h-24 opacity-20">
-                      <td colSpan={8}></td>
+                      <td colSpan={9}></td>
                     </tr>
                   ))}
                 </tbody>
@@ -1247,14 +1211,14 @@ export default function App() {
                    >
                     <defs>
                       <marker id="arrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                        <path d="M0,0 L10,5 L0,10" fill="none" stroke="#ccc" strokeWidth="1.5" />
+                        <path d="M0,0 L10,5 L0,10" fill="none" stroke="#767679" strokeWidth="1.5" />
                       </marker>
                     </defs>
                     {points.map((p, i) => (
-                        <path 
+                        <path
                           key={i}
                           d={`M ${p.startX} ${p.startY} C ${p.startX} ${p.startY + 100}, ${p.endX} ${p.startY + 100}, ${p.endX} ${p.endY}`}
-                          stroke="#ccc"
+                          stroke="#767679"
                           strokeWidth="2.5"
                           fill="none"
                           markerEnd="url(#arrow)"
@@ -1266,9 +1230,9 @@ export default function App() {
                   <div className="flex justify-center mb-40 relative z-10">
                     <div 
                       ref={parentRef}
-                      className="bg-[#ebe4d8] border border-gray-200 rounded-2xl p-10 w-72 h-40 flex items-center justify-center shadow-lg text-center"
+                      className="bg-[#1a1a1a] border border-[#767679]/30 rounded-2xl p-10 w-72 h-40 flex items-center justify-center shadow-lg text-center"
                     >
-                      <h4 className="font-bold text-xl leading-tight uppercase tracking-tight uppercase uppercase">{AGENTS.root}</h4>
+                      <h4 className="font-bold text-xl leading-tight uppercase tracking-tight text-white">{AGENTS.root}</h4>
                     </div>
                   </div>
 
@@ -1279,26 +1243,26 @@ export default function App() {
                         <div 
                           ref={el => childRefs.current[idx] = el}
                           className={`
-                            bg-white rounded-2xl p-6 shadow-sm flex flex-col items-center text-center w-full h-[320px] border-t-4 transition-all
-                            ${child.disabled ? 'opacity-50 border-gray-200' : 'border-black hover:shadow-xl hover:-translate-y-2'}
+                            bg-[#1a1a1a] rounded-2xl p-6 shadow-sm flex flex-col items-center text-center w-full h-[320px] border-t-4 transition-all
+                            ${child.disabled ? 'opacity-50 border-[#767679]/30' : 'border-[#C00000] hover:shadow-xl hover:-translate-y-2'}
                           `}
                         >
-                          <h5 className="font-bold text-xs mb-4 leading-tight min-h-[50px] flex items-center justify-center uppercase tracking-tight uppercase uppercase">
+                          <h5 className="font-bold text-xs mb-4 leading-tight min-h-[50px] flex items-center justify-center uppercase tracking-tight text-white">
                             {child.name}
                           </h5>
-                          <p className="text-[11px] text-gray-500 flex-grow mb-6 leading-relaxed uppercase uppercase uppercase uppercase">
+                          <p className="text-[11px] text-[#767679] flex-grow mb-6 leading-relaxed uppercase">
                             {child.description}
                           </p>
                           {!child.disabled ? (
-                            <button 
+                            <button
                               onClick={() => setAgentLevel(1)}
-                              className="bg-black text-white text-[10px] uppercase font-bold tracking-widest py-3 px-4 rounded-xl flex items-center justify-between w-full mt-auto group uppercase uppercase"
+                              className="bg-[#C00000] text-white text-[10px] uppercase font-bold tracking-widest py-3 px-4 rounded-xl flex items-center justify-between w-full mt-auto group"
                             >
                               <span>CLICK FOR DETAILS</span>
                               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                             </button>
                           ) : (
-                            <button className="bg-gray-100 text-gray-400 text-[10px] uppercase font-bold tracking-widest py-3 px-4 rounded-xl flex items-center justify-between w-full mt-auto cursor-not-allowed uppercase uppercase">
+                            <button className="bg-[#767679]/20 text-[#767679] text-[10px] uppercase font-bold tracking-widest py-3 px-4 rounded-xl flex items-center justify-between w-full mt-auto cursor-not-allowed">
                               <span>IN DEVELOPMENT</span>
                               <ArrowRight size={14} />
                             </button>
@@ -1311,36 +1275,36 @@ export default function App() {
 
                 {/* Bad Debt Sidebar */}
                 <div className="w-1/4 mt-12 animate-in slide-in-from-right duration-500">
-                  <div className="bg-[#ebe4d8] rounded-2xl p-10 shadow-lg border border-gray-100">
-                    <CardHeader 
-                      title="BAD DEBT %" 
-                      description="PROPORTION OF BAD DEBT AS PERCENTAGE OF REVENUE" 
+                  <div className="bg-[#1a1a1a] rounded-2xl p-10 shadow-lg border border-[#767679]/20">
+                    <CardHeader
+                      title="BAD DEBT %"
+                      description="PROPORTION OF BAD DEBT AS PERCENTAGE OF REVENUE"
                     />
                     <div className="mt-8 mb-12">
                       <BarChart data={[4.2, 3.5, 3.0, 2.8, 2.0, 4.5, 4.2, 4.5, 4.3, 3.8, 2.5, 4.1]} height="h-28" />
                     </div>
                     <div className="space-y-2">
-                      <div className="flex justify-between items-center border-t border-gray-300 py-4">
-                        <span className="text-sm uppercase tracking-widest text-gray-700 font-semibold uppercase uppercase uppercase uppercase">ACTUAL VALUE</span>
-                        <span className="font-bold text-lg uppercase uppercase uppercase uppercase">1.4%</span>
+                      <div className="flex justify-between items-center border-t border-[#767679]/30 py-4">
+                        <span className="text-sm uppercase tracking-widest text-[#767679] font-semibold">ACTUAL VALUE</span>
+                        <span className="font-bold text-lg text-white">1.4%</span>
                       </div>
-                      <div className="flex justify-between items-center border-t border-gray-300 py-4">
-                        <span className="text-sm uppercase tracking-widest text-gray-700 font-semibold uppercase uppercase uppercase uppercase">TARGET VALUE</span>
-                        <span className="font-bold text-lg uppercase uppercase uppercase uppercase">0.7%</span>
+                      <div className="flex justify-between items-center border-t border-[#767679]/30 py-4">
+                        <span className="text-sm uppercase tracking-widest text-[#767679] font-semibold">TARGET VALUE</span>
+                        <span className="font-bold text-lg text-white">0.7%</span>
                       </div>
-                      <div className="flex justify-between items-center border-t border-gray-300 py-4">
-                        <span className="text-sm uppercase tracking-widest text-gray-700 font-semibold uppercase uppercase uppercase uppercase">VARIANCE</span>
+                      <div className="flex justify-between items-center border-t border-[#767679]/30 py-4">
+                        <span className="text-sm uppercase tracking-widest text-[#767679] font-semibold">VARIANCE</span>
                         <div className="flex items-center gap-3">
-                           <div className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[10px] border-t-red-300" />
-                           <span className="font-bold text-lg uppercase uppercase uppercase uppercase">0.7%</span>
+                           <div className="w-0 h-0 border-l-[8px] border-l-transparent border-r-[8px] border-r-transparent border-t-[10px] border-t-[#C00000]" />
+                           <span className="font-bold text-lg text-white">0.7%</span>
                         </div>
                       </div>
                     </div>
-                    <button 
+                    <button
                       onClick={() => setView("DETAILS")}
-                      className="mt-12 bg-black text-white rounded-xl py-4 px-6 flex items-center justify-between w-full hover:bg-gray-800 transition-colors shadow-md group uppercase uppercase"
+                      className="mt-12 bg-[#C00000] text-white rounded-xl py-4 px-6 flex items-center justify-between w-full hover:bg-[#a00000] transition-colors shadow-md group"
                     >
-                      <span className="text-xs font-bold uppercase tracking-widest uppercase uppercase uppercase">CLICK TO GO BACK</span>
+                      <span className="text-xs font-bold uppercase tracking-widest">CLICK TO GO BACK</span>
                       <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </button>
                   </div>
@@ -1359,14 +1323,14 @@ export default function App() {
                     >
                       <defs>
                         <marker id="subArrow" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
-                          <path d="M0,0 L10,5 L0,10" fill="none" stroke="#ccc" strokeWidth="1.5" />
+                          <path d="M0,0 L10,5 L0,10" fill="none" stroke="#767679" strokeWidth="1.5" />
                         </marker>
                       </defs>
                       {subPoints.map((p, i) => (
                         <path
                           key={i}
                           d={`M ${p.startX} ${p.startY} C ${p.startX} ${p.startY + 60}, ${p.endX} ${p.endY - 60}, ${p.endX} ${p.endY}`}
-                          stroke="#ccc"
+                          stroke="#767679"
                           strokeWidth="2.5"
                           fill="none"
                           markerEnd="url(#subArrow)"
@@ -1377,9 +1341,9 @@ export default function App() {
                     {/* Header Node */}
                     <div
                       ref={subParentRef}
-                      className="bg-[#ebe4d8] border border-gray-200 rounded-2xl p-8 w-80 h-32 flex items-center justify-center shadow-lg text-center relative z-10 mb-24"
+                      className="bg-[#1a1a1a] border border-[#767679]/30 rounded-2xl p-8 w-80 h-32 flex items-center justify-center shadow-lg text-center relative z-10 mb-24"
                     >
-                      <h4 className="font-bold text-xl uppercase tracking-tight">FOLLOW-UP SUPER AGENT</h4>
+                      <h4 className="font-bold text-xl uppercase tracking-tight text-white">FOLLOW-UP SUPER AGENT</h4>
                     </div>
                     {/* Row of Sub Agents */}
                     <div className="flex flex-row gap-5 w-full relative z-10">
@@ -1388,51 +1352,51 @@ export default function App() {
                           key={i}
                           ref={el => subChildRefs.current[i] = el}
                           className={`flex-1 rounded-3xl p-6 flex flex-col items-center text-center gap-4 min-h-[200px] justify-center hover:scale-[1.03] shadow-sm transition-all duration-700 ease-in-out ${
-                            activeSubAgent === i ? 'bg-green-500/40 shadow-md scale-[1.02]' : 'bg-[#ebe4d8]'
+                            activeSubAgent === i ? 'bg-green-500/30 shadow-md scale-[1.02]' : 'bg-[#1a1a1a] border border-[#767679]/20'
                           }`}
                         >
                           <div className="flex gap-3">
                             {sub.icons.map((icon, j) => (
-                              <div key={j} className="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
+                              <div key={j} className="w-12 h-12 rounded-full bg-[#2a2a2a] border border-[#767679]/30 flex items-center justify-center shadow-sm">
                                 {icon}
                               </div>
                             ))}
                           </div>
                           <div className="flex gap-3">
                             {sub.icons.map((_, j) => (
-                              <span key={j} className="text-[9px] uppercase font-bold text-gray-400 w-12 text-center">
+                              <span key={j} className="text-[9px] uppercase font-bold text-[#767679] w-12 text-center">
                                 {j === 0 ? "CODE" : j === 1 ? "AR LEDGER" : "DB"}
                               </span>
                             ))}
                           </div>
-                          <span className="text-xs font-bold uppercase tracking-widest leading-tight max-w-[160px]">{sub.name}</span>
+                          <span className="text-xs font-bold uppercase tracking-widest leading-tight max-w-[160px] text-white">{sub.name}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                   {/* Status Table below diagram */}
-                  <div className="w-full bg-[#ebe4d8] rounded-3xl overflow-hidden shadow-lg animate-in fade-in duration-500">
+                  <div className="w-full bg-[#1a1a1a] rounded-3xl overflow-hidden shadow-lg animate-in fade-in duration-500 border border-[#767679]/20">
                      <table className="w-full text-left">
-                      <thead className="border-b border-black">
+                      <thead className="border-b border-[#767679]/30">
                         <tr>
-                          <th className="px-6 py-6 text-xs font-bold text-gray-700 uppercase tracking-widest uppercase uppercase uppercase uppercase">#</th>
-                          <th className="px-6 py-6 text-xs font-bold text-gray-700 uppercase tracking-widest uppercase uppercase uppercase uppercase">CUSTOMER ID</th>
-                          <th className="px-6 py-6 text-xs font-bold text-gray-700 uppercase tracking-widest uppercase uppercase uppercase uppercase">TIME TAKEN</th>
-                          <th className="px-6 py-6 text-xs font-bold text-gray-700 uppercase tracking-widest uppercase uppercase uppercase uppercase">STATUS</th>
+                          <th className="px-6 py-6 text-xs font-bold text-[#767679] uppercase tracking-widest">#</th>
+                          <th className="px-6 py-6 text-xs font-bold text-[#767679] uppercase tracking-widest">CUSTOMER ID</th>
+                          <th className="px-6 py-6 text-xs font-bold text-[#767679] uppercase tracking-widest">TIME TAKEN</th>
+                          <th className="px-6 py-6 text-xs font-bold text-[#767679] uppercase tracking-widest">STATUS</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-300">
+                      <tbody className="divide-y divide-[#767679]/20">
                         {CUSTOMER_STATUS.map((item, idx) => (
-                          <tr key={idx} className="bg-transparent hover:bg-black/5 transition-colors">
-                            <td className="px-6 py-6 text-sm text-gray-500 uppercase uppercase uppercase">{idx+1}</td>
-                            <td className="px-6 py-6 text-sm font-mono font-bold tracking-tight uppercase uppercase uppercase uppercase uppercase">{item.id}</td>
-                            <td className="px-6 py-6 text-sm uppercase uppercase uppercase uppercase uppercase uppercase">{item.time || "--"}</td>
-                            <td className={`px-6 py-6 text-sm font-bold uppercase ${item.status === 'COMPLETE' ? 'text-green-600' : item.status === 'IN PROGRESS' ? 'text-gray-700' : item.status === 'BLOCKED' ? 'text-amber-600' : 'text-red-500'}`}>
+                          <tr key={idx} className="bg-transparent hover:bg-white/5 transition-colors">
+                            <td className="px-6 py-6 text-sm text-[#767679]">{idx+1}</td>
+                            <td className="px-6 py-6 text-sm font-mono font-bold tracking-tight text-white">{item.id}</td>
+                            <td className="px-6 py-6 text-sm text-white">{item.time || "--"}</td>
+                            <td className={`px-6 py-6 text-sm font-bold uppercase ${item.status === 'COMPLETE' ? 'text-green-400' : item.status === 'IN PROGRESS' ? 'text-[#767679]' : item.status === 'BLOCKED' ? 'text-amber-500' : 'text-[#C00000]'}`}>
                               <div className="flex items-center gap-3">
                                 {item.status === 'BLOCKED' ? (
-                                  <AlertTriangle size={16} className="text-amber-600" />
+                                  <AlertTriangle size={16} className="text-amber-500" />
                                 ) : (
-                                  <div className={`w-2 h-2 rounded-full ${item.status === 'COMPLETE' ? 'bg-green-600' : item.status === 'IN PROGRESS' ? 'bg-gray-400 animate-pulse' : 'bg-red-500'}`} />
+                                  <div className={`w-2 h-2 rounded-full ${item.status === 'COMPLETE' ? 'bg-green-400' : item.status === 'IN PROGRESS' ? 'bg-[#767679] animate-pulse' : 'bg-[#C00000]'}`} />
                                 )}
                                 {item.status}
                               </div>
