@@ -1,16 +1,21 @@
 import React, { useState, useMemo, useRef, useLayoutEffect, useEffect } from 'react';
-import { 
-  ChevronDown, 
-  ArrowRight, 
-  ArrowLeft, 
-  TrendingUp, 
-  TrendingDown, 
+import {
+  ChevronDown,
+  ChevronUp,
+  ArrowRight,
+  ArrowLeft,
+  TrendingUp,
+  TrendingDown,
   ExternalLink,
   Code,
   Database,
   Mail,
   Table,
-  AlertTriangle
+  AlertTriangle,
+  Info,
+  User,
+  Bot,
+  LayoutGrid
 } from 'lucide-react';
 
 // --- Mock Data ---
@@ -139,6 +144,554 @@ const CUSTOMER_STATUS = [
   { id: "B3GH9U", time: "", status: "PENDING" },
 ];
 
+// --- Overview Screen Data ---
+
+const DEPARTMENTS_OVERVIEW = [
+  {
+    title: "ENTERPRISE SALES",
+    aiCount: 19,
+    humanCount: 2,
+    agents: [
+      {
+        name: "SALES GOVERNANCE AGENT",
+        runs: 90, queue: 40, exceptions: 15,
+        metrics: [
+          { label: "Data Completeness Rate", value: "25%", trend: "up", color: "green" },
+          { label: "Funnel Hygiene Compliance", value: "60%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
+        name: "ACCOUNT MANAGEMENT AGENT",
+        runs: 120, queue: 20, exceptions: 18,
+        metrics: [
+          { label: "Churn Rate", value: "5%", trend: "down", color: "red" },
+          { label: "Upsell / Growth Rate", value: "9%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "PROSPECT & QUALIFICATION AGENT",
+        runs: 100, queue: 30, exceptions: 12,
+        metrics: [
+          { label: "Proposal Win Rate", value: "75%", trend: "up", color: "green" },
+          { label: "Decision Accuracy Rate", value: "95%", trend: "up", color: "green" }
+        ],
+        models: ["Claude 3.5"]
+      },
+      {
+        name: "DEAL & BID MANAGEMENT AGENT",
+        runs: 80, queue: 25, exceptions: 10,
+        metrics: [
+          { label: "FTE Effort across Lifecycle", value: "25 Hrs", trend: "down", color: "red" },
+          { label: "Deal Cycle Time", value: "75 Days", trend: "neutral" }
+        ],
+        models: ["Gemini 1.5 Pro", "GPT 4-o"]
+      }
+    ]
+  },
+  {
+    title: "SMB SALES",
+    aiCount: 17,
+    humanCount: 5,
+    agents: [
+      {
+        name: "ACQUISITION & ONBOARDING AGENT",
+        runs: 112, queue: 30, exceptions: 12,
+        metrics: [
+          { label: "Lead Conversion Rate", value: "9%", trend: "up", color: "green" },
+          { label: "No. of Leads", value: "74,521", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
+        name: "PRODUCT AND OFFER AGENT",
+        runs: 150, queue: 15, exceptions: 18,
+        metrics: [
+          { label: "Bespoke Turnaround Time", value: "5 Days", trend: "down", color: "red" },
+          { label: "B2B portal Rendering Time", value: "18 Hrs", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro", "GPT 4-o"]
+      },
+      {
+        name: "ORDER PROCESSING AGENT",
+        runs: 80, queue: 65, exceptions: 20,
+        metrics: [
+          { label: "Order Fallout Rate", value: "21%", trend: "down", color: "red" },
+          { label: "Order Automation Rate", value: "26%", trend: "up", color: "green" }
+        ],
+        models: ["Claude 3.5"]
+      },
+      {
+        name: "CUSTOMER MANAGEMENT AGENT",
+        runs: 112, queue: 90, exceptions: 12,
+        metrics: [
+          { label: "Churn Rate", value: "5%", trend: "down", color: "red" },
+          { label: "Upsell Rate", value: "8%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro", "GPT 4-o"]
+      },
+      {
+        name: "SALES PERFORMANCE AGENT",
+        runs: 212, queue: 86, exceptions: 12,
+        metrics: [
+          { label: "Reporting Cycle Time", value: "30 Hrs", trend: "down", color: "red" },
+          { label: "Pipeline Leakage Rate", value: "10%", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "COMMISSIONING & INCENTIVE AGENT",
+        runs: 150, queue: 80, exceptions: 9,
+        metrics: [
+          { label: "Comm. Cost as % of Rev.", value: "17%", trend: "up", color: "green" },
+          { label: "Comm. Processing Time", value: "36 Days", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      }
+    ]
+  },
+  {
+    title: "ENTERPRISE BO",
+    aiCount: 32,
+    humanCount: 9,
+    agents: [
+      {
+        name: "ORDER MANAGEMENT AGENT",
+        runs: 122, queue: 75, exceptions: 12,
+        metrics: [
+          { label: "Order Processing Time", value: "17 Hrs", trend: "down", color: "red" },
+          { label: "Manual Intervention Rate", value: "10%", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
+        name: "SERVICE MANAGEMENT AGENT",
+        runs: 100, queue: 68, exceptions: 20,
+        metrics: [
+          { label: "# of Cust. Escalations", value: "25 Hrs", trend: "down", color: "red" },
+          { label: "Complaint Resolution Time", value: "20 Hrs", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "SERVICE DELIVERY AGENT",
+        runs: 10, queue: 65, exceptions: 30,
+        metrics: [
+          { label: "# of SRs Returned", value: "10", trend: "down", color: "red" },
+          { label: "Manual Intervention Rate", value: "15%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro", "GPT 4-o"]
+      },
+      {
+        name: "QUALITY CHECK AGENT",
+        runs: 112, queue: 12, exceptions: 12,
+        metrics: [
+          { label: "Quality Check TAT", value: "5 Hrs", trend: "down", color: "red" },
+          { label: "Manual Intervention Rate", value: "4%", trend: "up", color: "green" }
+        ],
+        models: ["Claude 3.5", "GPT 4-o"]
+      },
+      {
+        name: "STORES & LOGISTICS AGENT",
+        runs: 212, queue: 28, exceptions: 12,
+        metrics: [
+          { label: "Device/ SIM Processing AHT", value: "15 Hrs", trend: "down", color: "red" },
+          { label: "Inventory Mgmt. AHT", value: "23 Hrs", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "TRAINING & DEVELOPMENT AGENT",
+        runs: 112, queue: 12, exceptions: 12,
+        metrics: [
+          { label: "Training Req. Identification Time", value: "50 Hrs", trend: "down", color: "red" },
+          { label: "Training Materials Curation Time", value: "15 Hrs", trend: "up", color: "green" }
+        ],
+        models: ["Claude 3.5"]
+      }
+    ]
+  },
+  {
+    title: "SMB BACK OFFICE",
+    aiCount: 19,
+    humanCount: 4,
+    agents: [
+      {
+        name: "PROFILING AGENT",
+        runs: 112, queue: 12, exceptions: 12,
+        metrics: [
+          { label: "Mean time to process", value: "20 Hrs", trend: "up", color: "green" },
+          { label: "Manual Intervention Rate", value: "10%", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
+        name: "VERIFIER AGENT",
+        runs: 90, queue: 28, exceptions: 9,
+        metrics: [
+          { label: "Verification TAT", value: "25 Min", trend: "up", color: "green" },
+          { label: "Manual Intervention Rate", value: "5%", trend: "up", color: "green" }
+        ],
+        models: ["GPT 4-o"]
+      },
+      {
+        name: "PROCESSING AGENT",
+        runs: 112, queue: 43, exceptions: 12,
+        metrics: [
+          { label: "Order Processing Time", value: "25 Min", trend: "up", color: "green" },
+          { label: "Manual Intervention Rate", value: "15%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      }
+    ]
+  },
+  {
+    title: "BUSINESS CARE",
+    aiCount: 41,
+    humanCount: 4,
+    agents: [
+      {
+        name: "INBOUND AUTONOMOUS AGENT",
+        runs: 89, queue: 65, exceptions: 6,
+        metrics: [
+          { label: "Service Levels", value: "99%", trend: "up", color: "green" },
+          { label: "% Autonomous FCR", value: "71%", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro", "GPT 4-o"]
+      },
+      {
+        name: "CUST. HANDLING COMPANION AGENT",
+        runs: 103, queue: 37, exceptions: 12,
+        metrics: [
+          { label: "AHT", value: "198s", trend: "down", color: "red" },
+          { label: "MTTR", value: "0.9 days", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "PROACTIVE PREV. & REV PROT. AGENT",
+        runs: 35, queue: 45, exceptions: 18,
+        metrics: [
+          { label: "% Bills Validated with NO Discrepancies", value: "99%", trend: "up", color: "green" },
+          { label: "# of Billing Disputes", value: "155", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro", "GPT 4-o"]
+      },
+      {
+        name: "BC BACK-OFFICE SUPPORT AGENT",
+        runs: 56, queue: 72, exceptions: 11,
+        metrics: [
+          { label: "# of Threats / Escalations Managed", value: "173", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "CARE EXCELLENCE AGENT",
+        runs: 35, queue: 55, exceptions: 4,
+        metrics: [
+          { label: "Agent Quality Score", value: "99%", trend: "up", color: "green" },
+          { label: "SOP Adherence Rate", value: "100%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      }
+    ]
+  },
+  {
+    title: "CREDIT & COLLECTIONS",
+    aiCount: 43,
+    humanCount: 7,
+    agents: [
+      {
+        name: "CREDIT PROFILING AGENT",
+        runs: 250, queue: 25, exceptions: 32,
+        metrics: [
+          { label: "% Accuracy - Credit Limit Exposure", value: "99%", trend: "neutral" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
+        name: "FOLLOW-UP AGENT",
+        runs: 420, queue: 45, exceptions: 56,
+        metrics: [
+          { label: "Bad Debt %", value: "0.9%", trend: "down", color: "red" },
+          { label: "CPI", value: "98%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "MONITORING AGENT",
+        runs: 350, queue: 25, exceptions: 45,
+        metrics: [
+          { label: "Purchase / Usage Behaviour Anomalies", value: "27K", trend: "up", color: "green" },
+          { label: "Outbound Cases (DCA)", value: "11K", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "DUNNING AGENT",
+        runs: 280, queue: 54, exceptions: 21,
+        metrics: [
+          { label: "Dunning Cycle Adherence", value: "97%", trend: "down", color: "red" },
+          { label: "TDRA Compliance", value: "99%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro", "GPT 4-o"]
+      },
+      {
+        name: "LEGAL CASE MGMT. AGENT",
+        runs: 85, queue: 38, exceptions: 25,
+        metrics: [
+          { label: "Legal Cases Escalated", value: "65", trend: "neutral" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
+        name: "WOFF & WBACK AGENT",
+        runs: 100, queue: 46, exceptions: 12,
+        metrics: [
+          { label: "Amount Written-Off", value: "AED 10M", trend: "down", color: "red" },
+          { label: "Amount Written-Back", value: "AED 3M", trend: "up", color: "green" }
+        ],
+        models: ["Claude 3.5"]
+      },
+      {
+        name: "C&C GOVERNANCE AGENT",
+        runs: 280, queue: 25, exceptions: 42,
+        metrics: [
+          { label: "Access Mgmt. Effort", value: "3 Hrs", trend: "down", color: "red" },
+          { label: "Vendor Payment Effort", value: "1 Hr", trend: "down", color: "red" }
+        ],
+        models: ["Claude 3.5"]
+      }
+    ]
+  },
+  {
+    title: "CONTROL TOWER",
+    aiCount: 29,
+    humanCount: 3,
+    agents: [
+      {
+        name: "POLICY ASSURANCE AGENT",
+        runs: 132, queue: 53, exceptions: 12,
+        metrics: [
+          { label: "Policy Understanding AHT Violations", value: "25 Hrs", trend: "down", color: "red" },
+          { label: "Regularization AHT", value: "20 Hrs", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
+        name: "PERFORMANCE MONITORING AGENT",
+        runs: 112, queue: 27, exceptions: 12,
+        metrics: [
+          { label: "Query Creation Time", value: "15 Min", trend: "down", color: "red" },
+          { label: "Dashboard Creation Time", value: "5 Hrs", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
+        name: "SUSPICION HANDLER",
+        runs: 150, queue: 52, exceptions: 12,
+        metrics: [
+          { label: "ML Model Design Time", value: "5 Hrs", trend: "down", color: "red" },
+          { label: "Suspicious Handling AHT", value: "9 Hrs", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "ACCESS MANAGER AGENT",
+        runs: 112, queue: 65, exceptions: 12,
+        metrics: [
+          { label: "Access Log Monitoring Coverage", value: "70%", trend: "up", color: "green" },
+          { label: "Access Compliance Rate", value: "80%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "FRAUD RISK MANAGER AGENT",
+        runs: 212, queue: 25, exceptions: 12,
+        metrics: [
+          { label: "Policy Gap Identification Accuracy", value: "90%", trend: "up", color: "green" },
+          { label: "Policy Update Cycle Time", value: "23 Hrs", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "ENTERPRISE CONTROL TOWER AGENT",
+        runs: 112, queue: 16, exceptions: 12,
+        metrics: [
+          { label: "Audit Activities AHT", value: "50 Hrs", trend: "down", color: "red" },
+          { label: "Reporting Activities AHT", value: "15 Hrs", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "SMB CONTROL TOWER AGENT",
+        runs: 200, queue: 50, exceptions: 20,
+        metrics: [
+          { label: "Report Creation Time", value: "14 Hrs", trend: "down", color: "red" },
+          { label: "Audit/ Log Monitoring AHT", value: "3 Hrs", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      }
+    ]
+  },
+  {
+    title: "STRATEGY FINANCE",
+    aiCount: 25,
+    humanCount: 5,
+    agents: [
+      {
+        name: "FINANCIAL PLANNING AGENT",
+        runs: 130, queue: 50, exceptions: 10,
+        metrics: [
+          { label: "Market Research Duration", value: "20 Days", trend: "down", color: "red" },
+          { label: "Market Research Spend", value: "10Mn", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "INCENTIVE AGENT",
+        runs: 150, queue: 38, exceptions: 12,
+        metrics: [
+          { label: "Sales Underperformance", value: "66%", trend: "down", color: "red" },
+          { label: "Clawback Recovery %", value: "10%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
+        name: "COMMERCIAL STRUCTURING AGENT",
+        runs: 90, queue: 72, exceptions: 10,
+        metrics: [
+          { label: "Doc. Leakage Reduction", value: "6.5%", trend: "down", color: "red" },
+          { label: "Knowledge Reuse Ratio", value: "26%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "FINANCIAL PERFORMANCE AGENT",
+        runs: 200, queue: 16, exceptions: 18,
+        metrics: [
+          { label: "Month-end Close Duration", value: "10 Days", trend: "down", color: "red" },
+          { label: "Variance Analysis SLA", value: "5 Days", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      }
+    ]
+  }
+];
+
+const AgentCard = ({ agent, index }) => {
+  return (
+    <div
+      className="bg-[#ede4d8] border border-gray-300 rounded p-2 mb-2 shadow-sm text-[10px] cursor-pointer
+        transition-all duration-300 ease-out
+        hover:shadow-lg hover:-translate-y-1 hover:border-gray-400 hover:bg-[#e8ddd0]
+        group/card"
+      style={{ animationDelay: `${index * 60}ms` }}
+    >
+      <div className="flex justify-between items-start mb-1">
+        <h4 className="font-bold text-gray-800 leading-tight pr-4 group-hover/card:text-black transition-colors duration-200">{agent.name}</h4>
+        <Info size={12} className="text-gray-400 flex-shrink-0 group-hover/card:text-gray-600 transition-colors duration-200" />
+      </div>
+
+      <div className="grid grid-cols-3 gap-1 mb-2 text-gray-500 uppercase font-semibold text-[8px]">
+        <div className="group-hover/card:bg-white/40 rounded px-1 py-0.5 transition-colors duration-200">
+          <div className="text-[7px]">RUNS</div>
+          <div className="text-gray-800 text-[10px] font-bold">{agent.runs}</div>
+        </div>
+        <div className="group-hover/card:bg-white/40 rounded px-1 py-0.5 transition-colors duration-200">
+          <div className="text-[7px]">QUEUE</div>
+          <div className="text-gray-800 text-[10px] font-bold">{agent.queue}</div>
+        </div>
+        <div className="group-hover/card:bg-white/40 rounded px-1 py-0.5 transition-colors duration-200">
+          <div className="text-[7px]">EXCEPTION COUNT</div>
+          <div className="text-gray-800 text-[10px] font-bold">{agent.exceptions}</div>
+        </div>
+      </div>
+
+      <div className="space-y-1 mb-2">
+        {agent.metrics.map((m, i) => (
+          <div key={i} className="flex justify-between items-center hover:bg-white/30 rounded px-1 py-0.5 transition-all duration-200">
+            <span className="text-gray-600 truncate mr-2">{m.label}</span>
+            <div className="flex items-center">
+              <span className="font-bold text-gray-800">{m.value}</span>
+              {m.trend === 'up' && <ChevronUp size={10} className="text-green-600 ml-0.5 group-hover/card:animate-bounce" />}
+              {m.trend === 'down' && <ChevronDown size={10} className="text-red-500 ml-0.5 group-hover/card:animate-bounce" />}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-1 mt-1 pt-1 border-t border-gray-200 group-hover/card:border-gray-300 transition-colors duration-200">
+        {agent.models.map((model, i) => (
+          <span key={i} className={`px-1.5 py-0.5 rounded text-[7px] font-bold transition-all duration-200 ${
+            model.includes('Gemini') ? 'text-pink-600 group-hover/card:bg-pink-50' :
+            model.includes('Claude') ? 'text-red-600 group-hover/card:bg-red-50' :
+            'text-blue-600 group-hover/card:bg-blue-50'
+          }`}>
+            {model}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const DepartmentColumn = ({ dept, index, onNavigate }) => {
+  const isClickable = dept.title === "CREDIT & COLLECTIONS";
+  return (
+    <div
+      className="flex-1 min-w-[180px] px-1 opacity-0 animate-[fadeSlideUp_0.5s_ease-out_forwards]"
+      style={{ animationDelay: `${index * 100}ms` }}
+    >
+      <div className="flex gap-1 mb-3">
+        <div className="flex-1 bg-[#dcd0bf] border border-gray-300 rounded p-2 shadow-sm
+          transition-all duration-300 hover:shadow-md hover:bg-[#d4c8b5] hover:border-gray-400 cursor-pointer group/dept">
+          <h3 className="text-center font-black text-gray-800 text-[11px] mb-1 group-hover/dept:text-black transition-colors duration-200">{dept.title}</h3>
+          <div className="flex justify-center gap-4">
+            <div className="flex items-center gap-1 group-hover/dept:scale-105 transition-transform duration-200">
+              <Bot size={14} className="text-gray-700 group-hover/dept:text-black transition-colors duration-200" />
+              <div className="flex flex-col leading-none">
+                <span className="text-[14px] font-black">{dept.aiCount}</span>
+                <span className="text-[7px] text-gray-500 uppercase font-bold">AI Agents</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1 group-hover/dept:scale-105 transition-transform duration-200">
+              <User size={14} className="text-gray-700 group-hover/dept:text-black transition-colors duration-200" />
+              <div className="flex flex-col leading-none">
+                <span className="text-[14px] font-black">{dept.humanCount}</span>
+                <span className="text-[7px] text-gray-500 uppercase font-bold">Humans</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="relative group/icon">
+          <div
+            onClick={isClickable ? onNavigate : undefined}
+            className={`w-10 h-full bg-[#dcd0bf] border border-gray-300 rounded shadow-sm flex items-center justify-center
+              transition-all duration-300 hover:shadow-md hover:border-gray-400
+              ${isClickable ? 'cursor-pointer hover:bg-[#c4b8a5]' : 'cursor-default hover:bg-[#d4c8b5]'}`}
+          >
+            <LayoutGrid size={14} className="text-gray-600 group-hover/icon:text-black transition-colors duration-200" />
+          </div>
+          {isClickable && (
+            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-[8px] font-bold rounded whitespace-nowrap
+              opacity-0 group-hover/icon:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+              Click here to see impact
+              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-black" />
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="space-y-1">
+        {dept.agents.map((agent, i) => (
+          <AgentCard key={i} agent={agent} index={i} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // --- Components ---
 
 const Sparkline = ({ data }) => {
@@ -259,6 +812,8 @@ const SummaryCard = ({ data, onClick, type }) => {
 };
 
 export default function App() {
+  const [screen, setScreen] = useState("OVERVIEW");
+  const [overviewTimeframe, setOverviewTimeframe] = useState("MONTHLY");
   const [dept, setDept] = useState("COLLECTIONS");
   const [view, setView] = useState("DASHBOARD");
   const [subView, setSubView] = useState(null);
@@ -366,6 +921,69 @@ export default function App() {
       return () => clearInterval(interval);
     }
   }, [view, agentLevel]);
+
+  if (screen === "OVERVIEW") {
+    return (
+      <div className="min-h-screen bg-[#f3efe8] p-4 font-sans text-gray-800 overflow-x-auto">
+        <style>{`
+          @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+        `}</style>
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6 px-2">
+          <div className="flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="220px"
+              height="60px"
+              viewBox="0 0 654 654"
+              className="h-10 w-auto"
+            >
+              <g id="surface1">
+                <path
+                  style={{
+                    stroke: 'none',
+                    fillRule: 'nonzero',
+                    fill: 'rgb(94.901961%, 1.960784%, 9.803922%)',
+                    fillOpacity: 1
+                  }}
+                  d="M 191.621094 441.765625 C 229.566406 441.765625 258.28125 428.007812 278.144531 408.582031 C 298.394531 429.167969 328.757812 441.824219 365.914062 441.824219 C 411.730469 441.824219 448.933594 423.683594 477.554688 395.535156 L 514.296875 435.601562 L 591.980469 435.601562 L 512.3125 349.40625 C 530.53125 317.082031 541.90625 281.359375 545.726562 244.449219 L 488.476562 244.449219 C 487.21875 266.453125 482.714844 288.148438 475.117188 308.832031 C 468.355469 327.605469 458.34375 345.046875 445.542969 360.355469 C 426.941406 381.816406 403.105469 395.65625 375.890625 395.65625 C 343.773438 395.65625 321.730469 381.898438 313.363281 358.886719 L 252.152344 358.886719 C 242.136719 382.746094 218.773438 394.675781 189.199219 394.675781 C 156.742188 394.675781 123.339844 371.300781 119.546875 323.585938 L 311.011719 323.585938 C 315.90625 300.113281 334.484375 282.503906 364.507812 271.144531 C 364.507812 271.144531 392.277344 260.898438 419.855469 249.113281 C 458.019531 231.480469 486.636719 199.992188 486.636719 159.890625 C 486.636719 103.125 437.984375 83.589844 394.09375 83.589844 C 338.746094 83.589844 297.777344 112.683594 297.777344 158.96875 C 297.777344 186.148438 312.585938 211.90625 334.519531 237.667969 C 322.964844 241.738281 311.890625 247.0625 301.492188 253.546875 C 283.824219 204.8125 243.15625 173.226562 187.832031 173.226562 C 114.824219 173.226562 61.875 228.089844 61.875 305.308594 C 61.875 382.53125 109.109375 441.753906 191.632812 441.753906 L 191.621094 441.753906 Z M 394.496094 126.695312 L 394.496094 126.5 C 415.472656 126.5 432.644531 138.417969 432.644531 161.804688 C 432.644531 183.265625 419.769531 204.265625 390.667969 217.152344 L 390.207031 216.65625 C 373.011719 198.511719 356.792969 177.550781 356.792969 157.515625 C 356.792969 137.484375 374.4375 126.695312 394.496094 126.695312 Z M 187.757812 217.671875 L 187.757812 217.5625 C 221.148438 217.5625 251.707031 241.917969 253.132812 281.996094 L 119.535156 281.996094 C 124.296875 233.441406 161.042969 217.671875 187.757812 217.671875 Z M 89.222656 518.671875 C 73.394531 518.671875 61.910156 530.492188 61.910156 547.421875 C 61.910156 563.398438 72.242188 577.082031 90.132812 577.082031 C 101.703125 577.589844 112.128906 570.128906 115.382812 559.011719 L 103.285156 559.011719 C 101.105469 564.207031 96.027344 566.8125 89.621094 566.8125 C 82.597656 566.8125 75.34375 561.726562 74.507812 551.335938 L 115.925781 551.335938 C 116.96875 532.574219 106.164062 518.660156 89.234375 518.660156 Z M 74.554688 542.324219 C 74.785156 534.351562 81.394531 528.058594 89.367188 528.214844 C 97.15625 528.214844 103.476562 534.523438 103.476562 542.324219 Z M 137.617188 505.179688 L 125.289062 505.179688 L 125.289062 519.90625 L 117.015625 519.90625 L 117.015625 528.855469 L 125.289062 528.855469 L 125.289062 561.109375 C 125.289062 572.503906 127.6875 575.726562 139.59375 575.726562 L 148.710938 575.726562 L 148.710938 566.304688 L 144.253906 566.304688 C 138.976562 566.304688 137.617188 564.886719 137.617188 559.242188 L 137.617188 528.84375 L 148.90625 528.84375 L 148.90625 519.90625 L 137.617188 519.90625 Z M 168.5 519.90625 L 156.160156 519.90625 L 156.160156 575.738281 L 168.5 575.738281 Z M 168.5 500.527344 L 156.160156 500.527344 L 156.160156 512.964844 L 168.5 512.964844 Z M 204.507812 542.433594 L 196.636719 540.871094 C 192.007812 539.878906 189.175781 538 189.175781 534.246094 C 189.175781 530.492188 194.140625 528.117188 199.542969 528.117188 C 205.742188 528.117188 210.394531 530.089844 211.75 535.179688 L 223.015625 535.179688 C 220.726562 523.976562 210.792969 518.671875 199.929688 518.671875 C 187.941406 518.671875 177.355469 524.714844 177.355469 534.863281 C 177.355469 545.035156 184.863281 549.289062 194.285156 551.152344 L 202.765625 552.8125 C 208.238281 553.828125 212.378906 556.058594 212.378906 560.488281 C 212.378906 564.921875 207.5 567.746094 201.09375 567.746094 C 193.839844 567.746094 189.695312 564.355469 188.570312 558.710938 L 176.542969 558.710938 C 177.898438 569.292969 187.007812 577.082031 200.667969 577.082031 C 213.3125 577.082031 224.261719 559.023438 224.261719 559.023438 C 224.261719 548.078125 215.796875 544.613281 204.519531 542.433594 Z M 279.089844 542.226562 C 279.402344 524.398438 269.074219 518.269531 255.605469 518.269531 C 242.148438 518.269531 232.714844 526.035156 231.902344 537.46875 L 244.015625 537.46875 C 244.4375 530.722656 249.210938 527.390625 255.300781 527.390625 C 261.394531 527.390625 266.890625 530.296875 266.890625 539.828125 L 266.890625 540.871094 C 246.496094 542.964844 229.421875 546.464844 229.3125 560.367188 C 229.3125 570.542969 237.789062 577.082031 249.902344 577.082031 C 258.101562 577.082031 264.699219 574.175781 268.226562 568.167969 C 268.359375 570.710938 268.710938 573.230469 269.265625 575.726562 L 280.554688 575.726562 C 279.375 569.4375 278.820312 563.046875 278.894531 556.652344 C 278.894531 551.5625 279.089844 545.046875 279.089844 542.238281 Z M 267.207031 553.746094 C 267.207031 563.167969 261.816406 567.855469 252.699219 567.855469 C 246.507812 567.855469 242.476562 564.960938 242.464844 560.101562 C 242.464844 553.625 249.609375 551.140625 267.207031 549.480469 Z M 302.050781 500.527344 L 289.613281 500.527344 L 289.613281 575.738281 L 302.0625 575.738281 L 302.0625 500.527344 Z M 359.601562 542.226562 C 359.917969 524.398438 349.585938 518.269531 336.121094 518.269531 C 322.664062 518.269531 313.230469 526.035156 312.417969 537.46875 L 324.53125 537.46875 C 324.941406 530.722656 329.710938 527.390625 335.804688 527.390625 C 341.898438 527.390625 347.40625 530.296875 347.40625 539.828125 L 347.40625 540.871094 C 327 542.964844 309.933594 546.464844 309.933594 560.34375 C 309.933594 570.507812 318.425781 577.058594 330.523438 577.058594 C 338.746094 577.058594 345.347656 574.222656 348.738281 568.167969 C 348.886719 570.710938 349.222656 573.230469 349.78125 575.726562 L 361.070312 575.726562 C 359.886719 569.4375 359.328125 563.046875 359.398438 556.652344 C 359.398438 551.5625 359.589844 545.046875 359.589844 542.238281 Z M 347.722656 553.746094 C 347.722656 563.167969 342.332031 567.855469 333.214844 567.855469 C 327.023438 567.855469 322.992188 564.960938 322.96875 560.101562 C 322.992188 553.625 330.136719 551.140625 347.722656 549.480469 Z M 383.898438 505.179688 L 371.785156 505.179688 L 371.785156 519.90625 L 363.503906 519.90625 L 363.503906 528.855469 L 371.800781 528.855469 L 371.800781 561.109375 C 371.800781 572.503906 374.160156 575.726562 386.078125 575.726562 L 395.1875 575.726562 L 395.1875 566.304688 L 390.535156 566.304688 C 385.253906 566.304688 383.898438 564.886719 383.898438 559.242188 L 383.898438 528.84375 L 395.1875 528.84375 L 395.1875 519.90625 L 383.898438 519.90625 Z M 472.902344 542.226562 C 473.21875 524.398438 462.824219 518.269531 449.40625 518.269531 C 435.964844 518.269531 426.542969 526.035156 425.695312 537.46875 L 437.828125 537.46875 C 438.253906 530.722656 443.023438 527.390625 449.117188 527.390625 C 455.207031 527.390625 460.707031 530.296875 460.707031 539.828125 L 460.707031 540.871094 C 440.335938 542.964844 423.234375 546.464844 423.089844 560.367188 C 423.089844 570.542969 431.589844 577.082031 443.691406 577.082031 C 451.851562 577.082031 458.476562 574.175781 462.003906 568.167969 C 462.136719 570.710938 462.488281 573.230469 463.054688 575.726562 L 474.34375 575.726562 C 473.191406 569.433594 472.640625 563.046875 472.707031 556.652344 C 472.707031 551.5625 472.902344 545.046875 472.902344 542.238281 Z M 461.023438 553.746094 C 461.023438 563.167969 455.632812 567.855469 446.511719 567.855469 C 440.324219 567.855469 436.289062 564.960938 436.265625 560.101562 C 436.289062 553.625 443.4375 551.140625 461.023438 549.480469 Z M 512.664062 518.671875 C 505.796875 518.242188 499.28125 521.738281 495.839844 527.691406 L 495.839844 519.90625 L 483.535156 519.90625 L 483.535156 575.738281 L 495.839844 575.738281 L 495.839844 546.066406 C 495.839844 535.988281 499.367188 528.746094 508.800781 528.746094 C 518.222656 528.746094 519.359375 536.109375 519.359375 543.667969 L 519.359375 575.726562 L 531.59375 575.726562 L 531.59375 540.675781 C 531.59375 527.390625 526.132812 518.671875 512.664062 518.671875 Z M 579.832031 527.390625 C 576.300781 521.691406 569.960938 518.351562 563.261719 518.671875 C 550.109375 518.671875 539.054688 529.847656 539.054688 547.820312 C 539.054688 565.792969 550.109375 577.082031 563.277344 577.082031 C 569.96875 577.398438 576.304688 574.058594 579.832031 568.363281 L 579.832031 575.738281 L 592.136719 575.738281 L 592.136719 500.527344 L 579.832031 500.527344 Z M 565.976562 567.007812 C 557.753906 567.007812 551.855469 559.640625 551.855469 547.820312 C 551.855469 535.988281 557.910156 528.746094 565.976562 528.746094 C 574.042969 528.746094 580.363281 534.949219 580.363281 547.820312 C 580.363281 560.683594 574.1875 567.007812 565.976562 567.007812 Z M 565.976562 567.007812 "
+                />
+              </g>
+            </svg>
+          </div>
+          <div className="flex gap-8">
+            {['MONTHLY', 'WEEKLY', 'DAILY'].map((v) => (
+              <button
+                key={v}
+                onClick={() => setOverviewTimeframe(v)}
+                className={`text-[11px] font-bold tracking-widest transition-all duration-200 hover:text-gray-700 ${
+                  overviewTimeframe === v ? 'text-gray-900 border-b-2 border-gray-900' : 'text-gray-400'
+                }`}
+              >
+                {v}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Main Grid */}
+        <div className="flex gap-2 min-w-[1500px]">
+          {DEPARTMENTS_OVERVIEW.map((dept, i) => (
+            <DepartmentColumn key={i} dept={dept} index={i} onNavigate={() => {
+              setDept("COLLECTIONS");
+              setView("DASHBOARD");
+              setSubView(null);
+              setAgentLevel(0);
+              setScreen("APP");
+            }} />
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#f2ece4] text-[#1a1a1a] font-sans overflow-x-hidden flex flex-col">
