@@ -153,15 +153,6 @@ const DEPARTMENTS_OVERVIEW = [
     humanCount: 2,
     agents: [
       {
-        name: "SALES GOVERNANCE AGENT",
-        runs: 90, queue: 40, exceptions: 15,
-        metrics: [
-          { label: "Data Completeness Rate", value: "25%", trend: "up", color: "green" },
-          { label: "Funnel Hygiene Compliance", value: "60%", trend: "up", color: "green" }
-        ],
-        models: ["Gemini 1.5 Pro", "Claude 3.5"]
-      },
-      {
         name: "ACCOUNT MANAGEMENT AGENT",
         runs: 120, queue: 20, exceptions: 18,
         metrics: [
@@ -180,6 +171,15 @@ const DEPARTMENTS_OVERVIEW = [
         models: ["Claude 3.5"]
       },
       {
+        name: "SALES GOVERNANCE AGENT",
+        runs: 90, queue: 40, exceptions: 15,
+        metrics: [
+          { label: "Data Completeness Rate", value: "25%", trend: "up", color: "green" },
+          { label: "Funnel Hygiene Compliance", value: "60%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
+      },
+      {
         name: "DEAL & BID MANAGEMENT AGENT",
         runs: 80, queue: 25, exceptions: 10,
         metrics: [
@@ -196,6 +196,15 @@ const DEPARTMENTS_OVERVIEW = [
     humanCount: 5,
     agents: [
       {
+        name: "CUSTOMER MANAGEMENT AGENT",
+        runs: 112, queue: 90, exceptions: 12,
+        metrics: [
+          { label: "Churn Rate", value: "5%", trend: "down", color: "red" },
+          { label: "Upsell Rate", value: "8%", trend: "up", color: "green" }
+        ],
+        models: ["Gemini 1.5 Pro", "GPT 4-o"]
+      },
+      {
         name: "ACQUISITION & ONBOARDING AGENT",
         runs: 112, queue: 30, exceptions: 12,
         metrics: [
@@ -203,15 +212,6 @@ const DEPARTMENTS_OVERVIEW = [
           { label: "No. of Leads", value: "74,521", trend: "up", color: "green" }
         ],
         models: ["Gemini 1.5 Pro", "Claude 3.5"]
-      },
-      {
-        name: "PRODUCT AND OFFER AGENT",
-        runs: 150, queue: 15, exceptions: 18,
-        metrics: [
-          { label: "Bespoke Turnaround Time", value: "5 Days", trend: "down", color: "red" },
-          { label: "B2B portal Rendering Time", value: "18 Hrs", trend: "down", color: "red" }
-        ],
-        models: ["Gemini 1.5 Pro", "GPT 4-o"]
       },
       {
         name: "ORDER PROCESSING AGENT",
@@ -223,11 +223,11 @@ const DEPARTMENTS_OVERVIEW = [
         models: ["Claude 3.5"]
       },
       {
-        name: "CUSTOMER MANAGEMENT AGENT",
-        runs: 112, queue: 90, exceptions: 12,
+        name: "PRODUCT AND OFFER AGENT",
+        runs: 150, queue: 15, exceptions: 18,
         metrics: [
-          { label: "Churn Rate", value: "5%", trend: "down", color: "red" },
-          { label: "Upsell Rate", value: "8%", trend: "up", color: "green" }
+          { label: "Bespoke Turnaround Time", value: "5 Days", trend: "down", color: "red" },
+          { label: "B2B portal Rendering Time", value: "18 Hrs", trend: "down", color: "red" }
         ],
         models: ["Gemini 1.5 Pro", "GPT 4-o"]
       },
@@ -327,15 +327,6 @@ const DEPARTMENTS_OVERVIEW = [
         models: ["Gemini 1.5 Pro", "Claude 3.5"]
       },
       {
-        name: "VERIFIER AGENT",
-        runs: 90, queue: 28, exceptions: 9,
-        metrics: [
-          { label: "Verification TAT", value: "25 Min", trend: "up", color: "green" },
-          { label: "Manual Intervention Rate", value: "5%", trend: "up", color: "green" }
-        ],
-        models: ["GPT 4-o"]
-      },
-      {
         name: "PROCESSING AGENT",
         runs: 112, queue: 43, exceptions: 12,
         metrics: [
@@ -343,6 +334,15 @@ const DEPARTMENTS_OVERVIEW = [
           { label: "Manual Intervention Rate", value: "15%", trend: "up", color: "green" }
         ],
         models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "VERIFIER AGENT",
+        runs: 90, queue: 28, exceptions: 9,
+        metrics: [
+          { label: "Verification TAT", value: "25 Min", trend: "up", color: "green" },
+          { label: "Manual Intervention Rate", value: "5%", trend: "up", color: "green" }
+        ],
+        models: ["GPT 4-o"]
       }
     ]
   },
@@ -403,14 +403,6 @@ const DEPARTMENTS_OVERVIEW = [
     humanCount: 7,
     agents: [
       {
-        name: "CREDIT PROFILING AGENT",
-        runs: 250, queue: 25, exceptions: 32,
-        metrics: [
-          { label: "% Accuracy - Credit Limit Exposure", value: "99%", trend: "neutral" }
-        ],
-        models: ["Gemini 1.5 Pro", "Claude 3.5"]
-      },
-      {
         name: "FOLLOW-UP AGENT",
         runs: 420, queue: 45, exceptions: 56,
         metrics: [
@@ -418,6 +410,14 @@ const DEPARTMENTS_OVERVIEW = [
           { label: "CPI", value: "98%", trend: "up", color: "green" }
         ],
         models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "CREDIT PROFILING AGENT",
+        runs: 250, queue: 25, exceptions: 32,
+        metrics: [
+          { label: "% Accuracy - Credit Limit Exposure", value: "99%", trend: "neutral" }
+        ],
+        models: ["Gemini 1.5 Pro", "Claude 3.5"]
       },
       {
         name: "MONITORING AGENT",
