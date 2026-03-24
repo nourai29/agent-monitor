@@ -15,7 +15,8 @@ import {
   Info,
   User,
   Bot,
-  LayoutGrid
+  LayoutGrid,
+  X
 } from 'lucide-react';
 
 // --- Mock Data ---
@@ -146,11 +147,38 @@ const CUSTOMER_STATUS = [
 
 // --- Overview Screen Data ---
 
+const SMB_OVERVIEW_DATA = {
+  costSavings: {
+    title: "COST SAVINGS",
+    baseline: "385",
+    target: "576",
+    actual: "610",
+    actualDir: "up",
+    chartData: [4.5, 3.0, 4.0, 2.5, 1.8, 5.0, 4.8, 4.5, 5.0, 3.5, 2.5, 4.5],
+  },
+  incrementalRevenue: {
+    title: "INCREMENTAL REVENUE",
+    baseline: "690",
+    target: "1110",
+    actual: "995",
+    actualDir: "down",
+    chartData: [3.5, 3.8, 4.5, 1.0, 1.5, 4.2, 3.4, 1.2, 0.8, 4.8, 4.9, 5.0],
+  },
+  nonFinancial: {
+    title: "NON-FINANCIAL KPIs",
+    onTrack: 12,
+    atRisk: 8,
+    lagging: 3,
+    chartData: [[2, 1, 1], [2, 2, 1], [3, 1, 1], [2, 2, 1], [2, 1, 2], [2, 2, 0], [2, 2, 1], [2, 1, 1], [2, 1, 2], [2, 1, 2], [2, 2, 1], [2, 1, 0]],
+  }
+};
+
 const DEPARTMENTS_OVERVIEW = [
   {
-    title: "ENTERPRISE SALES",
-    aiCount: 19,
-    humanCount: 2,
+    title: "SMB OVERVIEW",
+    aiCount: 36,
+    humanCount: 9,
+    overviewData: SMB_OVERVIEW_DATA,
     agents: [
       {
         name: "ACCOUNT MANAGEMENT AGENT",
@@ -637,8 +665,288 @@ const AgentCard = ({ agent, index }) => {
   );
 };
 
-const DepartmentColumn = ({ dept, index, onNavigate }) => {
+const MiniOverviewChart = ({ title, chartData, baseline, target, actual, actualDir, onTrack, atRisk, lagging }) => {
+  const isNonFinancial = !baseline;
+  const maxVal = 6;
+  return (
+    <div className="mb-3">
+      <div className="text-[8px] font-black text-white uppercase mb-1 tracking-wide">{title}</div>
+      <div className="flex items-stretch">
+        <div className="flex flex-col justify-between text-[6px] text-[#767679] pr-1 py-0.5" style={{height: '56px'}}>
+          <span>6</span>
+          <span>4</span>
+          <span>2</span>
+          <span>0</span>
+        </div>
+        <div className="flex-1 relative" style={{height: '56px'}}>
+          {[0,1,2,3].map(i => (
+            <div key={i} className="absolute w-full border-t border-[#767679]/20" style={{bottom: `${(i/3)*100}%`}} />
+          ))}
+          <div className="flex items-end gap-[1px] absolute inset-0">
+            {chartData.map((v, i) => {
+              if (Array.isArray(v)) {
+                return (
+                  <div key={i} className="flex-1 flex flex-col-reverse h-full">
+                    <div className="bg-white w-full" style={{height: `${(v[0]/maxVal)*100}%`}} />
+                    <div className="bg-[#767679] w-full" style={{height: `${(v[1]/maxVal)*100}%`}} />
+                    <div className="bg-[#767679]/30 w-full" style={{height: `${(v[2]/maxVal)*100}%`}} />
+                  </div>
+                );
+              }
+              return (
+                <div key={i} className="flex-1 flex flex-col justify-end h-full">
+                  <div className="bg-[#C00000] w-full" style={{height: `${(v/maxVal)*100}%`}} />
+                </div>
+              );
+            })}
+          </div>
+          {!isNonFinancial && (
+            <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <polyline
+                points={chartData.map((v, i) => `${((i + 0.5) / chartData.length) * 100},${(1 - v / maxVal) * 100}`).join(' ')}
+                fill="none"
+                stroke="#767679"
+                strokeWidth="2"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+          )}
+        </div>
+      </div>
+      <div className="flex ml-3 mb-1">
+        {chartData.map((_, i) => (
+          <div key={i} className="flex-1 text-center text-[5px] text-[#767679]">
+            {(i % 3 === 0) ? `M${i+1}` : ''}
+          </div>
+        ))}
+      </div>
+      {!isNonFinancial ? (
+        <div className="flex gap-2">
+          <div>
+            <div className="text-[#767679] uppercase text-[6px]">BASELINE</div>
+            <div className="font-black text-white text-[7px]">{baseline}</div>
+          </div>
+          <div>
+            <div className="text-[#767679] uppercase text-[6px]">TARGET</div>
+            <div className="font-black text-white text-[7px]">{target}</div>
+          </div>
+          <div>
+            <div className="text-[#767679] uppercase text-[6px]">ACTUAL</div>
+            <div className="font-black text-white text-[7px] flex items-center gap-0.5">
+              {actual}
+              {actualDir === 'up'
+                ? <TrendingUp size={8} className="text-green-500" />
+                : <TrendingDown size={8} className="text-[#C00000]" />
+              }
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex gap-1">
+          <div className="flex items-start gap-0.5">
+            <div className="w-2 h-2 bg-white mt-0.5 flex-shrink-0" />
+            <div>
+              <div className="text-[#767679] uppercase text-[5px] leading-tight">KPIs ON TRACK</div>
+              <div className="font-black text-white text-[8px]">{onTrack}</div>
+            </div>
+          </div>
+          <div className="flex items-start gap-0.5">
+            <div className="w-2 h-2 bg-[#767679] mt-0.5 flex-shrink-0" />
+            <div>
+              <div className="text-[#767679] uppercase text-[5px] leading-tight">KPIs AT RISK</div>
+              <div className="font-black text-white text-[8px]">{atRisk}</div>
+            </div>
+          </div>
+          <div className="flex items-start gap-0.5">
+            <div className="w-2 h-2 bg-[#767679]/30 mt-0.5 flex-shrink-0 border border-[#767679]/50" />
+            <div>
+              <div className="text-[#767679] uppercase text-[5px] leading-tight">KPIs LAGGING</div>
+              <div className="font-black text-white text-[8px]">{lagging}</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const SmbOverviewCharts = ({ data }) => (
+  <div className="bg-[#1a1a1a] border border-[#767679]/20 rounded p-3">
+    <MiniOverviewChart title={data.costSavings.title} chartData={data.costSavings.chartData} baseline={data.costSavings.baseline} target={data.costSavings.target} actual={data.costSavings.actual} actualDir={data.costSavings.actualDir} />
+    <MiniOverviewChart title={data.incrementalRevenue.title} chartData={data.incrementalRevenue.chartData} baseline={data.incrementalRevenue.baseline} target={data.incrementalRevenue.target} actual={data.incrementalRevenue.actual} actualDir={data.incrementalRevenue.actualDir} />
+    <MiniOverviewChart title={data.nonFinancial.title} chartData={data.nonFinancial.chartData} onTrack={data.nonFinancial.onTrack} atRisk={data.nonFinancial.atRisk} lagging={data.nonFinancial.lagging} />
+  </div>
+);
+
+const SmbLargeChartPanel = ({ title, chartData, baseline, target, actual, actualDir, onTrack, atRisk, lagging }) => {
+  const isNonFinancial = !baseline;
+  const maxVal = 6;
+  return (
+    <div className="bg-[#111] border border-[#767679]/20 rounded-xl p-5 flex flex-col">
+      <h3 className="text-[11px] font-black text-white uppercase tracking-widest mb-4">{title}</h3>
+      <div className="relative mb-1" style={{height: '120px'}}>
+        {[0,1,2,3].map(i => (
+          <div key={i} className="absolute w-full border-t border-[#767679]/15" style={{bottom: `${(i/3)*100}%`}} />
+        ))}
+        <div className="flex items-end gap-[2px] absolute inset-0">
+          {chartData.map((v, i) => {
+            if (Array.isArray(v)) {
+              return (
+                <div key={i} className="flex-1 flex flex-col-reverse h-full">
+                  <div className="bg-white w-full" style={{height: `${(v[0]/maxVal)*100}%`}} />
+                  <div className="bg-[#767679] w-full" style={{height: `${(v[1]/maxVal)*100}%`}} />
+                  <div className="bg-[#767679]/30 w-full" style={{height: `${(v[2]/maxVal)*100}%`}} />
+                </div>
+              );
+            }
+            return (
+              <div key={i} className="flex-1 flex flex-col justify-end h-full">
+                <div className="bg-[#C00000] w-full" style={{height: `${(v/maxVal)*100}%`}} />
+              </div>
+            );
+          })}
+        </div>
+        {!isNonFinancial && (
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polyline
+              points={chartData.map((v, i) => `${((i + 0.5) / chartData.length) * 100},${(1 - v / maxVal) * 100}`).join(' ')}
+              fill="none"
+              stroke="#767679"
+              strokeWidth="1.5"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        )}
+      </div>
+      <div className="flex mb-5">
+        {chartData.map((_, i) => (
+          <div key={i} className="flex-1 text-center text-[7px] text-[#767679] uppercase font-bold">
+            M{i+1}
+          </div>
+        ))}
+      </div>
+      {!isNonFinancial ? (
+        <div className="space-y-3 border-t border-[#767679]/20 pt-4 mt-auto">
+          <div className="flex justify-between">
+            <span className="text-[10px] text-[#767679] uppercase font-bold tracking-wider">BASELINE</span>
+            <span className="text-[10px] text-white font-bold">{baseline}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-[10px] text-[#767679] uppercase font-bold tracking-wider">TARGET</span>
+            <span className="text-[10px] text-white font-bold">{target}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] text-[#767679] uppercase font-bold tracking-wider">ACTUAL</span>
+            <div className="flex items-center gap-1.5">
+              {actualDir === 'up'
+                ? <TrendingUp size={14} className="text-green-500" />
+                : <TrendingDown size={14} className="text-[#C00000]" />
+              }
+              <span className="text-[10px] text-white font-bold">{actual}</span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-3 border-t border-[#767679]/20 pt-4 mt-auto">
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] text-[#767679] uppercase font-bold tracking-wider flex items-center gap-2">
+              KPIs ON TRACK <div className="w-3 h-3 bg-white" />
+            </span>
+            <span className="text-[10px] text-white font-bold">{onTrack}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] text-[#767679] uppercase font-bold tracking-wider flex items-center gap-2">
+              KPIs AT RISK <div className="w-3 h-3 bg-[#767679]" />
+            </span>
+            <span className="text-[10px] text-white font-bold">{atRisk}</span>
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] text-[#767679] uppercase font-bold tracking-wider flex items-center gap-2">
+              KPIs LAGGING <div className="w-3 h-3 bg-[#767679]/30 border border-[#767679]/50" />
+            </span>
+            <span className="text-[10px] text-white font-bold">{lagging}</span>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const SmbOverviewOverlay = ({ data, aiCount, humanCount, onClose }) => (
+  <div className="fixed inset-0 z-50 bg-black/55 backdrop-blur-[2px]" onClick={onClose}>
+    <style>{`
+      @keyframes smbExpand {
+        from { opacity: 0; transform: scaleY(0.6) scaleX(0.92); }
+        to   { opacity: 1; transform: scaleY(1)   scaleX(1); }
+      }
+    `}</style>
+    <div
+      className="absolute left-4 top-[80px] w-[760px] rounded-b-xl overflow-hidden shadow-2xl shadow-black/70"
+      style={{ animation: 'smbExpand 0.2s ease-out forwards', transformOrigin: 'top left' }}
+      onClick={e => e.stopPropagation()}
+    >
+      {/* Header — exact replica of the column card so it reads as an expansion */}
+      <div className="bg-[#C00000] px-4 py-2.5 flex items-center justify-between">
+        <div className="flex items-center gap-5">
+          <h2 className="font-black text-white text-[9px] tracking-widest uppercase">SMB OVERVIEW</h2>
+          <div className="flex gap-4">
+            <div className="flex items-center gap-1">
+              <Bot size={13} className="text-white/80" />
+              <div className="flex flex-col leading-none">
+                <span className="text-[14px] font-black text-white">{aiCount}</span>
+                <span className="text-[7px] text-white/70 uppercase font-bold">AI Agents</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-1">
+              <User size={13} className="text-white/80" />
+              <div className="flex flex-col leading-none">
+                <span className="text-[14px] font-black text-white">{humanCount}</span>
+                <span className="text-[7px] text-white/70 uppercase font-bold">Humans</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          onClick={onClose}
+          className="w-7 h-7 flex items-center justify-center bg-[#1a1a1a]/40 rounded hover:bg-[#1a1a1a]/70 transition-colors"
+        >
+          <ChevronUp size={14} className="text-white" />
+        </button>
+      </div>
+
+      {/* Charts */}
+      <div className="bg-[#111] border-t border-[#C00000]/30 p-5 grid grid-cols-3 gap-4">
+        <SmbLargeChartPanel
+          title={data.costSavings.title}
+          chartData={data.costSavings.chartData}
+          baseline={data.costSavings.baseline}
+          target={data.costSavings.target}
+          actual={data.costSavings.actual}
+          actualDir={data.costSavings.actualDir}
+        />
+        <SmbLargeChartPanel
+          title={data.incrementalRevenue.title}
+          chartData={data.incrementalRevenue.chartData}
+          baseline={data.incrementalRevenue.baseline}
+          target={data.incrementalRevenue.target}
+          actual={data.incrementalRevenue.actual}
+          actualDir={data.incrementalRevenue.actualDir}
+        />
+        <SmbLargeChartPanel
+          title={data.nonFinancial.title}
+          chartData={data.nonFinancial.chartData}
+          onTrack={data.nonFinancial.onTrack}
+          atRisk={data.nonFinancial.atRisk}
+          lagging={data.nonFinancial.lagging}
+        />
+      </div>
+    </div>
+  </div>
+);
+
+const DepartmentColumn = ({ dept, index, onNavigate, isExpanded = false, onExpand }) => {
   const isClickable = dept.title === "CREDIT & COLLECTIONS";
+  const hasOverview = !!dept.overviewData;
   return (
     <div
       className="w-full opacity-0 animate-[fadeSlideUp_0.5s_ease-out_forwards]"
@@ -667,12 +975,17 @@ const DepartmentColumn = ({ dept, index, onNavigate }) => {
         </div>
         <div className="relative group/icon">
           <div
-            onClick={isClickable ? onNavigate : undefined}
+            onClick={isClickable ? onNavigate : hasOverview ? onExpand : undefined}
             className={`w-8 shrink-0 h-full bg-[#1a1a1a] border border-[#767679]/30 rounded shadow-sm flex items-center justify-center
               transition-all duration-300 hover:shadow-md
-              ${isClickable ? 'cursor-pointer hover:bg-[#C00000] hover:border-[#C00000]' : 'cursor-default hover:bg-[#2a2a2a]'}`}
+              ${(isClickable || hasOverview) ? 'cursor-pointer hover:bg-[#C00000] hover:border-[#C00000]' : 'cursor-default hover:bg-[#2a2a2a]'}`}
           >
-            <LayoutGrid size={14} className="text-[#767679] group-hover/icon:text-white transition-colors duration-200" />
+            {hasOverview
+              ? isExpanded
+                ? <ChevronUp size={14} className="text-[#767679] group-hover/icon:text-white transition-colors duration-200" />
+                : <ChevronDown size={14} className="text-[#767679] group-hover/icon:text-white transition-colors duration-200" />
+              : <LayoutGrid size={14} className="text-[#767679] group-hover/icon:text-white transition-colors duration-200" />
+            }
           </div>
           {isClickable && (
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-[#C00000] text-white text-[8px] font-bold rounded whitespace-nowrap
@@ -821,6 +1134,7 @@ export default function App() {
   const [activeSubAgent, setActiveSubAgent] = useState(0);
   const [backOfficeOpen, setBackOfficeOpen] = useState(false);
   const [salesOpen, setSalesOpen] = useState(false);
+  const [smbOverlayOpen, setSmbOverlayOpen] = useState(false);
 
   // Connection Path Points
   const [points, setPoints] = useState([]);
@@ -972,15 +1286,35 @@ export default function App() {
         {/* Main Grid */}
         <div className="grid grid-cols-8 gap-3 min-w-[1500px]">
           {DEPARTMENTS_OVERVIEW.map((dept, i) => (
-            <DepartmentColumn key={i} dept={dept} index={i} onNavigate={() => {
-              setDept("COLLECTIONS");
-              setView("DASHBOARD");
-              setSubView(null);
-              setAgentLevel(0);
-              setScreen("APP");
-            }} />
+            <DepartmentColumn
+              key={i}
+              dept={dept}
+              index={i}
+              isExpanded={dept.overviewData ? smbOverlayOpen : false}
+              onExpand={dept.overviewData ? () => setSmbOverlayOpen(true) : undefined}
+              onNavigate={() => {
+                setDept("COLLECTIONS");
+                setView("DASHBOARD");
+                setSubView(null);
+                setAgentLevel(0);
+                setScreen("APP");
+              }}
+            />
           ))}
         </div>
+
+        {/* SMB Overview Overlay — rendered outside the grid to escape transform stacking context */}
+        {smbOverlayOpen && (() => {
+          const smbDept = DEPARTMENTS_OVERVIEW.find(d => d.overviewData);
+          return smbDept ? (
+            <SmbOverviewOverlay
+              data={smbDept.overviewData}
+              aiCount={smbDept.aiCount}
+              humanCount={smbDept.humanCount}
+              onClose={() => setSmbOverlayOpen(false)}
+            />
+          ) : null;
+        })()}
       </div>
     );
   }
