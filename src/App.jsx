@@ -591,9 +591,10 @@ const DEPARTMENTS_OVERVIEW = [
   }
 ];
 
-const AgentCard = ({ agent, index }) => {
+const AgentCard = ({ agent, index, onClick }) => {
   return (
     <div
+      onClick={onClick}
       className="bg-[#1a1a1a] border border-[#767679]/30 rounded p-2 shadow-sm text-[10px] cursor-pointer
         transition-all duration-300 ease-out
         hover:shadow-lg hover:shadow-[#C00000]/10 hover:-translate-y-1 hover:border-[#C00000]/50 hover:bg-[#222222]
@@ -927,7 +928,7 @@ const SmbOverviewOverlay = ({ data, aiCount, humanCount, onClose }) => (
   </div>
 );
 
-const DepartmentColumn = ({ dept, index, onNavigate, isExpanded = false, onExpand }) => {
+const DepartmentColumn = ({ dept, index, onNavigate, onAgentNavigate, isExpanded = false, onExpand }) => {
   const isClickable = dept.title === "CREDIT & COLLECTIONS";
   const hasOverview = !!dept.overviewData;
   return (
@@ -981,7 +982,7 @@ const DepartmentColumn = ({ dept, index, onNavigate, isExpanded = false, onExpan
       </div>
       <div className="space-y-2">
         {dept.agents.map((agent, i) => (
-          <AgentCard key={i} agent={agent} index={i} />
+          <AgentCard key={i} agent={agent} index={i} onClick={onAgentNavigate ? onAgentNavigate(agent.name) : undefined} />
         ))}
       </div>
     </div>
@@ -1288,6 +1289,18 @@ export default function App() {
                 setAgentLevel(0);
                 setScreen("APP");
               }}
+              onAgentNavigate={dept.title === "CREDIT & COLLECTIONS" ? (agentName) => {
+                if (agentName === "FOLLOW-UP AGENT") {
+                  return () => {
+                    setDept("COLLECTIONS");
+                    setView("DETAILS");
+                    setSubView("costSavings");
+                    setAgentLevel(0);
+                    setScreen("APP");
+                  };
+                }
+                return undefined;
+              } : undefined}
             />
           ))}
         </div>
