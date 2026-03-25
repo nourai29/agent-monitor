@@ -1,4 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
 // ─── Node definitions ─────────────────────────────────────────────────────────
 const NODES = [
@@ -175,6 +177,7 @@ function subNodePositions(node, count) {
 export default function Graph() {
   const [hovered, setHovered] = useState(null);
   const [clicked, setClicked] = useState(null);
+  const navigate = useNavigate();
 
   const nodeGroupRefs = useRef({});
   const edgePathRefs  = useRef({});
@@ -241,6 +244,14 @@ export default function Graph() {
       style={{ width: '100vw', height: '100vh', background: '#000', overflow: 'hidden' }}
       onClick={() => setClicked(null)}
     >
+      {/* Back to Overview button */}
+      <button
+        onClick={e => { e.stopPropagation(); navigate('/overview'); }}
+        className="absolute top-4 left-4 z-50 flex items-center gap-2 bg-[#C00000] hover:bg-[#a00000] text-white text-[10px] font-black uppercase tracking-widest px-3 py-2 rounded transition-colors duration-200 shadow-lg"
+      >
+        <ArrowLeft size={12} />
+        Overview
+      </button>
       <style>{`
         @keyframes flowDot {
           from { stroke-dashoffset: 0; }

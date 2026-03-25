@@ -280,63 +280,45 @@ const DEPARTMENTS_OVERVIEW = [
     ]
   },
   {
-    title: "ENTERPRISE BO",
-    aiCount: 32,
-    humanCount: 9,
+    title: "CHURN",
+    aiCount: 11,
+    humanCount: 2,
     agents: [
       {
-        name: "ORDER MANAGEMENT AGENT",
-        runs: 122, queue: 75, exceptions: 12,
+        name: "CUSTOMER MANAGEMENT AGENT",
+        runs: 95, queue: 15, exceptions: 10,
         metrics: [
-          { label: "Order Processing Time", value: "17 Hrs", trend: "down", color: "red" },
-          { label: "Manual Intervention Rate", value: "10%", trend: "down", color: "red" }
-        ],
-        models: ["Gemini 1.5 Pro", "Claude 3.5"]
-      },
-      {
-        name: "SERVICE MANAGEMENT AGENT",
-        runs: 100, queue: 68, exceptions: 20,
-        metrics: [
-          { label: "# of Cust. Escalations", value: "25 Hrs", trend: "down", color: "red" },
-          { label: "Complaint Resolution Time", value: "20 Hrs", trend: "down", color: "red" }
+          { label: "Churn rate - Mobile", value: "5%", trend: "down", color: "red" },
+          { label: "Churn rate - Fixed", value: "6%", trend: "down", color: "red" }
         ],
         models: ["Gemini 1.5 Pro"]
       },
       {
-        name: "SERVICE DELIVERY AGENT",
-        runs: 10, queue: 65, exceptions: 30,
+        name: "SALES PERFORMANCE AGENT",
+        runs: 47, queue: 11, exceptions: 12,
         metrics: [
-          { label: "# of SRs Returned", value: "10", trend: "down", color: "red" },
+          { label: "Number of Mobile accounts saved", value: "5,235", trend: "up", color: "green" },
+          { label: "Number of Fixed accounts saved", value: "2,890", trend: "down", color: "red" }
+        ],
+        models: ["Gemini 1.5 Pro"]
+      },
+      {
+        name: "VERIFIER AGENT",
+        runs: 90, queue: 28, exceptions: 9,
+        metrics: [
+          { label: "Verification TAT", value: "25 Min", trend: "up", color: "green" },
+          { label: "Manual Intervention Rate", value: "5%", trend: "up", color: "green" }
+        ],
+        models: ["GPT 4-o", "Claude 3.5"]
+      },
+      {
+        name: "PROCESSING AGENT",
+        runs: 112, queue: 43, exceptions: 12,
+        metrics: [
+          { label: "Order Processing Time", value: "25 Min", trend: "up", color: "green" },
           { label: "Manual Intervention Rate", value: "15%", trend: "up", color: "green" }
         ],
-        models: ["Gemini 1.5 Pro", "GPT 4-o"]
-      },
-      {
-        name: "QUALITY CHECK AGENT",
-        runs: 112, queue: 12, exceptions: 12,
-        metrics: [
-          { label: "Quality Check TAT", value: "5 Hrs", trend: "down", color: "red" },
-          { label: "Manual Intervention Rate", value: "4%", trend: "up", color: "green" }
-        ],
-        models: ["Claude 3.5", "GPT 4-o"]
-      },
-      {
-        name: "STORES & LOGISTICS AGENT",
-        runs: 212, queue: 28, exceptions: 12,
-        metrics: [
-          { label: "Device/ SIM Processing AHT", value: "15 Hrs", trend: "down", color: "red" },
-          { label: "Inventory Mgmt. AHT", value: "23 Hrs", trend: "up", color: "green" }
-        ],
         models: ["Gemini 1.5 Pro"]
-      },
-      {
-        name: "TRAINING & DEVELOPMENT AGENT",
-        runs: 112, queue: 12, exceptions: 12,
-        metrics: [
-          { label: "Training Req. Identification Time", value: "50 Hrs", trend: "down", color: "red" },
-          { label: "Training Materials Curation Time", value: "15 Hrs", trend: "up", color: "green" }
-        ],
-        models: ["Claude 3.5"]
       }
     ]
   },

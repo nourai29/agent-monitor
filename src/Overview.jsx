@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { TrendingUp, TrendingDown, Bot, User, Info, LayoutGrid, ChevronUp, ChevronDown, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { TrendingUp, TrendingDown, Bot, User, Info, LayoutGrid, Activity, ArrowRight, ChevronUp, ChevronDown } from 'lucide-react';
 
-// ─── E& LOGO ─────────────────────────────────────────────────────────────────
+// ─── E& LOGO ──────────────────────────────────────────────────────────────────
 const EandLogo = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="100px" height="28px" viewBox="0 0 654 654">
     <g>
@@ -11,8 +12,7 @@ const EandLogo = () => (
   </svg>
 );
 
-// ─── DATA ─────────────────────────────────────────────────────────────────────
-
+// ─── DATA ──────────────────────────────────────────────────────────────────────
 const SMB_OVERVIEW_DATA = {
   costSavings: {
     title: "COST SAVINGS",
@@ -31,16 +31,11 @@ const SMB_OVERVIEW_DATA = {
   }
 };
 
-const DEPARTMENTS = [
+// redirectTo  = where the LayoutGrid (box) icon sends the user
+// graphTo     = where the Activity (graph) icon sends the user — always '/graph'
+const COLUMNS = [
   {
-    title: "SMB OVERVIEW",
-    aiCount: 36, humanCount: 9,
-    overviewData: SMB_OVERVIEW_DATA,
-    agents: []
-  },
-  {
-    title: "SMB SALES",
-    aiCount: 17, humanCount: 5,
+    title: "SMB SALES", aiCount: 40, humanCount: 5, redirectTo: "/graph",
     agents: [
       { name: "ACQUISITION & ONBOARDING AGENT", runs: 112, queue: 30, exceptions: 12,
         metrics: [{ label: "Lead Conversion Rate", value: "9%", trend: "up" }, { label: "No. of Leads", value: "74,521", trend: "up" }],
@@ -63,8 +58,7 @@ const DEPARTMENTS = [
     ]
   },
   {
-    title: "CHURN",
-    aiCount: 11, humanCount: 2,
+    title: "CHURN", aiCount: 11, humanCount: 2, redirectTo: "/graph",
     agents: [
       { name: "CUSTOMER MANAGEMENT AGENT", runs: 95, queue: 15, exceptions: 10,
         metrics: [{ label: "Churn rate - Mobile", value: "5%", trend: "down" }, { label: "Churn rate - Fixed", value: "6%", trend: "down" }],
@@ -72,17 +66,10 @@ const DEPARTMENTS = [
       { name: "SALES PERFORMANCE AGENT", runs: 47, queue: 11, exceptions: 12,
         metrics: [{ label: "Number of Mobile accounts saved", value: "5,235", trend: "up" }, { label: "Number of Fixed accounts saved", value: "2,890", trend: "down" }],
         models: ["Gemini 1.5 Pro"] },
-      { name: "VERIFIER AGENT", runs: 90, queue: 28, exceptions: 9,
-        metrics: [{ label: "Verification TAT", value: "25 Min", trend: "up" }, { label: "Manual Intervention Rate", value: "5%", trend: "up" }],
-        models: ["GPT 4-o", "Claude 3.5"] },
-      { name: "PROCESSING AGENT", runs: 112, queue: 43, exceptions: 12,
-        metrics: [{ label: "Order Processing Time", value: "25 Min", trend: "up" }, { label: "Manual Intervention Rate", value: "15%", trend: "up" }],
-        models: ["Gemini 1.5 Pro"] },
     ]
   },
   {
-    title: "SMB BACK OFFICE",
-    aiCount: 19, humanCount: 4,
+    title: "SMB BACK OFFICE", aiCount: 19, humanCount: 4, redirectTo: "/graph",
     agents: [
       { name: "PROFILING AGENT", runs: 112, queue: 12, exceptions: 12,
         metrics: [{ label: "Mean time to process", value: "20 Hrs", trend: "down" }, { label: "Manual Intervention Rate", value: "10%", trend: "up" }],
@@ -96,8 +83,7 @@ const DEPARTMENTS = [
     ]
   },
   {
-    title: "BUSINESS CARE",
-    aiCount: 41, humanCount: 4,
+    title: "BUSINESS CARE", aiCount: 41, humanCount: 4, redirectTo: "/graph",
     agents: [
       { name: "INBOUND AUTONOMOUS AGENT", runs: 89, queue: 65, exceptions: 6,
         metrics: [{ label: "Service Levels", value: "99%", trend: "up" }, { label: "% Autonomous FCR", value: "71%", trend: "down" }],
@@ -117,9 +103,7 @@ const DEPARTMENTS = [
     ]
   },
   {
-    title: "CREDIT & COLLECTIONS",
-    aiCount: 43, humanCount: 7,
-    isClickable: true,
+    title: "CREDIT & COLLECTIONS", aiCount: 43, humanCount: 7, redirectTo: "/",
     agents: [
       { name: "CREDIT PROFILING AGENT", runs: 250, queue: 25, exceptions: 32,
         metrics: [{ label: "% Accuracy - Credit Limit Exposure", value: "99%", trend: "neutral" }],
@@ -145,8 +129,7 @@ const DEPARTMENTS = [
     ]
   },
   {
-    title: "CONTROL TOWER",
-    aiCount: 29, humanCount: 3,
+    title: "CONTROL TOWER", aiCount: 29, humanCount: 3, redirectTo: "/graph",
     agents: [
       { name: "POLICY ASSURANCE AGENT", runs: 132, queue: 53, exceptions: 12,
         metrics: [{ label: "Policy Understanding AHT Violations", value: "25 Hrs", trend: "down" }, { label: "Regularization AHT", value: "20 Hrs", trend: "down" }],
@@ -172,8 +155,7 @@ const DEPARTMENTS = [
     ]
   },
   {
-    title: "STRATEGY FINANCE",
-    aiCount: 25, humanCount: 5,
+    title: "STRATEGY FINANCE", aiCount: 25, humanCount: 5, redirectTo: "/graph",
     agents: [
       { name: "FINANCIAL PLANNING AGENT", runs: 130, queue: 50, exceptions: 10,
         metrics: [{ label: "Market Research Duration", value: "20 Days", trend: "down" }, { label: "Market Research Spend", value: "10Mn", trend: "up" }],
@@ -191,99 +173,139 @@ const DEPARTMENTS = [
   },
 ];
 
-// ─── MINI CHART (SMB OVERVIEW COLUMN) ────────────────────────────────────────
-
-const MiniChart = ({ chartData, baseline, target, actual, actualDir, onTrack, atRisk, lagging, title }) => {
-  const isNonFinancial = !baseline;
+// ─── SMB OVERVIEW HORIZONTAL BANNER ───────────────────────────────────────────
+const ChartPanel = ({ title, chartData, baseline, target, actual, actualDir, onTrack, atRisk, lagging }) => {
+  const isNF = !baseline;
   const maxVal = 6;
   return (
-    <div className="mb-3">
-      <div className="text-[7px] font-black text-white uppercase mb-1 tracking-widest">{title}</div>
-      <div className="flex items-stretch">
-        <div className="flex flex-col justify-between text-[5px] text-[#767679] pr-1 py-0.5" style={{ height: 44 }}>
-          <span>6</span><span>3</span><span>0</span>
+    <div className="flex flex-col h-full">
+      <div className="text-xs font-black text-white uppercase tracking-widest mb-4">{title}</div>
+
+      {/* Chart bars */}
+      <div className="relative" style={{ height: 200 }}>
+        {[0,1,2,3].map(i => (
+          <div key={i} className="absolute w-full border-t border-white/10" style={{ bottom: `${(i/3)*100}%` }} />
+        ))}
+        <div className="flex items-end gap-[3px] absolute inset-0">
+          {chartData.map((v, i) => {
+            if (Array.isArray(v)) return (
+              <div key={i} className="flex-1 flex flex-col-reverse h-full">
+                <div className="bg-white w-full rounded-sm" style={{ height: `${(v[0]/maxVal)*100}%` }} />
+                <div className="bg-[#555] w-full" style={{ height: `${(v[1]/maxVal)*100}%` }} />
+                <div className="bg-white/20 w-full" style={{ height: `${(v[2]/maxVal)*100}%` }} />
+              </div>
+            );
+            return (
+              <div key={i} className="flex-1 flex flex-col justify-end h-full">
+                <div className="bg-[#C00000] w-full rounded-sm" style={{ height: `${(v/maxVal)*100}%` }} />
+              </div>
+            );
+          })}
         </div>
-        <div className="flex-1 relative" style={{ height: 44 }}>
-          {[0,1,2].map(i => (
-            <div key={i} className="absolute w-full border-t border-white/10" style={{ bottom: `${(i/2)*100}%` }} />
-          ))}
-          <div className="flex items-end gap-[1px] absolute inset-0">
-            {chartData.map((v, i) => {
-              if (Array.isArray(v)) return (
-                <div key={i} className="flex-1 flex flex-col-reverse h-full">
-                  <div className="bg-white w-full" style={{ height: `${(v[0]/maxVal)*100}%` }} />
-                  <div className="bg-[#767679] w-full" style={{ height: `${(v[1]/maxVal)*100}%` }} />
-                  <div className="bg-white/20 w-full" style={{ height: `${(v[2]/maxVal)*100}%` }} />
-                </div>
-              );
-              return (
-                <div key={i} className="flex-1 flex flex-col justify-end h-full">
-                  <div className="bg-[#C00000] w-full" style={{ height: `${(v/maxVal)*100}%` }} />
-                </div>
-              );
-            })}
-          </div>
-          {!isNonFinancial && (
-            <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <polyline
-                points={chartData.map((v, i) => `${((i+0.5)/chartData.length)*100},${(1-v/maxVal)*100}`).join(' ')}
-                fill="none" stroke="#767679" strokeWidth="2" vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-          )}
-        </div>
+        {!isNF && (
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polyline
+              points={chartData.map((v,i) => `${((i+0.5)/chartData.length)*100},${(1-v/maxVal)*100}`).join(' ')}
+              fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+        )}
       </div>
-      <div className="flex ml-3 mb-1">
+
+      {/* Month labels */}
+      <div className="flex mt-2 mb-5">
         {chartData.map((_, i) => (
-          <div key={i} className="flex-1 text-center text-[4px] text-[#767679]">
-            {i % 3 === 0 ? `M${i+1}` : ''}
+          <div key={i} className="flex-1 text-center text-[8px] text-[#767679] font-bold">
+            {`M${i+1}`}
           </div>
         ))}
       </div>
-      {!isNonFinancial ? (
-        <div className="flex gap-2">
-          <div><div className="text-[5px] text-[#767679] uppercase">BASELINE</div><div className="font-black text-white text-[6px]">{baseline}</div></div>
-          <div><div className="text-[5px] text-[#767679] uppercase">TARGET</div><div className="font-black text-white text-[6px]">{target}</div></div>
-          <div>
-            <div className="text-[5px] text-[#767679] uppercase">ACTUAL</div>
-            <div className="font-black text-white text-[6px] flex items-center gap-0.5">
-              {actual}
-              {actualDir === 'up'
-                ? <TrendingUp size={6} className="text-green-400" />
-                : <TrendingDown size={6} className="text-[#C00000]" />}
+
+      {/* Stats */}
+      {!isNF ? (
+        <div className="space-y-3 border-t border-white/10 pt-4">
+          {[['BASELINE', baseline, null], ['TARGET', target, null], ['ACTUAL', actual, actualDir]].map(([l, v, dir]) => (
+            <div key={l} className="flex justify-between items-center">
+              <span className="text-[10px] text-[#767679] uppercase font-bold tracking-wider">{l}</span>
+              <div className="flex items-center gap-1.5">
+                {dir === 'up' && <TrendingUp size={13} className="text-green-400" />}
+                {dir === 'down' && <TrendingDown size={13} className="text-[#C00000]" />}
+                <span className="text-[13px] font-black text-white">{v}</span>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       ) : (
-        <div className="flex gap-1.5">
-          <div className="flex items-start gap-0.5">
-            <div className="w-1.5 h-1.5 bg-white mt-0.5 flex-shrink-0" />
-            <div><div className="text-[4px] text-[#767679] uppercase leading-tight">ON TRACK</div><div className="font-black text-white text-[7px]">{onTrack}</div></div>
-          </div>
-          <div className="flex items-start gap-0.5">
-            <div className="w-1.5 h-1.5 bg-[#767679] mt-0.5 flex-shrink-0" />
-            <div><div className="text-[4px] text-[#767679] uppercase leading-tight">AT RISK</div><div className="font-black text-white text-[7px]">{atRisk}</div></div>
-          </div>
-          <div className="flex items-start gap-0.5">
-            <div className="w-1.5 h-1.5 bg-white/20 mt-0.5 flex-shrink-0 border border-white/30" />
-            <div><div className="text-[4px] text-[#767679] uppercase leading-tight">LAGGING</div><div className="font-black text-white text-[7px]">{lagging}</div></div>
-          </div>
+        <div className="space-y-3 border-t border-white/10 pt-4">
+          {[['KPIS ON TRACK', onTrack, 'bg-white'], ['KPIS AT RISK', atRisk, 'bg-[#555]'], ['KPIS LAGGING', lagging, 'bg-white/20 border border-white/30']].map(([l, v, c]) => (
+            <div key={l} className="flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-sm ${c} flex-shrink-0`} />
+                <span className="text-[10px] text-[#767679] uppercase font-bold tracking-wider">{l}</span>
+              </div>
+              <span className="text-[13px] font-black text-white">{v}</span>
+            </div>
+          ))}
         </div>
       )}
     </div>
   );
 };
 
-// ─── AGENT CARD ───────────────────────────────────────────────────────────────
+const SmbOverviewBanner = ({ navigate }) => {
+  const [expanded, setExpanded] = useState(true);
+  const d = SMB_OVERVIEW_DATA;
+  return (
+    <div
+      className="mb-3 rounded-lg overflow-hidden border border-[#C00000]/40 opacity-0"
+      style={{ animation: 'fadeUp 0.4s ease-out forwards' }}
+    >
+      {/* Header strip */}
+      <div className="bg-[#C00000] px-4 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-6">
+          <h2 className="text-[9px] font-black text-white uppercase tracking-widest">SMB OVERVIEW</h2>
+          <div className="flex gap-4">
+            {[[Bot, 36, 'AI Agents'], [User, 9, 'Humans']].map(([Icon, count, label]) => (
+              <div key={label} className="flex items-center gap-1.5">
+                <Icon size={12} className="text-white/70" />
+                <div>
+                  <div className="text-[14px] font-black text-white leading-none">{count}</div>
+                  <div className="text-[6px] text-white/60 uppercase font-bold">{label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Expand / collapse toggle */}
+        <button
+          onClick={() => setExpanded(e => !e)}
+          title={expanded ? 'Collapse' : 'Expand'}
+          className="w-7 h-7 flex items-center justify-center bg-black/25 rounded hover:bg-black/50 transition-colors group"
+        >
+          {expanded
+            ? <ChevronUp size={14} className="text-white/70 group-hover:text-white transition-colors" />
+            : <ChevronDown size={14} className="text-white/70 group-hover:text-white transition-colors" />}
+        </button>
+      </div>
+      {/* 3 chart panels — hidden when collapsed */}
+      {expanded && (
+        <div className="bg-[#0d0d0d] grid grid-cols-3 divide-x divide-white/10 border-t border-white/5">
+          <div className="px-8 py-6"><ChartPanel title={d.costSavings.title} chartData={d.costSavings.chartData} baseline={d.costSavings.baseline} target={d.costSavings.target} actual={d.costSavings.actual} actualDir={d.costSavings.actualDir} /></div>
+          <div className="px-8 py-6"><ChartPanel title={d.incrementalRevenue.title} chartData={d.incrementalRevenue.chartData} baseline={d.incrementalRevenue.baseline} target={d.incrementalRevenue.target} actual={d.incrementalRevenue.actual} actualDir={d.incrementalRevenue.actualDir} /></div>
+          <div className="px-8 py-6"><ChartPanel title={d.nonFinancial.title} chartData={d.nonFinancial.chartData} onTrack={d.nonFinancial.onTrack} atRisk={d.nonFinancial.atRisk} lagging={d.nonFinancial.lagging} /></div>
+        </div>
+      )}
+    </div>
+  );
+};
 
+// ─── AGENT CARD ────────────────────────────────────────────────────────────────
 const AgentCard = ({ agent }) => (
   <div className="bg-[#111] border border-white/10 rounded p-2 mb-1.5 group hover:border-[#C00000]/50 hover:bg-[#1a1a1a] transition-all duration-200">
     <div className="flex justify-between items-start mb-1.5">
       <h4 className="text-[8px] font-black text-white uppercase leading-tight pr-2 group-hover:text-[#C00000] transition-colors">{agent.name}</h4>
       <Info size={9} className="text-white/30 flex-shrink-0 group-hover:text-[#C00000]/60 transition-colors" />
     </div>
-
-    {/* Stats row */}
     <div className="grid grid-cols-3 gap-0.5 mb-1.5 border-b border-white/10 pb-1.5">
       {[['RUNS', agent.runs], ['QUEUE', agent.queue], ['EXCEPTION COUNT', agent.exceptions]].map(([label, val]) => (
         <div key={label} className="text-center">
@@ -292,8 +314,6 @@ const AgentCard = ({ agent }) => (
         </div>
       ))}
     </div>
-
-    {/* Metrics */}
     <div className="space-y-0.5 mb-1.5">
       {agent.metrics.map((m, i) => (
         <div key={i} className="flex justify-between items-center gap-1">
@@ -306,144 +326,30 @@ const AgentCard = ({ agent }) => (
         </div>
       ))}
     </div>
-
-    {/* Model tags */}
     <div className="flex flex-wrap gap-0.5 pt-1 border-t border-white/10">
       {agent.models.map((model, i) => (
         <span key={i} className={`text-[5px] font-bold px-1 py-0.5 rounded-sm ${
           model.includes('Gemini') ? 'text-[#C00000]' :
-          model.includes('Claude') ? 'text-white' :
-          'text-[#767679]'
+          model.includes('Claude') ? 'text-white' : 'text-[#767679]'
         }`}>{model}</span>
       ))}
     </div>
   </div>
 );
 
-// ─── EXPANDED SMB OVERLAY ─────────────────────────────────────────────────────
-
-const SmbExpandedPanel = ({ data, aiCount, humanCount, onClose }) => {
-  const maxVal = 6;
-  const Panel = ({ title, chartData, baseline, target, actual, actualDir, onTrack, atRisk, lagging }) => {
-    const isNF = !baseline;
-    return (
-      <div className="bg-[#111] border border-white/10 rounded-xl p-5 flex flex-col">
-        <h3 className="text-[10px] font-black text-white uppercase tracking-widest mb-4">{title}</h3>
-        <div className="relative mb-2" style={{ height: 100 }}>
-          {[0,1,2,3].map(i => (
-            <div key={i} className="absolute w-full border-t border-white/10" style={{ bottom: `${(i/3)*100}%` }} />
-          ))}
-          <div className="flex items-end gap-[2px] absolute inset-0">
-            {chartData.map((v, i) => {
-              if (Array.isArray(v)) return (
-                <div key={i} className="flex-1 flex flex-col-reverse h-full">
-                  <div className="bg-white w-full" style={{ height: `${(v[0]/maxVal)*100}%` }} />
-                  <div className="bg-[#767679] w-full" style={{ height: `${(v[1]/maxVal)*100}%` }} />
-                  <div className="bg-white/15 w-full" style={{ height: `${(v[2]/maxVal)*100}%` }} />
-                </div>
-              );
-              return (
-                <div key={i} className="flex-1 flex flex-col justify-end h-full">
-                  <div className="bg-[#C00000] w-full" style={{ height: `${(v/maxVal)*100}%` }} />
-                </div>
-              );
-            })}
-          </div>
-          {!isNF && (
-            <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-              <polyline
-                points={chartData.map((v, i) => `${((i+0.5)/chartData.length)*100},${(1-v/maxVal)*100}`).join(' ')}
-                fill="none" stroke="#767679" strokeWidth="1.5" vectorEffect="non-scaling-stroke"
-              />
-            </svg>
-          )}
-        </div>
-        <div className="flex mb-4">
-          {chartData.map((_, i) => (
-            <div key={i} className="flex-1 text-center text-[6px] text-[#767679] uppercase font-bold">M{i+1}</div>
-          ))}
-        </div>
-        {!isNF ? (
-          <div className="space-y-2 border-t border-white/10 pt-3 mt-auto">
-            {[['BASELINE', baseline], ['TARGET', target]].map(([l, v]) => (
-              <div key={l} className="flex justify-between">
-                <span className="text-[9px] text-[#767679] font-bold tracking-wider">{l}</span>
-                <span className="text-[9px] text-white font-bold">{v}</span>
-              </div>
-            ))}
-            <div className="flex justify-between items-center">
-              <span className="text-[9px] text-[#767679] font-bold tracking-wider">ACTUAL</span>
-              <div className="flex items-center gap-1">
-                {actualDir === 'up' ? <TrendingUp size={12} className="text-green-400" /> : <TrendingDown size={12} className="text-[#C00000]" />}
-                <span className="text-[9px] text-white font-bold">{actual}</span>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-2 border-t border-white/10 pt-3 mt-auto">
-            {[['KPIs ON TRACK', onTrack, 'bg-white'], ['KPIs AT RISK', atRisk, 'bg-[#767679]'], ['KPIs LAGGING', lagging, 'bg-white/20']].map(([l, v, c]) => (
-              <div key={l} className="flex justify-between items-center">
-                <span className="text-[9px] text-[#767679] font-bold tracking-wider flex items-center gap-1.5">
-                  {l} <div className={`w-2.5 h-2.5 ${c}`} />
-                </span>
-                <span className="text-[9px] text-white font-bold">{v}</span>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[2px]" onClick={onClose}>
-      <div
-        className="absolute left-4 top-[72px] w-[700px] rounded-b-xl overflow-hidden shadow-2xl shadow-black/80"
-        style={{ animation: 'smbExpand 0.2s ease-out forwards', transformOrigin: 'top left' }}
-        onClick={e => e.stopPropagation()}
-      >
-        <style>{`@keyframes smbExpand { from { opacity:0; transform:scaleY(0.6) scaleX(0.92); } to { opacity:1; transform:scaleY(1) scaleX(1); } }`}</style>
-        <div className="bg-[#C00000] px-4 py-2 flex items-center justify-between">
-          <div className="flex items-center gap-5">
-            <h2 className="font-black text-white text-[8px] tracking-widest uppercase">SMB OVERVIEW</h2>
-            <div className="flex gap-3">
-              {[[Bot, aiCount, 'AI Agents'], [User, humanCount, 'Humans']].map(([Icon, count, label]) => (
-                <div key={label} className="flex items-center gap-1">
-                  <Icon size={12} className="text-white/70" />
-                  <div><div className="text-[13px] font-black text-white leading-none">{count}</div><div className="text-[6px] text-white/60 uppercase font-bold">{label}</div></div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <button onClick={onClose} className="w-6 h-6 flex items-center justify-center bg-black/30 rounded hover:bg-black/50 transition-colors">
-            <X size={12} className="text-white" />
-          </button>
-        </div>
-        <div className="bg-[#0a0a0a] border-t border-[#C00000]/30 p-4 grid grid-cols-3 gap-3">
-          <Panel title={data.costSavings.title} chartData={data.costSavings.chartData} baseline={data.costSavings.baseline} target={data.costSavings.target} actual={data.costSavings.actual} actualDir={data.costSavings.actualDir} />
-          <Panel title={data.incrementalRevenue.title} chartData={data.incrementalRevenue.chartData} baseline={data.incrementalRevenue.baseline} target={data.incrementalRevenue.target} actual={data.incrementalRevenue.actual} actualDir={data.incrementalRevenue.actualDir} />
-          <Panel title={data.nonFinancial.title} chartData={data.nonFinancial.chartData} onTrack={data.nonFinancial.onTrack} atRisk={data.nonFinancial.atRisk} lagging={data.nonFinancial.lagging} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// ─── DEPARTMENT COLUMN ────────────────────────────────────────────────────────
-
-const DeptColumn = ({ dept, index, smbOpen, onSmbToggle }) => {
-  const isSMBOverview = dept.title === "SMB OVERVIEW";
-  const isCC = dept.isClickable;
-  const d = dept.overviewData;
+// ─── DEPARTMENT COLUMN ─────────────────────────────────────────────────────────
+const DeptColumn = ({ dept, index, navigate }) => {
+  const isCC = dept.title === "CREDIT & COLLECTIONS";
 
   return (
     <div
       className="w-full opacity-0"
-      style={{ animation: `fadeUp 0.45s ease-out ${index * 80}ms forwards` }}
+      style={{ animation: `fadeUp 0.45s ease-out ${100 + index * 70}ms forwards` }}
     >
-      {/* Column Header */}
-      <div className="flex gap-1 mb-2 h-[62px] min-w-0">
-        <div className="flex-1 min-w-0 bg-[#C00000] border border-[#C00000] rounded p-1.5 shadow flex flex-col justify-center
+      {/* Column header */}
+      <div className="flex gap-1 mb-2 min-w-0" style={{ height: 62 }}>
+        {/* Main label card */}
+        <div className="flex-1 min-w-0 bg-[#C00000] border border-[#C00000] rounded p-1.5 flex flex-col justify-center
           hover:bg-[#a00000] transition-colors duration-200 cursor-pointer group">
           <h3 className="text-center font-black text-white text-[8px] mb-1 leading-tight tracking-wide">{dept.title}</h3>
           <div className="flex justify-center gap-3">
@@ -459,107 +365,84 @@ const DeptColumn = ({ dept, index, smbOpen, onSmbToggle }) => {
           </div>
         </div>
 
-        {/* Icon button */}
-        <div className="relative group/icon">
-          <div
-            onClick={isSMBOverview ? onSmbToggle : undefined}
-            className={`w-7 shrink-0 h-full bg-[#111] border border-white/10 rounded flex items-center justify-center transition-all duration-200
-              ${isSMBOverview ? 'cursor-pointer hover:bg-[#C00000] hover:border-[#C00000]' :
-                isCC ? 'cursor-pointer hover:bg-[#C00000] hover:border-[#C00000]' : 'cursor-default hover:bg-[#1a1a1a]'}`}
+        {/* Icon button 1 — LayoutGrid → redirect only for C&C */}
+        <div className="relative group/box">
+          <button
+            onClick={isCC ? () => navigate(dept.redirectTo) : undefined}
+            title={isCC ? "View agent monitor" : undefined}
+            className="w-7 h-full bg-[#111] border border-white/10 rounded flex items-center justify-center
+              hover:bg-[#C00000] hover:border-[#C00000] transition-all duration-200 group"
           >
-            {isSMBOverview
-              ? (smbOpen ? <ChevronUp size={12} className="text-white/50 group-hover/icon:text-white transition-colors" />
-                         : <ChevronDown size={12} className="text-white/50 group-hover/icon:text-white transition-colors" />)
-              : <LayoutGrid size={12} className="text-white/30 group-hover/icon:text-white transition-colors" />
-            }
-          </div>
+            <LayoutGrid size={11} className="text-white/40 group-hover:text-white transition-colors" />
+          </button>
           {isCC && (
             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2 py-1 bg-[#C00000] text-white text-[6px] font-black rounded whitespace-nowrap
-              opacity-0 group-hover/icon:opacity-100 transition-opacity pointer-events-none z-50">
+              opacity-0 group/box:hover:opacity-100 transition-opacity pointer-events-none z-50">
               Click here to see Impact
-              <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-3 border-r-3 border-t-3 border-transparent border-t-[#C00000]" />
+              <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-[#C00000]" />
             </div>
           )}
         </div>
+
+        {/* Icon button 2 — Activity → /graph only for SMB Sales */}
+        <button
+          onClick={dept.title === "SMB SALES" ? () => navigate('/graph') : undefined}
+          title={dept.title === "SMB SALES" ? "View graph" : undefined}
+          className="w-7 h-full bg-[#111] border border-white/10 rounded flex items-center justify-center
+            hover:bg-[#C00000] hover:border-[#C00000] transition-all duration-200 group"
+        >
+          <Activity size={11} className="text-white/40 group-hover:text-white transition-colors" />
+        </button>
       </div>
 
-      {/* SMB Overview column body: charts */}
-      {isSMBOverview && d && (
-        <div className="bg-[#111] border border-white/10 rounded p-2">
-          <MiniChart title={d.costSavings.title} chartData={d.costSavings.chartData} baseline={d.costSavings.baseline} target={d.costSavings.target} actual={d.costSavings.actual} actualDir={d.costSavings.actualDir} />
-          <MiniChart title={d.incrementalRevenue.title} chartData={d.incrementalRevenue.chartData} baseline={d.incrementalRevenue.baseline} target={d.incrementalRevenue.target} actual={d.incrementalRevenue.actual} actualDir={d.incrementalRevenue.actualDir} />
-          <MiniChart title={d.nonFinancial.title} chartData={d.nonFinancial.chartData} onTrack={d.nonFinancial.onTrack} atRisk={d.nonFinancial.atRisk} lagging={d.nonFinancial.lagging} />
-        </div>
-      )}
-
       {/* Agent cards */}
-      {!isSMBOverview && (
-        <div>
-          {dept.agents.map((agent, i) => <AgentCard key={i} agent={agent} />)}
-        </div>
-      )}
+      <div>
+        {dept.agents.map((agent, i) => <AgentCard key={i} agent={agent} />)}
+      </div>
     </div>
   );
 };
 
-// ─── MAIN OVERVIEW COMPONENT ──────────────────────────────────────────────────
-
+// ─── MAIN ──────────────────────────────────────────────────────────────────────
 export default function Overview() {
   const [timeframe, setTimeframe] = useState("MONTHLY");
-  const [smbOpen, setSmbOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-black text-white font-sans overflow-x-auto">
       <style>{`
         @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(16px); }
+          from { opacity: 0; transform: translateY(14px); }
           to   { opacity: 1; transform: translateY(0); }
         }
       `}</style>
 
-      {/* ── TOP BAR ── */}
+      {/* Top bar */}
       <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-white/10 sticky top-0 bg-black z-40">
         <EandLogo />
         <div className="flex gap-6">
           {['MONTHLY', 'WEEKLY', 'DAILY'].map(v => (
-            <button
-              key={v}
-              onClick={() => setTimeframe(v)}
+            <button key={v} onClick={() => setTimeframe(v)}
               className={`text-[9px] font-black tracking-widest transition-all duration-150 hover:text-[#C00000] pb-0.5 ${
                 timeframe === v ? 'text-white border-b border-[#C00000]' : 'text-[#767679]'
-              }`}
-            >
+              }`}>
               {v}
             </button>
           ))}
         </div>
       </div>
 
-      {/* ── GRID ── */}
-      <div className="grid grid-cols-8 gap-2 p-3 min-w-[1400px]">
-        {DEPARTMENTS.map((dept, i) => (
-          <DeptColumn
-            key={i}
-            dept={dept}
-            index={i}
-            smbOpen={smbOpen}
-            onSmbToggle={() => setSmbOpen(o => !o)}
-          />
-        ))}
-      </div>
+      <div className="p-3 min-w-[1400px]">
+        {/* SMB Overview — full-width horizontal banner */}
+        <SmbOverviewBanner navigate={navigate} />
 
-      {/* ── SMB EXPANDED OVERLAY ── */}
-      {smbOpen && (() => {
-        const smb = DEPARTMENTS[0];
-        return (
-          <SmbExpandedPanel
-            data={smb.overviewData}
-            aiCount={smb.aiCount}
-            humanCount={smb.humanCount}
-            onClose={() => setSmbOpen(false)}
-          />
-        );
-      })()}
+        {/* 7 department columns */}
+        <div className="grid grid-cols-7 gap-2">
+          {COLUMNS.map((dept, i) => (
+            <DeptColumn key={i} dept={dept} index={i} navigate={navigate} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
