@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useLayoutEffect, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import {
   ChevronDown,
   ChevronUp,
@@ -1010,17 +1011,21 @@ const BarChart = ({ data, height = "h-16" }) => {
       {data.map((v, i) => {
         if (Array.isArray(v)) {
           return (
-            <div key={i} className="flex-1 flex flex-col-reverse h-full">
-              <div className="bg-[#767679] w-full" style={{ height: `${(v[2] / 6) * 100}%` }} />
-              <div className="bg-[#C00000] w-full" style={{ height: `${(v[1] / 6) * 100}%` }} />
-              <div className="bg-white w-full" style={{ height: `${(v[0] / 6) * 100}%` }} />
+            <div key={i} className="flex-1 flex flex-col h-full">
+              <div className="flex-1 flex flex-col-reverse">
+                <div className="bg-[#767679] w-full" style={{ height: `${(v[2] / 6) * 100}%` }} />
+                <div className="bg-[#C00000] w-full" style={{ height: `${(v[1] / 6) * 100}%` }} />
+                <div className="bg-white w-full" style={{ height: `${(v[0] / 6) * 100}%` }} />
+              </div>
               <span className="text-[8px] text-center mt-1 uppercase font-bold text-[#767679]">M{i+1}</span>
             </div>
           );
         }
         return (
-          <div key={i} className="flex-1 flex flex-col justify-end h-full">
-            <div className="bg-[#C00000] w-full" style={{ height: `${(v / 6) * 100}%` }} />
+          <div key={i} className="flex-1 flex flex-col h-full">
+            <div className="flex-1 flex flex-col justify-end">
+              <div className="bg-[#C00000] w-full" style={{ height: `${(v / 6) * 100}%` }} />
+            </div>
             <span className="text-[8px] text-center mt-1 uppercase font-bold text-[#767679]">M{i+1}</span>
           </div>
         );
@@ -1107,7 +1112,9 @@ const SummaryCard = ({ data, onClick, type }) => {
 };
 
 export default function App() {
-  const [screen, setScreen] = useState("OVERVIEW");
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [screen, setScreen] = useState(searchParams.get('screen') === 'cc' ? "APP" : "OVERVIEW");
   const [overviewTimeframe, setOverviewTimeframe] = useState("MONTHLY");
   const [dept, setDept] = useState("COLLECTIONS");
   const [view, setView] = useState("DASHBOARD");
@@ -1351,14 +1358,11 @@ export default function App() {
               </button>
             )}
             <button
-              onClick={() => {
-                setScreen("OVERVIEW");
-                reset();
-              }}
+              onClick={() => navigate('/overview')}
               className="bg-[#C00000] text-white rounded-lg py-3 px-6 flex items-center gap-3 hover:bg-[#a00000] transition-colors shadow-lg"
             >
               <ArrowLeft size={20} />
-              <span className="text-base font-medium uppercase">CONTROL TOWER</span>
+              <span className="text-base font-medium uppercase">OVERVIEW</span>
             </button>
           </div>
         </div>

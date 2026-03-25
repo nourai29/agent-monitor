@@ -69,7 +69,7 @@ const COLUMNS = [
     ]
   },
   {
-    title: "SMB BACK OFFICE", aiCount: 19, humanCount: 4, redirectTo: "/graph",
+    title: "SMB BACK OFFICE", aiCount: 19, humanCount: 4, redirectTo: "/graph",  // box icon → /graph
     agents: [
       { name: "PROFILING AGENT", runs: 112, queue: 12, exceptions: 12,
         metrics: [{ label: "Mean time to process", value: "20 Hrs", trend: "down" }, { label: "Manual Intervention Rate", value: "10%", trend: "up" }],
@@ -103,7 +103,7 @@ const COLUMNS = [
     ]
   },
   {
-    title: "CREDIT & COLLECTIONS", aiCount: 43, humanCount: 7, redirectTo: "/",
+    title: "CREDIT & COLLECTIONS", aiCount: 43, humanCount: 7, redirectTo: "/?screen=cc",
     agents: [
       { name: "CREDIT PROFILING AGENT", runs: 250, queue: 25, exceptions: 32,
         metrics: [{ label: "% Accuracy - Credit Limit Exposure", value: "99%", trend: "neutral" }],
@@ -365,7 +365,7 @@ const DeptColumn = ({ dept, index, navigate }) => {
           </div>
         </div>
 
-        {/* Icon button 1 — LayoutGrid → redirect only for C&C */}
+        {/* Icon button 1 — LayoutGrid → redirect for C&C and SMB Back Office */}
         <div className="relative group/box">
           <button
             onClick={isCC ? () => navigate(dept.redirectTo) : undefined}
@@ -384,10 +384,10 @@ const DeptColumn = ({ dept, index, navigate }) => {
           )}
         </div>
 
-        {/* Icon button 2 — Activity → /graph only for SMB Sales */}
+        {/* Icon button 2 — Activity → /graph for SMB Back Office */}
         <button
-          onClick={dept.title === "SMB SALES" ? () => navigate('/graph') : undefined}
-          title={dept.title === "SMB SALES" ? "View graph" : undefined}
+          onClick={dept.title === "SMB BACK OFFICE" ? () => navigate('/graph') : undefined}
+          title={dept.title === "SMB BACK OFFICE" ? "View graph" : undefined}
           className="w-7 h-full bg-[#111] border border-white/10 rounded flex items-center justify-center
             hover:bg-[#C00000] hover:border-[#C00000] transition-all duration-200 group"
         >
